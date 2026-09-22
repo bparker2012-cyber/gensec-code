@@ -2,7 +2,7 @@
 name = "sourcelens-rag"
 version = "1.0.0"
 description = "A NotebookLM-style LangChain RAG application for Homework 2"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.14"
 dependencies = [
   "chainlit>=2.8,<3",
   "langchain-core>=1.0,<2",
@@ -20,4 +20,3 @@ dev = ["pytest>=8.0,<9"]
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
-
