@@ -142,4 +142,3 @@ async def on_message(message: cl.Message) -> None:
         return
 
     await cl.Message(content=answer.text + _evidence_markdown(answer)).send()
-

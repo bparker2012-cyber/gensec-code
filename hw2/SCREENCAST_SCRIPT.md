@@ -124,4 +124,3 @@ architecture, the demo path, and the same limitations I showed here."
 "That completes SourceLens: a tested, source-citing LangChain RAG notebook with
 a custom loader, reproducible `uv` setup, incremental Git history, and visible
 failure behavior. Thank you."
-

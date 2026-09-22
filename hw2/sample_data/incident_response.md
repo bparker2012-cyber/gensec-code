@@ -20,4 +20,3 @@ and record a SHA-256 checksum in the case log.
 Systems return to service only after the incident commander documents
 containment, the system owner validates critical functions, and Security
 completes a final malware scan.
-
