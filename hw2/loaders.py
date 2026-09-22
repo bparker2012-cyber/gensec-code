@@ -28,16 +28,19 @@ class NotebookFileLoader(BaseLoader):
         self.file_path = Path(file_path)
         self.max_bytes = max_bytes
 
+        if max_bytes <= 0:
+            raise ValueError("max_bytes must be greater than zero")
         if not self.file_path.is_file():
             raise FileNotFoundError(f"File does not exist: {self.file_path}")
         if self.file_path.suffix.lower() not in self.SUPPORTED_SUFFIXES:
             supported = ", ".join(sorted(self.SUPPORTED_SUFFIXES))
             raise ValueError(f"Unsupported file type. Choose one of: {supported}")
-        if self.file_path.stat().st_size > self.max_bytes:
-            raise ValueError(f"File exceeds the {self.max_bytes:,}-byte limit")
+        self._validate_size()
 
     def lazy_load(self) -> Iterator[Document]:
         """Yield normalized documents with stable source metadata."""
+        # BaseLoader is lazy, so the file may have changed since construction.
+        self._validate_size()
         suffix = self.file_path.suffix.lower()
         if suffix in {".txt", ".md"}:
             yield self._document(self.file_path.read_text(encoding="utf-8"))
@@ -49,6 +52,11 @@ class NotebookFileLoader(BaseLoader):
             yield from self._load_pdf()
         elif suffix == ".docx":
             yield self._document(self._load_docx())
+
+    def _validate_size(self) -> None:
+        """Enforce the upload limit at construction and again at read time."""
+        if self.file_path.stat().st_size > self.max_bytes:
+            raise ValueError(f"File exceeds the {self.max_bytes:,}-byte limit")
 
     def _document(self, content: str, **metadata: object) -> Document:
         """Create one non-empty document using the shared metadata schema."""
@@ -66,12 +74,23 @@ class NotebookFileLoader(BaseLoader):
             reader = csv.DictReader(handle)
             if not reader.fieldnames:
                 raise ValueError(f"CSV has no header row: {self.file_path.name}")
+            headers = [header.strip() if header is not None else "" for header in reader.fieldnames]
+            if any(not header for header in headers) or len(set(headers)) != len(headers):
+                raise ValueError(f"CSV headers must be non-empty and unique: {self.file_path.name}")
+            reader.fieldnames = headers
             yielded = False
             for row_number, row in enumerate(reader, start=2):
-                text = "\n".join(f"{key}: {value}" for key, value in row.items())
-                if text.strip():
-                    yielded = True
-                    yield self._document(text, row=row_number)
+                if None in row:
+                    raise ValueError(
+                        f"CSV row {row_number} has more values than the header: "
+                        f"{self.file_path.name}"
+                    )
+                values = {key: (value or "").strip() for key, value in row.items()}
+                if not any(values.values()):
+                    continue
+                text = "\n".join(f"{key}: {value}" for key, value in values.items())
+                yielded = True
+                yield self._document(text, row=row_number)
             if not yielded:
                 raise ValueError(f"CSV has no data rows: {self.file_path.name}")
 
@@ -105,4 +124,3 @@ class NotebookFileLoader(BaseLoader):
                 if any(values):
                     blocks.append(" | ".join(values))
         return "\n".join(blocks)
-

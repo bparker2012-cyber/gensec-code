@@ -12,7 +12,7 @@ from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS, TfidfVectorizer
 
 from loaders import NotebookFileLoader
 
@@ -41,22 +41,38 @@ class TfidfRetriever:
         """Fit a TF-IDF index over document chunks."""
         if not documents:
             raise ValueError("At least one document is required")
-        self.documents = documents
+        self.documents = list(documents)
         self.vectorizer = TfidfVectorizer(
             lowercase=True,
-            stop_words="english",
+            # Keeping stop words makes short documents and questions such as
+            # "to be or not to be" searchable instead of producing an empty
+            # vocabulary/vector. IDF still down-weights common words.
+            stop_words=None,
+            token_pattern=r"(?u)\b\w+\b",
             ngram_range=(1, 2),
             sublinear_tf=True,
         )
-        self.matrix = self.vectorizer.fit_transform(doc.page_content for doc in documents)
+        try:
+            self.matrix = self.vectorizer.fit_transform(
+                doc.page_content for doc in self.documents
+            )
+        except ValueError as exc:
+            raise ValueError("Documents must contain searchable letters or numbers") from exc
 
     def retrieve(self, query: str, *, top_k: int = 4) -> list[RetrievedChunk]:
         """Return the most similar chunks in descending score order."""
         if not query.strip():
             raise ValueError("Question cannot be empty")
-        query_vector = self.vectorizer.transform([query])
+        if not isinstance(top_k, int) or isinstance(top_k, bool) or top_k <= 0:
+            raise ValueError("top_k must be a positive integer")
+        query_tokens = re.findall(r"\w+", query.lower())
+        content_tokens = [token for token in query_tokens if token not in ENGLISH_STOP_WORDS]
+        # Ignore incidental stop-word matches when content words exist, while
+        # still allowing corpora whose meaningful text consists only of them.
+        normalized_query = " ".join(content_tokens or query_tokens)
+        query_vector = self.vectorizer.transform([normalized_query])
         scores = (self.matrix @ query_vector.T).toarray().ravel()
-        indexes = np.argsort(scores)[::-1][:top_k]
+        indexes = np.argsort(-scores, kind="stable")[:top_k]
         return [
             RetrievedChunk(document=self.documents[index], score=float(scores[index]))
             for index in indexes
@@ -100,8 +116,14 @@ class RAGService:
         chunks = self._splitter.split_documents(loaded)
         if not chunks:
             raise ValueError(f"No searchable content found in {Path(file_path).name}")
-        self._documents.extend(chunks)
-        self._retriever = TfidfRetriever(self._documents)
+        chunks = [chunk for chunk in chunks if re.search(r"\w", chunk.page_content)]
+        if not chunks:
+            raise ValueError("Documents must contain searchable letters or numbers")
+        updated_documents = [*self._documents, *chunks]
+        updated_retriever = TfidfRetriever(updated_documents)
+        # Update both pieces of index state only after fitting succeeds.
+        self._documents = updated_documents
+        self._retriever = updated_retriever
         return len(chunks)
 
     def reset(self) -> None:
@@ -121,17 +143,25 @@ class RAGService:
                     "I don't know based on the uploaded sources. Try rephrasing the "
                     "question or add a document that covers the topic."
                 ),
-                sources=tuple(matches[:2]),
+                sources=(),
                 mode=self.answer_mode,
             )
 
         selected = relevant[:4]
         if self._chain is not None:
             context = self._format_context(selected)
-            text = self._chain.invoke({"question": question, "context": context})
+            try:
+                text = self._chain.invoke({"question": question, "context": context})
+                if not text or not text.strip():
+                    raise ValueError("Gemini returned an empty answer")
+                mode = "Gemini generation"
+            except Exception:
+                text = self._extractive_answer(question, selected)
+                mode = "local extractive fallback (Gemini unavailable)"
         else:
             text = self._extractive_answer(question, selected)
-        return Answer(text=text, sources=selected, mode=self.answer_mode)
+            mode = "local extractive fallback"
+        return Answer(text=text, sources=selected, mode=mode)
 
     @staticmethod
     def _format_context(matches: tuple[RetrievedChunk, ...]) -> str:
@@ -139,10 +169,15 @@ class RAGService:
         blocks = []
         for number, match in enumerate(matches, start=1):
             metadata = match.document.metadata
-            location = metadata.get("page") or metadata.get("row") or metadata.get("start_index")
             label = f"{metadata['source']}"
-            if location is not None:
-                label += f" (location {location})"
+            for location_name, metadata_key in (
+                ("page", "page"),
+                ("row", "row"),
+                ("character", "start_index"),
+            ):
+                if metadata_key in metadata:
+                    label += f" ({location_name} {metadata[metadata_key]})"
+                    break
             blocks.append(f"[{number}] Source: {label}\n{match.document.page_content}")
         return "\n\n".join(blocks)
 
@@ -151,22 +186,27 @@ class RAGService:
         question: str, matches: tuple[RetrievedChunk, ...]
     ) -> str:
         """Build a concise cited answer without sending data to an external LLM."""
-        query_terms = set(re.findall(r"[a-z0-9]+", question.lower()))
+        all_query_terms = set(re.findall(r"\w+", question.lower()))
+        query_terms = all_query_terms - ENGLISH_STOP_WORDS or all_query_terms
         candidates: list[tuple[float, int, str]] = []
         for source_number, match in enumerate(matches, start=1):
             sentences = re.split(r"(?<=[.!?])\s+|\n+", match.document.page_content)
             for sentence in sentences:
                 clean = sentence.strip()
-                if len(clean) < 20:
+                if not clean:
                     continue
-                terms = set(re.findall(r"[a-z0-9]+", clean.lower()))
+                terms = set(re.findall(r"\w+", clean.lower()))
                 overlap = len(query_terms & terms)
+                if overlap == 0:
+                    continue
                 score = match.score + (overlap / max(len(query_terms), 1))
                 candidates.append((score, source_number, clean))
 
         chosen: list[str] = []
         seen: set[str] = set()
-        for _, source_number, sentence in sorted(candidates, reverse=True):
+        for _, source_number, sentence in sorted(
+            candidates, key=lambda candidate: candidate[0], reverse=True
+        ):
             fingerprint = sentence.lower()
             if fingerprint in seen:
                 continue
@@ -179,7 +219,8 @@ class RAGService:
     @staticmethod
     def _build_gemini_chain():
         """Create an optional Gemini chain only when credentials are configured."""
-        if not os.getenv("GOOGLE_API_KEY"):
+        api_key = os.getenv("GOOGLE_API_KEY", "").strip()
+        if not api_key:
             return None
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
@@ -187,7 +228,7 @@ class RAGService:
             raise RuntimeError("Install the 'gemini' extra to use GOOGLE_API_KEY") from exc
 
         model = ChatGoogleGenerativeAI(
-            model=os.getenv("GOOGLE_MODEL", "gemini-2.5-flash"),
+            model=os.getenv("GOOGLE_MODEL", "").strip() or "gemini-2.5-flash",
             temperature=0,
         )
         prompt = ChatPromptTemplate.from_template(
@@ -204,4 +245,3 @@ Context:
 Answer:"""
         )
         return prompt | model | StrOutputParser()
-
