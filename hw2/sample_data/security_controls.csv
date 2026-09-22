@@ -1,0 +1,5 @@
+control_id,owner,review_frequency,description
+AC-02,Identity Team,Quarterly,Review privileged accounts and disable stale access
+IR-04,Security Operations,After every incident,Document containment recovery and lessons learned
+SC-07,Network Team,Monthly,Review firewall rules and remove unnecessary exposure
+
