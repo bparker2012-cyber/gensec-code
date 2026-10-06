@@ -20,7 +20,7 @@ def main():
     values = {
         2: "Homework Assignment no. 3",
         5: "Student name: Brehon Parker   FAU ID: Z23222679",
-        16: "Screencast Recording URL: PENDING RECORDING",
+        16: "Screencast Recording URL: " + (ROOT / "screencast_url.txt").read_text().strip(),
         18: "Github Repository URL: https://github.com/bparker2012-cyber/gensec-code",
         20: "Application name: Incident Compass",
         22: (

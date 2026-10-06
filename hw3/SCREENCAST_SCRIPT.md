@@ -1,184 +1,188 @@
-# Homework 3 narrated demo script
+# Homework 3: Five-minute demo
 
-Target length: 4:45. Rehearse before recording. The required sequence is camera
-initially on, fresh clone, capabilities and limitations, then a commit walkthrough.
+Target: 4:30 with 30 seconds spare for Gemini response time.
+Required order: camera introduction, fresh clone, live capabilities and
+limitations, then source explanation using commit diffs.
 
-## Before recording
+## Prepare before recording
 
-Resolve repository access and push the local commits first; a fresh clone cannot
-show unpushed code. Use your existing Google Cloud Application Default Credentials
-with Vertex AI; no API key is needed. Open the Github repository commit history in a browser.
-The lab mentions Gitlab for the walkthrough but Github for submission; this
-course repository is on Github. Start in a separate empty recording directory.
-Do not show the API key or an environment dump on camera.
+Open a terminal in a new empty directory outside the development repository.
+Use your existing Google Cloud login. Set these non-secret settings beforehand:
 
-## Exact narration and actions
+```bash
+export GOOGLE_GENAI_USE_VERTEXAI=true
+export GOOGLE_CLOUD_PROJECT=psychic-lens-495123-q6
+export GOOGLE_CLOUD_LOCATION=us-west1
+```
 
-### 0:00 to 0:20 Introduction with camera on
+Rehearse once to cache dependencies, then use another empty directory for the
+recorded fresh clone. Paste commands rather than typing. Keep the script on
+another screen. Pre-open the five commit links below at Files changed.
+Never display credentials or an environment dump.
 
-Say: "My name is Brehon Parker, FAU ID Z23222679. This is Homework 3, Incident
-Compass. It adds custom policy search and incident triage to a LangChain agent
-and retains a Terminal tool. I'll clone the repository, demonstrate capabilities
-and limitations, and explain the incremental commits."
+## Which screen to show
 
-### 0:20 to 0:55 Clone and start
+| Time | Screen | What the viewer should see |
+| --- | --- | --- |
+| 0:00-0:15 | Camera | Your introduction; camera on initially. |
+| 0:15-0:50 | Terminal | Fresh clone, uv setup, and app launch. |
+| 0:50-2:40 | Terminal/app | The three prompts and their actual tool results. |
+| 2:40-4:10 | GitHub | Commit diffs showing how you implemented the app. |
+| 4:10-4:30 | Terminal | Exit chat, run tests, show results, and close. |
 
-Run:
+Do not switch to GitHub during the application demonstrations. At about 2:40,
+after the limitation results appear, say: "Now I'll explain the implementation
+through my GitHub commits." Switch to the pre-opened commit tabs below.
+Show changed code, not just the repository homepage or commit list.
+
+## 0:00-0:15: Camera introduction
+
+Say: "I'm Brehon Parker, FAU ID Z23222679. This is Incident Compass, my
+Homework 3 LangChain agent. Gemini chooses tools to search classroom incident
+policy, classify an incident, and run restricted terminal commands."
+
+## 0:15-0:50: Clone and launch
 
 ```bash
 git clone https://github.com/bparker2012-cyber/gensec-code.git hw3-demo
 cd hw3-demo/hw3
 uv sync --extra dev --locked
-export GOOGLE_GENAI_USE_VERTEXAI=true
-export GOOGLE_CLOUD_PROJECT=psychic-lens-495123-q6
-export GOOGLE_CLOUD_LOCATION=us-west1
 uv run python app.py
 ```
 
-Say: "This is a fresh checkout of my course repository. uv creates an isolated
-virtual environment from the tracked dependency configuration and lockfile.
-Credentials and model settings come from environment variables."
+Say while setup runs: "This is a fresh clone. uv creates an isolated Python
+environment from the committed lockfile. Gemini uses my existing Google Cloud
+credentials through Vertex AI; no API key is stored in the repository."
 
-### 0:55 to 1:45 Terminal and policy search
+## 0:50-1:30: Terminal and cited policy answer
 
-Enter:
-
-```text
-Use Terminal to run ls and wc -l incident_policy.md. Then use search_policy to find the privacy officer notification deadline for Severity 1. Cite the policy section.
-```
-
-Say after the tool results appear: "The printed tool results show actual
-Terminal execution in the demo directory. Policy search returns a filename
-and section citation. This fictional Severity 1 policy requires notifying
-the privacy officer within 30 minutes. It is classroom policy."
-
-Only claim a command ran when its tool result is visible. The current policy
-has 12 lines. Inspect the actual output rather than assuming it succeeded.
-
-### 1:45 to 2:15 Incident triage
-
-Enter:
+Paste at You>:
 
 ```text
-Use triage_incident with confirmed_data_loss=false, ransomware=true, and service_outage=true. Explain the severity and required next steps.
+Use Terminal to run ls. Then use search_policy to find the Severity 1 privacy officer notification deadline. Cite the policy and keep your answer short.
 ```
 
-Say: "The triage tool validates three explicit incident facts using Pydantic.
-Confirmed ransomware takes priority over an outage, producing Severity 1.
-The rules are deterministic and return the matching policy. The tool classifies
-supplied facts; it does not independently verify the incident."
+While waiting: "The model selects tools, and the app prints their actual
+results so I can verify what happened."
 
-### 2:15 to 2:55 Limitations
+After results: "Terminal lists the policy file. Search returns the Severity 1
+section, and the answer cites the 30-minute deadline. This is fictional
+classroom policy, not real incident advice."
 
-Enter separately:
+## 1:30-2:05: Incident classification
 
 ```text
-Use search_policy to find the cafeteria menu for Friday.
+Use triage_incident with confirmed_data_loss=false, ransomware=true, and service_outage=true. Give the severity and one short next step.
 ```
+
+Say: "Pydantic validates these three incident facts. The rule-based tool
+prioritizes ransomware over an outage, returning Severity 1 and the matching
+policy. It classifies supplied facts; it does not verify that they are true."
+
+## 2:05-2:40: Two limitations in one turn
 
 ```text
-Use Terminal with the exact command cat /etc/passwd to demonstrate its rejection.
+Use search_policy for the cafeteria menu. Also use Terminal with exactly 'echo hello' to test the command allowlist. Keep your answer short.
 ```
 
-Say: "The policy contains no cafeteria information, so search reports no
-evidence. Terminal accepts only pwd, ls, and a policy line count. This request
-is rejected. Keyword search can miss synonyms, and conversation memory is
-lost when the process exits."
+After results: "There is no cafeteria evidence. Terminal rejects commands
+outside pwd, ls, and the policy line count. Keyword search can miss synonyms,
+and conversation memory disappears when the app exits."
 
-If the model refuses to call Terminal, describe that accurately. Show the
-actual tool rejection in a second terminal in `hw3` with:
+Only describe visible tool calls. If Gemini does not call Terminal, say that,
+exit with /quit and show the real rejection:
 
 ```bash
-uv run python -c 'from tools import Terminal; print(Terminal.invoke({"command": "cat /etc/passwd"}))'
+uv run python -c 'from tools import Terminal; print(Terminal.invoke({"command": "echo hello"}))'
 ```
 
-A model refusal is not a Terminal execution result.
+## 2:40-4:10: GitHub commit walkthrough
 
-### 2:55 to 4:25 Commit and source walkthrough
+After the app's limitation results appear, say: "Now I'll explain how I built
+this using my GitHub commits." Switch from the terminal to your pre-opened
+GitHub tabs. Show the changed code in each commit, not the repository homepage.
+You are explaining what each change added, not every line of code.
 
-Show the repository history in your browser:
-https://github.com/bparker2012-cyber/gensec-code/commits/main/
-Open each relevant commit diff while speaking.
+### 1. Setup commit: 10 seconds
 
-For `c699054`, say: "The first commit creates the uv configuration, environment
-example, recording URL file, and fictional policy. Gitignore excludes credentials
-and the virtual environment while allowing the homework dependency files."
+Open: https://github.com/bparker2012-cyber/gensec-code/commit/c699054
 
-For `2f63007`, show `tools.py` and say: "LangChain decorators expose the custom
-tools. Search ranks matching policy sections and returns citations. IncidentInput
-validates triage facts, and severity prioritizes data loss or ransomware over
-an outage. Terminal checks an exact command allowlist before executing subprocess
-with shell disabled, a fixed directory, a timeout, and bounded output."
+SHOW: pyproject.toml, then data/incident_policy.md.
 
-Show `app.py` and say: "create_agent builds the model and tool loop. InMemorySaver
-keeps conversation state within the session, and a recursion limit bounds each
-turn. Actual tool messages are printed. The offline demo calls tools directly;
-it is not an LLM conversation."
+SAY: "This commit sets up the Python dependencies and adds the fictional
+incident policy. That policy is the information my agent searches."
 
-For `734aae4`, show `tests/test_agent.py` and say: "This commit adds verification
-and operating instructions. Tests cover rejected commands, actual Terminal
-execution, severity priorities, missing evidence, and a complete agent loop
-with conversation memory. A scripted model tests the graph without credentials;
-it does not verify Gemini reasoning."
+### 2. Tools and agent: 40 seconds
 
-For `e66f0cb`, say: "This commit fills the course homework template with my name
-and ID. The helper preserves untouched document parts. Screenshots and the
-recording URL must be added before the final PDF is submitted."
+Open: https://github.com/bparker2012-cyber/gensec-code/commit/2f63007
 
-Explain subsequent script and checklist changes briefly if visible in the history.
+SHOW: tools.py in the commit diff.
 
-### 4:25 to 4:45 Verification and closing
+SAY: "Here are my three tools. Policy search finds and cites policy sections.
+Triage classifies an incident from the facts provided. Terminal runs only
+approved commands."
 
-Run in a second terminal in the cloned `hw3` directory:
+SHOW: Scroll to app.py in the same commit diff.
+
+SAY: "This file connects Gemini to those tools. Gemini decides which tool to
+call, receives its result, and answers the user. The app remembers the
+conversation during the session and prints tool results so we can verify them."
+
+### 3. Tests: 15 seconds
+
+Open: https://github.com/bparker2012-cyber/gensec-code/commit/734aae4
+
+SHOW: tests/test_agent.py.
+
+SAY: "These tests check incident classification, policy retrieval, allowed and
+rejected terminal commands, and the agent's tool-calling workflow."
+
+### 4. Search fix: 10 seconds
+
+Open: https://github.com/bparker2012-cyber/gensec-code/commit/5e55350
+
+SHOW: The search_policy changes in tools.py.
+
+SAY: "I fixed an edge case: an empty search or unsupported Severity 4 now returns
+no evidence instead of an unrelated policy section. I added tests for that."
+
+### 5. Google Cloud connection: 10 seconds
+
+Open: https://github.com/bparker2012-cyber/gensec-code/commit/19b6b17
+
+SHOW: The authentication change in app.py.
+
+SAY: "This connects the agent through Vertex AI using my existing Google Cloud
+credentials. I verified that live Gemini successfully calls the tools."
+
+Use the remaining five seconds if needed to say: "The other documentation
+commits update the homework template, checklist, and demo script."
+
+Now switch back to the terminal for the tests and closing below.
+Do not open binary Word/PDF diffs or explain the generated uv.lock file.
+
+## 4:10-4:30: Tests and closing
+
+Return to the cloned terminal. Enter /quit if chat is still running, then:
 
 ```bash
 uv run pytest -q
 ```
 
-Say if the result confirms it: "All 15 offline tests pass. The demonstration
-shows policy retrieval, structured triage, and Terminal execution. Limitations
-include keyword matching, supplied facts, restricted commands, temporary memory,
-and dependence on model access and quota."
+When confirmed: "All 15 offline tests pass. Incident Compass demonstrates cited
+retrieval, validated triage, and restricted Terminal execution. Its limits are
+keyword matching, supplied facts, temporary memory, and model access. Thank you."
 
-Stop before five minutes. Allow for model latency by rehearsing the full run.
+## Timing guardrails
+
+Use the 30-second buffer for slow responses; shorten source narration if needed.
+Do not use --demo as a substitute for the live agent: it calls tools without
+Gemini. Never claim a result before it appears. Finish before 5:00.
 
 ## After recording
 
-Upload to YouTube as unlisted and confirm playback in incognito without signing
-in. Put the actual URL in `screencast_url.txt` and the Word document. Insert
-genuine VS Code screenshots for each significant coding-agent task: prompt and
-response, plus generated code, with your name or FAU ID visible. Export the
-completed document to PDF, commit and push the recording URL, and upload to Canvas.
-
-The current PDF is a draft. The offline tool demo does not replace the live
-agent demonstration. The script does not replace the required VS Code evidence.
-
-## Condensed timing reference
-
-0:00-0:20 Turn your camera on. State your name, FAU ID, and that Incident Compass
-adds cited policy search, structured severity triage, and a restricted Terminal.
-
-0:20-0:55 Show a fresh `git clone` of the course repository. Enter `hw3` and run
-`uv sync --extra dev --locked`. Configure the API key before recording so it
-does not appear on screen. Run `uv run python app.py`.
-
-0:55-1:55 Ask: "Use Terminal to list the demo files and count the policy lines.
-Then find the privacy officer notification deadline for Severity 1."
-Point out actual tool results, citations, and the 30-minute classroom deadline.
-
-1:55-2:25 Ask: "Confirmed ransomware, no confirmed data loss, service outage:
-classify this incident." Explain the validated inputs and Severity 1 priority.
-
-2:25-3:00 Ask: "What is the cafeteria menu?" Then ask Terminal to run
-`cat /etc/passwd`. Show missing evidence and the command rejection. Explain
-keyword matching, fictional policy, and memory loss after restart.
-
-3:00-4:35 Open the repository commit history in the browser. Walk through the
-initial uv/data commit, custom tools and agent commit, then verification and
-documentation commit. Explain tool decorators, Pydantic schema, subprocess
-allowlist, create_agent, checkpoint memory, and recursion limit. Run
-`uv run pytest -q` and distinguish scripted model tests from live Gemini use.
-
-4:35-4:55 Summarize observed capabilities and limitations. End before 5:00.
-Upload to YouTube as unlisted, verify access signed out, and put the actual URL
-in `screencast_url.txt` and the homework document.
+Upload unlisted to YouTube, check playback signed out/incognito, add the real
+URL to screencast_url.txt and the Word document, export the final PDF, commit/push
+the URL, and submit the PDF on Canvas. The current PDF remains a draft.
+Original desktop development still lacks VS Code evidence; genuine follow-up
+screenshots do not retroactively establish that requirement.
