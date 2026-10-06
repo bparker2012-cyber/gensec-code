@@ -9,7 +9,7 @@
       task prompt and response, plus top lines of generated code, with name or
       FAU ID visible. This Codex desktop chat does not meet the VS Code evidence
       requirement on its own. Do not fabricate or relabel screenshots.
-- [ ] Insert screenshots and exact task prompts into the Word template.
+- [x] Insert genuine follow-up VS Code screenshots and exact task prompt into the Word template.
 - [ ] Record a narrated screencast under five minutes, with camera initially on,
       fresh clone, capabilities, limitations, and incremental commit walkthrough.
 - [ ] Upload unlisted to YouTube and verify access without signing in.
@@ -23,9 +23,9 @@ Implemented: custom LangChain agent, additional custom tools, retained executabl
 Terminal tool, `hw3/app.py`, `hw3/screencast_url.txt`, isolated uv environment,
 tracked lockfile, docstrings, environment-based credentials, and incremental commits.
 
-Pending: live model verification, remote push, genuine development evidence from
-a coding agent in VS Code, camera-on narrated recording, unlisted URL with incognito
-playback check, final document with screenshots and URLs, and Canvas PDF upload.
+Pending: live model verification, evidence for original desktop development tasks,
+camera-on narrated recording, unlisted URL with incognito playback check,
+final document recording URL, and Canvas PDF upload.
 Desktop Codex development does not establish compliance with the explicit VS Code
 requirement. Capture genuine further development in VS Code; do not reconstruct
 historical evidence or present the existing draft as the completed submission.
@@ -45,17 +45,18 @@ This record is supporting text, not a replacement for required screenshots.
 
 ## Current verification and publishing status
 
-All 12 offline tests pass. The tool demo runs without credentials. A live Gemini
+All 15 offline tests pass. The tool demo runs without credentials. A live Gemini
 run has not been verified because GOOGLE_API_KEY is not configured in this shell.
 The original HTTPS push was rejected with HTTP 403 for cached account
 `breparker8612`. Publishing subsequently succeeded through GitHub Desktop.
-The remote main branch was verified at `d2680a698755c33a0e19d14b06dc9a7522ffe690`,
-matching the local checkout. No screenshots or recording have been fabricated.
+The original implementation was pushed, and follow-up evidence is included in
+the latest commit. No screenshots or recording have been fabricated.
 
-VS Code was opened on the course repository for further agent work. Its workspace
-is in Restricted Mode, and approval to trust the specific folder is pending.
-The official Codex extension setup is in progress. The required prompt/response
-and code screenshots have not yet been captured.
+VS Code is trusted with user approval, and the official Codex extension is ready.
+A genuine in-editor agent fixed unsupported-severity and blank-query retrieval,
+added three test cases, and ran all 15 tests successfully. Prompt/response and
+modified-code screenshots are saved in evidence/ and inserted into the template.
+This follow-up evidence does not establish VS Code use for original desktop tasks.
 
 Canvas Homework 03 - Agents accepts PDF uploads and currently shows Not Submitted.
 It links the same course homework instructions. The final submission must include

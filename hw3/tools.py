@@ -1,4 +1,4 @@
-"""Validated custom tools for the Incident Compass LangChain agent."""
+"""Validated Incident Compass tools. Brehon Parker, FAU ID Z23222679."""
 
 import json
 import re
@@ -14,13 +14,18 @@ DATA = Path(__file__).resolve().parent / "data"
 
 @tool
 def search_policy(query: str) -> str:
-    """Search the classroom incident policy and return cited matching sections."""
+    """Search cited policy sections, returning no evidence for blank or unsupported requests."""
+    no_evidence = "No matching policy evidence. I do not know."
+    if not query.strip():
+        return no_evidence
     terms = set(re.findall(r"\w+", query.lower())) - {
         "the", "a", "an", "is", "what", "when", "must", "be", "for", "to", "of",
     }
     sections = (DATA / "incident_policy.md").read_text().split("\n## ")[1:]
-    severity = re.search(r"\bseverity\s+([123])\b", query, re.IGNORECASE)
+    severity = re.search(r"\bseverity\s+(\d+)\b", query, re.IGNORECASE)
     if severity:
+        if severity.group(1) not in {"1", "2", "3"}:
+            return no_evidence
         sections = [section for section in sections
                     if section.startswith(f"Severity {severity.group(1)}\n")]
     ranked = sorted(
@@ -30,7 +35,7 @@ def search_policy(query: str) -> str:
     )
     matches = [f"[incident_policy.md: {section.splitlines()[0]}]\n{section}"
                for score, section in ranked if score > 0][:2]
-    return "\n\n".join(matches) or "No matching policy evidence. I do not know."
+    return "\n\n".join(matches) or no_evidence
 
 
 class IncidentInput(BaseModel):

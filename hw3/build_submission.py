@@ -5,6 +5,8 @@ from pathlib import Path
 from zipfile import ZipFile
 
 from lxml import etree
+from docx import Document
+from docx.shared import Inches, Pt
 
 ROOT = Path(__file__).resolve().parent
 REFERENCE = Path("/tmp/hw3-homework-template.docx")
@@ -25,16 +27,15 @@ def main():
             "Application Description: Incident Compass adds cited policy search, "
             "validated incident triage, and a restricted Terminal to a stateful "
             "LangChain agent. It uses fictional classroom policy and environment "
-            "credentials. Twelve offline tests pass. Live Gemini requires verification. "
+            "credentials. Fifteen offline tests pass. Live Gemini requires verification. "
             "Keyword retrieval can miss synonyms; triage depends on supplied facts; "
             "memory resets on exit."
         ),
         26: (
-            'Task prompt: "new lab. '
-            'https://icardei.github.io/gensec-web/labs/G03.2_hw_wk3/index.html?index=..%2F..gensec-web#0 '
-            'do it ASAP." Required evidence: insert genuine VS Code screenshots '
-            'of coding-agent prompts and responses, plus generated code, with '
-            'Brehon Parker or Z23222679 visible.'
+            'Development evidence: The following pages document genuine follow-up '
+            'development using the Codex agent in VS Code. Initial implementation '
+            'was performed in Codex desktop, so this evidence does not claim that '
+            'every original development task was performed in VS Code.'
         ),
     }
     output = ROOT / "hw3-Z23222679.docx"
@@ -54,6 +55,31 @@ def main():
     with ZipFile(REFERENCE) as source, ZipFile(output) as target:
         assert all(source.read(name) == target.read(name)
                    for name in source.namelist() if name != "word/document.xml")
+    document = Document(output)
+    original_count = len(document.paragraphs)
+    document.add_page_break()
+    document.add_paragraph().add_run("VS Code Development Evidence").bold = True
+    prompt = (
+        "Brehon Parker / FAU ID Z23222679 / Homework 3. In hw3/tools.py, fix "
+        "search_policy so a request for an unsupported explicit severity such as "
+        "Severity 4 returns no policy evidence instead of unrelated Severity 1/2/3 "
+        "sections. Add focused tests for unsupported severity and empty search "
+        "queries in hw3/tests/test_agent.py; treat empty queries as no evidence. "
+        "Preserve the existing tools, Terminal restrictions, and unrelated files. "
+        "Use docstrings, run uv run pytest -q in hw3, and summarize the exact change "
+        "and test result. Do not commit or push."
+    )
+    document.add_paragraph("Exact prompt: " + prompt)
+    document.add_paragraph("Agent response and task result: 15 tests passed; unsupported severities and blank queries return no evidence.")
+    document.add_picture(str(ROOT / "evidence/vscode-prompt-response.png"), width=Inches(6.6))
+    document.add_page_break()
+    document.add_paragraph().add_run("Generated and Modified Code").bold = True
+    document.add_paragraph("Brehon Parker / FAU ID Z23222679. Actual VS Code source view showing the modified search_policy function. Name/ID header added for attribution after the agent task.")
+    document.add_picture(str(ROOT / "evidence/vscode-code.png"), width=Inches(6.6))
+    for paragraph in document.paragraphs[original_count:]:
+        for run in paragraph.runs:
+            run.font.size = Pt(10)
+    document.save(output)
     print(output)
 
 

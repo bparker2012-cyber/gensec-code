@@ -132,7 +132,7 @@ Run in a second terminal in the cloned `hw3` directory:
 uv run pytest -q
 ```
 
-Say if the result confirms it: "All 12 offline tests pass. The demonstration
+Say if the result confirms it: "All 15 offline tests pass. The demonstration
 shows policy retrieval, structured triage, and Terminal execution. Limitations
 include keyword matching, supplied facts, restricted commands, temporary memory,
 and dependence on model access and quota."

@@ -42,6 +42,18 @@ def test_unknown_policy():
     assert "do not know" in search_policy.invoke({"query": "cafeteria menu"})
 
 
+def test_unsupported_explicit_severity_has_no_policy_evidence():
+    """An explicit severity outside the policy range must not match other sections."""
+    result = search_policy.invoke({"query": "Severity 4"})
+    assert result == "No matching policy evidence. I do not know."
+
+
+@pytest.mark.parametrize("query", ["", "   "])
+def test_empty_policy_query_has_no_evidence(query):
+    """Blank policy searches return no evidence instead of ranking every section."""
+    assert search_policy.invoke({"query": query}) == "No matching policy evidence. I do not know."
+
+
 class ScriptedModel(BaseChatModel):
     """Deterministic test double that requests Terminal then consumes its result."""
 
