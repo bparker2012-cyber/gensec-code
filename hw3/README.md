@@ -25,6 +25,18 @@ uv run python app.py
 `.env.example` documents settings; `.env` is not automatically loaded. Never
 commit keys. A single prompt is supported with `--prompt "List the demo files"`.
 
+Your existing Google Cloud login also supports Vertex AI without an API key:
+
+```bash
+export GOOGLE_GENAI_USE_VERTEXAI=true
+export GOOGLE_CLOUD_PROJECT=psychic-lens-495123-q6
+export GOOGLE_CLOUD_LOCATION=us-west1
+uv run python app.py
+```
+
+Uses existing Application Default Credentials. Live Gemini was verified on
+2026-10-06: it called Terminal and search_policy and cited the 30-minute deadline.
+
 ## Added functionality
 
 - `search_policy`: local keyword retrieval with filename and section citations.

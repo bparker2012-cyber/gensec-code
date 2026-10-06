@@ -24,10 +24,14 @@ Keep answers concise. Do not claim to diagnose real systems or provide legal adv
 def build_agent(model=None):
     """Build a stateful tool-calling graph with environment-based credentials."""
     if model is None:
-        if not os.getenv("GOOGLE_API_KEY"):
-            raise ValueError("Set GOOGLE_API_KEY for live agent mode, or run --demo.")
+        vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "").lower() == "true"
+        if not vertex and not os.getenv("GOOGLE_API_KEY"):
+            raise ValueError("Configure GOOGLE_API_KEY or Vertex AI credentials, or run --demo.")
         model = ChatGoogleGenerativeAI(
             model=os.getenv("GOOGLE_MODEL") or "gemini-2.5-flash", temperature=0,
+            **({"vertexai": True, "project": os.getenv("GOOGLE_CLOUD_PROJECT"),
+                "location": os.getenv("GOOGLE_CLOUD_LOCATION", "us-west1")}
+               if vertex else {}),
         )
     return create_agent(model, tools=TOOLS, system_prompt=SYSTEM_PROMPT,
                         checkpointer=InMemorySaver())

@@ -27,7 +27,8 @@ def main():
             "Application Description: Incident Compass adds cited policy search, "
             "validated incident triage, and a restricted Terminal to a stateful "
             "LangChain agent. It uses fictional classroom policy and environment "
-            "credentials. Fifteen offline tests pass. Live Gemini requires verification. "
+            "credentials. Fifteen offline tests pass. Live Gemini via Vertex AI "
+            "successfully invoked Terminal and policy search on 2026-10-06. "
             "Keyword retrieval can miss synonyms; triage depends on supplied facts; "
             "memory resets on exit."
         ),

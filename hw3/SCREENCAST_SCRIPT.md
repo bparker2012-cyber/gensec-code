@@ -6,8 +6,8 @@ initially on, fresh clone, capabilities and limitations, then a commit walkthrou
 ## Before recording
 
 Resolve repository access and push the local commits first; a fresh clone cannot
-show unpushed code. Configure GOOGLE_API_KEY privately in the terminal environment
-and verify the live agent. Open the Github repository commit history in a browser.
+show unpushed code. Use your existing Google Cloud Application Default Credentials
+with Vertex AI; no API key is needed. Open the Github repository commit history in a browser.
 The lab mentions Gitlab for the walkthrough but Github for submission; this
 course repository is on Github. Start in a separate empty recording directory.
 Do not show the API key or an environment dump on camera.
@@ -29,6 +29,9 @@ Run:
 git clone https://github.com/bparker2012-cyber/gensec-code.git hw3-demo
 cd hw3-demo/hw3
 uv sync --extra dev --locked
+export GOOGLE_GENAI_USE_VERTEXAI=true
+export GOOGLE_CLOUD_PROJECT=psychic-lens-495123-q6
+export GOOGLE_CLOUD_LOCATION=us-west1
 uv run python app.py
 ```
 

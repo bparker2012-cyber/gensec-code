@@ -1,6 +1,6 @@
 # Homework 3 submission
 
-- [ ] Confirm live Gemini agent runs with your environment-based API key.
+- [x] Confirm live Gemini agent runs using existing Vertex AI credentials.
 - [x] Push the implemented application and incremental commits to the course repository.
 - [x] Prepare the course template as `hw3-Z23222679.docx` and export a draft PDF.
 - [x] Fill name Brehon Parker, ID Z23222679, assignment details, and course
@@ -23,7 +23,7 @@ Implemented: custom LangChain agent, additional custom tools, retained executabl
 Terminal tool, `hw3/app.py`, `hw3/screencast_url.txt`, isolated uv environment,
 tracked lockfile, docstrings, environment-based credentials, and incremental commits.
 
-Pending: live model verification, evidence for original desktop development tasks,
+Pending: evidence for original desktop development tasks,
 camera-on narrated recording, unlisted URL with incognito playback check,
 final document recording URL, and Canvas PDF upload.
 Desktop Codex development does not establish compliance with the explicit VS Code
@@ -46,7 +46,8 @@ This record is supporting text, not a replacement for required screenshots.
 ## Current verification and publishing status
 
 All 15 offline tests pass. The tool demo runs without credentials. A live Gemini
-run has not been verified because GOOGLE_API_KEY is not configured in this shell.
+run passed using existing Application Default Credentials and Vertex AI on
+2026-10-06. It invoked Terminal and search_policy and cited the correct deadline.
 The original HTTPS push was rejected with HTTP 403 for cached account
 `breparker8612`. Publishing subsequently succeeded through GitHub Desktop.
 The original implementation was pushed, and follow-up evidence is included in
