@@ -1,8 +1,7 @@
 # Homework 3 submission
 
 - [ ] Confirm live Gemini agent runs with your environment-based API key.
-- [ ] Download https://icardei.github.io/gensec-web/homework-template.docx
-      and rename to `hw3-Z23222679.docx`.
+- [x] Prepare the course template as `hw3-Z23222679.docx` and export a draft PDF.
 - [ ] Fill name Brehon Parker, ID Z23222679, assignment details, and repository
       https://github.com/bparker2012-cyber/gensec-code/tree/main/hw3.
 - [ ] Capture genuine VS Code screenshots showing each significant coding-agent
@@ -25,3 +24,12 @@ Implementation: create an isolated uv project, add custom policy retrieval and
 validated severity triage, retain a real restricted Terminal tool, build a
 stateful LangChain agent, and verify the tools and tool-calling graph offline.
 This record is supporting text, not a replacement for required screenshots.
+
+## Current verification and publishing status
+
+All 12 offline tests pass. The tool demo runs without credentials. A live Gemini
+run has not been verified because GOOGLE_API_KEY is not configured in this shell.
+The HTTPS push was rejected with HTTP 403: the cached account `breparker8612`
+does not have write permission to `bparker2012-cyber/gensec-code`. The local
+commits are preserved; authenticate with an account that has repository access,
+then run `git push origin main`. No screenshots or recording have been fabricated.
