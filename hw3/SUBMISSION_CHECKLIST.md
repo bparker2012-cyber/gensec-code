@@ -2,8 +2,8 @@
 
 - [ ] Confirm live Gemini agent runs with your environment-based API key.
 - [x] Prepare the course template as `hw3-Z23222679.docx` and export a draft PDF.
-- [ ] Fill name Brehon Parker, ID Z23222679, assignment details, and repository
-      https://github.com/bparker2012-cyber/gensec-code/tree/main/hw3.
+- [x] Fill name Brehon Parker, ID Z23222679, assignment details, and course
+      repository URL in the Word template.
 - [ ] Capture genuine VS Code screenshots showing each significant coding-agent
       task prompt and response, plus top lines of generated code, with name or
       FAU ID visible. This Codex desktop chat does not meet the VS Code evidence
@@ -15,6 +15,23 @@
 - [ ] Replace the pending screencast URL in the text file and Word document.
 - [ ] Commit and push the updated recording URL.
 - [ ] Export the completed Word document to PDF and upload it to Homework Canvas.
+
+## Instruction audit
+
+Implemented: custom LangChain agent, additional custom tools, retained executable
+Terminal tool, `hw3/app.py`, `hw3/screencast_url.txt`, isolated uv environment,
+tracked lockfile, docstrings, environment-based credentials, and incremental commits.
+
+Pending: live model verification, remote push, genuine development evidence from
+a coding agent in VS Code, camera-on narrated recording, unlisted URL with incognito
+playback check, final document with screenshots and URLs, and Canvas PDF upload.
+Desktop Codex development does not establish compliance with the explicit VS Code
+requirement. Capture genuine further development in VS Code; do not reconstruct
+historical evidence or present the existing draft as the completed submission.
+
+Demo order: initial camera introduction, fresh clone, running capabilities and
+limitations (including Terminal), then source walkthrough through repository
+commits. Use `SCREENCAST_SCRIPT.md` for exact narration and commands.
 
 ## Development task record
 
