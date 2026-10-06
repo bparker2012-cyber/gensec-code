@@ -61,3 +61,5 @@ reference
 !hw2/pyproject.toml
 !hw2/uv.lock
 !hw2/chainlit.md
+!hw3/pyproject.toml
+!hw3/uv.lock

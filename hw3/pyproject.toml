@@ -1,0 +1,13 @@
+[project]
+name = "incident-compass"
+version = "1.0.0"
+description = "Homework 3 custom security agent"
+requires-python = ">=3.11,<3.14"
+dependencies = ["langchain>=1.0,<2", "langchain-google-genai>=4,<5"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
