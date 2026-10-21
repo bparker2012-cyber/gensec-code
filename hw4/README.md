@@ -153,8 +153,10 @@ not a comprehensive security audit.
 
 ## Recording and submission preparation
 
-`SCREENCAST_SCRIPT.md` provides a five-minute maximum recording outline in the
-required order. `SUBMISSION_CHECKLIST.md` tracks evidence, pending work, and
+[`SCREENCAST_SCRIPT.md`](SCREENCAST_SCRIPT.md) explains the project in plain
+English and provides a complete timed transcript, exact commands, screen cues,
+expected results, and rehearsal troubleshooting in the required order.
+`SUBMISSION_CHECKLIST.md` tracks evidence, pending work, and
 the assignment's unresolved wording. The scoped
 `Log-Sentinel-Z23222679.code-workspace` selects this project's `.venv` and
 readable editor and terminal fonts. The camera recording, YouTube URL, and
