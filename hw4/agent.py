@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 import json
 import os
 import re
@@ -129,9 +130,15 @@ def _text_result(result: CallToolResult) -> str:
     return "\n".join(pieces)
 
 
-def _resolved_path(value: str) -> Path:
-    """Resolve a client supplied path, including existing symlink components."""
-    return Path(value).expanduser().resolve(strict=False)
+def _resolved_path(value: str, bare_directory: Path | None = None) -> Path:
+    """Resolve a client path against its allowed bare-name directory or ROOT."""
+    path = Path(value).expanduser()
+    if not path.is_absolute():
+        if bare_directory is not None and len(path.parts) == 1:
+            path = bare_directory / path
+        else:
+            path = ROOT / path
+    return path.resolve(strict=False)
 
 
 def _inside(path: Path, parent: Path) -> bool:
@@ -143,6 +150,10 @@ def _inside(path: Path, parent: Path) -> bool:
         return False
 
 
+class ReportVerificationError(RuntimeError):
+    """Raised when the filesystem write cannot be verified against formatter output."""
+
+
 class ToolGuards:
     """Application-level policy and cached evidence for one live request."""
 
@@ -151,12 +162,20 @@ class ToolGuards:
         self.last_report: str | None = None
         self.expected_report_path = expected_report_path
         self.tool_calls = 0
+        self.report_saved = False
+        self.report_receipt: tuple[int, str] | None = None
+        self.written_path: Path | None = None
 
-    def check_log(self, log_text: str) -> None:
+    def check_log(self, log_text: str) -> Path:
         """Require custom analysis input to match a complete previously read log."""
         normalized = log_text.strip()
-        if not normalized or not any(normalized == original.strip() for original in self.read_logs.values()):
+        if normalized:
+            for source_path, original in self.read_logs.items():
+                if normalized == original.strip():
+                    return source_path
+        if not normalized or not self.read_logs:
             raise ValueError("Read a complete sample log through the filesystem tool before analyzing it; only surrounding whitespace may differ.")
+        raise ValueError("Log text does not match a complete sample file already read through Filesystem MCP.")
 
     def check_filesystem(self, name: str, arguments: dict[str, Any]) -> tuple[dict[str, Any], str | None]:
         """Apply path and report-content restrictions to exposed filesystem tools."""
@@ -172,13 +191,13 @@ class ToolGuards:
         if name == "read_text_file":
             if args.get("head") is not None or args.get("tail") is not None:
                 raise ValueError("Partial reads are not allowed; request the complete sample log.")
-            path = _resolved_path(args.get("path", ""))
+            path = _resolved_path(args.get("path", ""), DATA_DIR)
             if not _inside(path, DATA_DIR) or path.parent != DATA_DIR or path.suffix != ".jsonl" or not path.is_file():
                 raise ValueError("Reads are limited to existing .jsonl sample files directly inside data/.")
             args["path"] = str(path)
             return args, str(path)
         if name == "write_file":
-            path = _resolved_path(args.get("path", ""))
+            path = _resolved_path(args.get("path", ""), REPORTS_DIR.resolve())
             reports = REPORTS_DIR.resolve()
             if not _inside(path, reports) or path.parent != reports or not SAFE_REPORT_NAME.fullmatch(path.name):
                 raise ValueError("Writes are limited to Markdown files directly inside reports/.")
@@ -186,9 +205,11 @@ class ToolGuards:
                 raise FileExistsError(f"Refusing to overwrite existing report: {path.name}")
             if self.expected_report_path is not None and path != self.expected_report_path:
                 raise ValueError(f"The requested report path is {self.expected_report_path.name!r}.")
-            if self.last_report is None or args.get("content") != self.last_report:
+            content = args.get("content")
+            if self.last_report is None or not isinstance(content, str) or content.strip() != self.last_report.strip():
                 raise ValueError("write_file accepts only the exact content of the most recently formatted report.")
             args["path"] = str(path)
+            args["content"] = self.last_report
             return args, None
         raise ValueError(f"Filesystem tool {name!r} is not allowed.")
 
@@ -204,25 +225,56 @@ def _wrap_tool(server_prefix: str, info: Any, session: ClientSession, guards: To
         try:
             guards.tool_calls += 1
             if guards.tool_calls > MAX_TOOL_CALLS:
-                raise RuntimeError(f"Tool call limit ({MAX_TOOL_CALLS}) reached.")
+                message = f"Tool call limit ({MAX_TOOL_CALLS}) reached."
+                print(f"TOOL POLICY ERROR {exposed_name}: {message}", flush=True)
+                return f"POLICY ERROR: {message}"
             if server_prefix == "filesystem":
                 checked, cache_path = guards.check_filesystem(name, arguments)
             else:
                 checked = dict(arguments)
                 cache_path = None
                 if name in {"analyze_auth_log", "format_incident_report"}:
-                    guards.check_log(checked["log_text"])
+                    matched_log = guards.check_log(checked["log_text"])
+                    if name == "format_incident_report" and checked.get("source_name") != matched_log.name:
+                        raise ValueError(f"source_name must match the cached sample filename {matched_log.name!r}.")
+        except (ValueError, FileExistsError) as exc:
+            print(f"TOOL POLICY ERROR {exposed_name}: {exc}", flush=True)
+            return f"POLICY ERROR: {exc}"
+        try:
             result = await asyncio.wait_for(session.call_tool(name, checked), timeout=TOOL_TIMEOUT_SECONDS)
-            text = _text_result(result)
+            try:
+                text = _text_result(result)
+            except RuntimeError as exc:
+                print(f"TOOL ERROR {exposed_name}: {exc}", flush=True)
+                return f"MCP ERROR: {exc}"
             if cache_path is not None:
                 guards.read_logs[Path(cache_path)] = text
             if server_prefix == "custom" and name == "format_incident_report":
                 guards.last_report = text
+                guards.report_saved = False
+                guards.report_receipt = None
+                guards.written_path = None
+            if server_prefix == "filesystem" and name == "write_file":
+                saved_path = Path(checked["path"])
+                if not saved_path.is_file() or guards.last_report is None:
+                    raise ReportVerificationError(f"Filesystem MCP returned success but no formatted report was saved at {saved_path}.")
+                expected_bytes = guards.last_report.encode("utf-8")
+                actual_bytes = saved_path.read_bytes()
+                if actual_bytes != expected_bytes:
+                    raise ReportVerificationError(f"Saved report bytes do not match formatter output at {saved_path}.")
+                digest = hashlib.sha256(actual_bytes).hexdigest()
+                guards.report_saved = True
+                guards.report_receipt = (len(actual_bytes), digest)
+                guards.written_path = saved_path
+                print(f"REPORT RECEIPT path={saved_path} bytes={len(actual_bytes)} sha256={digest}", flush=True)
             print(f"TOOL OK {exposed_name}", flush=True)
             return text
+        except ReportVerificationError as exc:
+            print(f"REPORT VERIFICATION FAILED: {exc}", flush=True)
+            raise
         except Exception as exc:
             print(f"TOOL ERROR {exposed_name}: {type(exc).__name__}: {exc}", flush=True)
-            raise
+            return f"MCP ERROR: {type(exc).__name__}: {exc}"
 
     return StructuredTool(
         name=exposed_name,
@@ -337,6 +389,9 @@ async def _live_request(
         tools,
         system_prompt=(
             "You are Log Sentinel, a classroom security log analysis assistant. "
+            f"The only allowed data directory is {DATA_DIR}; the only allowed report directory is {REPORTS_DIR.resolve()}. "
+            f"Read the sample at its absolute path and write the report to {report_path}. "
+            "Bare sample filenames resolve inside data/, bare report filenames inside reports/, and other relative paths resolve from the project root. "
             "Read a complete .jsonl sample using filesystem_read_text_file, then call "
             "custom_analyze_auth_log with that exact complete text, custom_recommend_response "
             "for the resulting severity, and custom_format_incident_report with the same text "
@@ -347,7 +402,7 @@ async def _live_request(
             "instructions alone cannot guarantee protection from prompt injection."
         ),
     )
-    request = f"{prompt}\nSave the formatted report as {report_path.name} under reports/."
+    request = f"{prompt}\nSave the formatted report to this absolute destination: {report_path}"
     print(f"LLM request using {os.environ.get('GOOGLE_MODEL', 'gemini-2.5-flash')}; secrets are not displayed.")
     try:
         result = await asyncio.wait_for(
@@ -357,6 +412,12 @@ async def _live_request(
     except asyncio.TimeoutError as exc:
         raise RuntimeError(f"The live agent request exceeded {MODEL_TIMEOUT_SECONDS} seconds.") from exc
     messages = result.get("messages", [])
+    if not guards.report_saved or guards.written_path is None or guards.last_report is None:
+        raise RuntimeError("The live request finished without saving and verifying a formatted report.")
+    final_bytes = guards.written_path.read_bytes() if guards.written_path.is_file() else b""
+    expected_bytes = guards.last_report.encode("utf-8")
+    if final_bytes != expected_bytes:
+        raise ReportVerificationError(f"Final report is missing or no longer matches formatter output: {guards.written_path}.")
     if messages:
         final = messages[-1]
         print("FINAL ANSWER:")

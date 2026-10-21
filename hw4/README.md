@@ -72,15 +72,26 @@ request. Tool calls, successes, and errors are printed. A ten-call tool limit,
 Application checks restrict model reads to complete `.jsonl` files directly
 inside the resolved `data/` directory; partial reads are refused. The custom
 analysis tools accept only text matching a previously read complete log,
-allowing surrounding whitespace only. Writes must be new `.md` files directly
-inside the resolved `reports/` directory, and the content must exactly match
-the most recently returned deterministic formatter output. Paths are resolved
-before checks to catch symlink escapes, and existing report names are refused.
-The official Filesystem server independently receives only `data/` and
-`reports/` as allowed roots. These application guards enforce specific
-boundaries; system prompts alone cannot guarantee protection from prompt
-injection. The synthetic injection fixture's optional `message` values are
-ignored by the custom analyzer.
+allowing surrounding whitespace only. The formatter's `source_name` must equal
+the filename of that cached log. A bare sample filename resolves inside
+`data/`; a bare report filename resolves inside `reports/`; other relative
+paths resolve from the project root. Absolute allowed directories and the
+requested absolute report destination are included in the model instructions.
+
+Writes must be new `.md` files directly inside the resolved `reports/`
+directory. The model's proposed content may differ from the formatter output
+only by surrounding whitespace; the application replaces it with the exact
+cached formatter text before writing. After Filesystem MCP reports a successful
+write, the application reads the local file back and compares its exact UTF-8
+bytes to the formatter output. It prints a byte-count and SHA-256 receipt and
+fails the request if no report was saved or the bytes differ. Paths are
+resolved before checks to catch symlink escapes, and existing report names are
+refused. Policy errors are returned to the model as recoverable tool results,
+within the existing ten-call cap. The official Filesystem server independently
+receives only `data/` and `reports/` as allowed roots. These application guards
+enforce specific boundaries; system prompts alone cannot guarantee protection
+from prompt injection. The synthetic injection fixture's optional `message`
+values are ignored by the custom analyzer.
 
 ## Input and severity rules
 

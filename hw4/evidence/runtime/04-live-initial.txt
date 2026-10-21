@@ -1,0 +1,12 @@
+/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/.venv/lib/python3.13/site-packages/pydantic_settings/sources/utils.py:51: IncompleteFieldDefinitionWarning: Field 'lifespan' has an incomplete definition: its annotation contains an unresolved forward reference, so settings sources may fail to correctly resolve its value. Call `model_rebuild()` on the model where the field is defined, once all the referenced types are defined.
+  warnings.warn(  # noqa: B028  (called from many sources at differing depths, so no stacklevel is correct)
+Secure MCP Filesystem Server running on stdio
+Processing request of type ListToolsRequest
+Client does not support MCP Roots, using allowed directories set from server args: [
+  '/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/data',
+  '/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/reports'
+]
+LLM request using gemini-2.5-flash; secrets are not displayed.
+TOOL CALL filesystem_read_text_file: {"head": null, "path": "auth_demo.jsonl", "tail": null}
+TOOL ERROR filesystem_read_text_file: ValueError: Reads are limited to existing .jsonl sample files directly inside data/.
+Log Sentinel error: ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
