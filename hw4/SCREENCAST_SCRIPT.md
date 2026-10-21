@@ -8,7 +8,7 @@ words to read aloud.
 
 ## 1. Are we ready?
 
-**Ready to study and rehearse; final recording still needs GitHub publication.**
+**Ready for a timed rehearsal; the GitHub publication blocker is resolved.**
 
 The retained live Gemini demonstration completed successfully: all seven
 required tool operations, a saved report, exact-byte verification, and exit
@@ -16,16 +16,17 @@ code 0. It took 22.825 seconds. The separate limitations demonstration also
 recorded the expected path denial and malformed-input findings. These are
 actual earlier runs, not a promise that the next network request will succeed.
 
-On 2026-10-21, a fresh remote-branch lookup returned no
-`codex/hw4-log-sentinel` branch, and the GitHub connector still identified
-`breparker8612`. The earlier Git push was denied because that account cannot
-write to `bparker2012-cyber/gensec-code`. Course-account Git authentication and
-a successful push are required before the clone and GitHub portions below can
-be recorded.
+On 2026-10-21, GitHub CLI authenticated as `bparker2012-cyber`, GitHub confirmed
+write access, and branch `codex/hw4-log-sentinel` was successfully pushed to
+the existing course fork. The remote commit matched the local commit. All
+eleven existing incremental Homework 4 commits were preserved. The earlier
+authentication failure is resolved; the clone and GitHub portions below now
+have published source to use.
 
-The review PDF is prepared. The student camera recording, reviewed unlisted
-YouTube URL, and final URL updates remain pending. This is not a guarantee of
-a grade. Nothing has been submitted to Canvas.
+The review PDF is prepared; its earlier publication-pending note will be
+refreshed with the final recording details. The student camera recording,
+reviewed unlisted YouTube URL, and final URL updates remain pending. This is
+not a guarantee of a grade. Nothing has been submitted to Canvas.
 
 **Recording requirement:** camera on initially; fresh clone, then running
 capabilities and limitations, then source/commit walkthrough; at most five
@@ -134,9 +135,9 @@ incident response.
 
 ### Publication and setup
 
-1. Authenticate Git as `bparker2012-cyber`, push
-   `codex/hw4-log-sentinel`, and confirm the branch and commits open on
-   GitHub. The links below are intended destinations until that succeeds.
+1. Open the published `codex/hw4-log-sentinel` branch and the commit pages
+   listed in Section 5. Course-account Git authentication and the initial
+   push are complete.
 2. Use Python 3.13, `uv`, npm, and **Node 24 or newer**.
 3. Configure the model environment in the **same terminal** used for the
    recording. The app reads exported environment variables; it does not
@@ -162,7 +163,7 @@ Google credentials must still be valid. Google Drive access is not needed.
 - Have the webcam and microphone enabled. Keep the camera visible at least
   during the introduction.
 - Use readable terminal/browser fonts and close unrelated windows.
-- Pre-open the GitHub pages listed in Section 5 after publication.
+- Pre-open the published GitHub pages listed in Section 5.
 - Keep these notes on a second screen or device if available.
 - Use a new clone destination for each take. The transcript uses
   `gensec-code-hw4-demo-take1`; change it to `take2` for the next take.
@@ -299,7 +300,7 @@ readable output, successful live result, and required sequence.
 
 ## 5. Browser navigation and source landmarks
 
-These links become usable after the local branch is published.
+The branch and source history below are published on GitHub.
 
 | Screen | What to show |
 |---|---|
@@ -400,7 +401,7 @@ results. Explain the design in your own words and credit the tooling accurately.
 
 | Symptom | What to do |
 |---|---|
-| Remote branch not found / push denied | Finish course-account Git authentication and publish before recording. |
+| Remote branch not found / push denied | Check the exact published branch URL and course-account authentication. The initial publication has succeeded. |
 | Node is below 24 | Use the Node 24 path in Section 3 and repeat the install in the fresh clone. |
 | Google authentication, quota, or network failure | Resolve model access and repeat the live take. Keep credential setup off camera. |
 | Live request ends without a verified report | Treat it as a failed take; inspect the actual error rather than reading the success paragraph. |

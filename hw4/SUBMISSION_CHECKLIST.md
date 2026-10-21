@@ -25,7 +25,7 @@ Student: Brehon Parker · FAU ID Z23222679 · Homework 4
   ([`06-live-injection.txt`](evidence/runtime/06-live-injection.txt)),
   and a denied out-of-scope read with malformed-input findings
   ([`05-limitations.txt`](evidence/runtime/05-limitations.txt)).
-- [x] Phase 4 is committed locally as
+- [x] Phase 4 is implemented at published commit
   [`5a336e3`](https://github.com/bparker2012-cyber/gensec-code/commit/5a336e385cb7ee15f250382f7708fb9863456e77).
 - [x] Seven exact IDE prompts and fourteen genuine development screenshots are
   retained under `evidence/` with the student ID visible.
@@ -35,16 +35,16 @@ Student: Brehon Parker · FAU ID Z23222679 · Homework 4
 - [x] A 19-page review Word document and PDF are prepared locally under
   `deliverables/`. Every rendered page was reviewed; the instructor template,
   original screenshot bytes and numbered footers were checked. These local
-  review files are ignored by Git and still state the missing recording and
-  publication status.
+  review files are ignored by Git. The recording is still missing; the PDF's
+  earlier publication-pending note will be refreshed with the final video URL.
+- [x] GitHub CLI is authenticated as `bparker2012-cyber`, with credentials in
+  the system keyring and confirmed write access. This repository's Git
+  credential helper uses that login. Branch `codex/hw4-log-sentinel` was pushed
+  to `origin` on 2026-10-21, preserving all eleven existing incremental commits.
+  Remote branch lookup and GitHub's branch API matched local commit `81b814c`.
 
 ## Pending before final submission
 
-- [ ] Publish local branch `codex/hw4-log-sentinel` to `origin` so the GitHub
-  branch and commit links in [`SCREENCAST_SCRIPT.md`](SCREENCAST_SCRIPT.md) are
-  available. The push was rejected: the active GitHub account is
-  `breparker8612`, which cannot write to the `bparker2012-cyber` course fork.
-  Sign in with the course account before retrying. All work is committed locally.
 - [ ] Student records and reviews the camera screencast using
   [`SCREENCAST_SCRIPT.md`](SCREENCAST_SCRIPT.md), with planned duration under
   five minutes.
@@ -59,12 +59,11 @@ Student: Brehon Parker · FAU ID Z23222679 · Homework 4
 
 ## GitHub source and commit sequence
 
-The intended source branch is
+The published source branch is
 [`codex/hw4-log-sentinel`](https://github.com/bparker2012-cyber/gensec-code/tree/codex/hw4-log-sentinel)
 in the course fork
 [`bparker2012-cyber/gensec-code`](https://github.com/bparker2012-cyber/gensec-code).
-Use the linked branch and commit pages in the screencast after the branch is
-published.
+Use the linked branch and commit pages in the screencast.
 
 1. [Scaffold — `f1c68cf`](https://github.com/bparker2012-cyber/gensec-code/commit/f1c68cfe12c7d24e445127225ebaa17dbbaa0ee4)
 2. [Custom tools and fixtures — `417d493`](https://github.com/bparker2012-cyber/gensec-code/commit/417d493af9382af1c035eb17662e83aebb30e2b7)
@@ -72,8 +71,11 @@ published.
 4. [Path/content guards — `9445df2`](https://github.com/bparker2012-cyber/gensec-code/commit/9445df276c352f2def3dd5ac7b22ec5b0cf6d1ca)
 5. [Optional MCP arguments — `44fc33f`](https://github.com/bparker2012-cyber/gensec-code/commit/44fc33fa7a5c3e45b81b002cae3f3434148c056e)
 6. [Phase 4 and recording preparation — `5a336e3`](https://github.com/bparker2012-cyber/gensec-code/commit/5a336e385cb7ee15f250382f7708fb9863456e77)
-7. Recording instructions — `e3a16f2` (local commit)
-8. Final runtime evidence — `3c5e644` (local commit)
+7. [Recording instructions — `e3a16f2`](https://github.com/bparker2012-cyber/gensec-code/commit/e3a16f2)
+8. [Final runtime evidence — `3c5e644`](https://github.com/bparker2012-cyber/gensec-code/commit/3c5e644)
+9. [Earlier publication-blocker record — `8de9b10`](https://github.com/bparker2012-cyber/gensec-code/commit/8de9b10)
+10. [Genuine pointer-free recaptures — `3d8a8a6`](https://github.com/bparker2012-cyber/gensec-code/commit/3d8a8a6)
+11. [Detailed demo explanation and transcript — `81b814c`](https://github.com/bparker2012-cyber/gensec-code/commit/81b814c)
 
 ## Assignment wording to retain
 

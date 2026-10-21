@@ -153,6 +153,10 @@ not a comprehensive security audit.
 
 ## Recording and submission preparation
 
+The source and incremental history are published on branch
+[`codex/hw4-log-sentinel`](https://github.com/bparker2012-cyber/gensec-code/tree/codex/hw4-log-sentinel/hw4)
+in the existing course fork.
+
 [`SCREENCAST_SCRIPT.md`](SCREENCAST_SCRIPT.md) explains the project in plain
 English and provides a complete timed transcript, exact commands, screen cues,
 expected results, and rehearsal troubleshooting in the required order.
