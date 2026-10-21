@@ -21,23 +21,33 @@ Student: Brehon Parker · FAU ID Z23222679 · Homework 4
   3 IPs, critical overall).
 - [x] Earlier actual runtime evidence records a successful standard live run
   ([`05-live-success.txt`](evidence/runtime/05-live-success.txt)), inert
-  injection handling ([`05-live-injection.txt`](evidence/runtime/05-live-injection.txt)),
+  injection handling and recovery from one rejected altered log copy
+  ([`06-live-injection.txt`](evidence/runtime/06-live-injection.txt)),
   and a denied out-of-scope read with malformed-input findings
   ([`05-limitations.txt`](evidence/runtime/05-limitations.txt)).
 - [x] Phase 4 is committed locally as
   [`5a336e3`](https://github.com/bparker2012-cyber/gensec-code/commit/5a336e385cb7ee15f250382f7708fb9863456e77).
+- [x] Seven exact IDE prompts and fourteen genuine development screenshots are
+  retained under `evidence/` with the student ID visible.
+- [x] A 19-page review Word document and PDF are prepared locally under
+  `deliverables/`. Every rendered page was reviewed; the instructor template,
+  original screenshot bytes and numbered footers were checked. These local
+  review files are ignored by Git and still state the missing recording and
+  publication status.
 
 ## Pending before final submission
 
 - [ ] Publish local branch `codex/hw4-log-sentinel` to `origin` so the GitHub
   branch and commit links in [`SCREENCAST_SCRIPT.md`](SCREENCAST_SCRIPT.md) are
-  available. The branch was not present in `git ls-remote origin` at checklist
-  preparation; no push was made here.
+  available. The push was rejected: the active GitHub account is
+  `breparker8612`, which cannot write to the `bparker2012-cyber` course fork.
+  Sign in with the course account before retrying. All work is committed locally.
 - [ ] Student records and reviews the camera screencast using
   [`SCREENCAST_SCRIPT.md`](SCREENCAST_SCRIPT.md), with planned duration under
   five minutes.
 - [ ] Student reviews the final submission materials.
-- [ ] Update the final PDF to reflect Homework 4 and the completed project.
+- [ ] After the recording, update the review PDF with its actual YouTube URL
+  and the verified publication status.
 - [ ] After recording and review, put the actual YouTube URL in
   [`screencast_url.txt`](screencast_url.txt). It remains empty; no URL is
   fabricated.
@@ -59,6 +69,8 @@ published.
 4. [Path/content guards — `9445df2`](https://github.com/bparker2012-cyber/gensec-code/commit/9445df276c352f2def3dd5ac7b22ec5b0cf6d1ca)
 5. [Optional MCP arguments — `44fc33f`](https://github.com/bparker2012-cyber/gensec-code/commit/44fc33fa7a5c3e45b81b002cae3f3434148c056e)
 6. [Phase 4 and recording preparation — `5a336e3`](https://github.com/bparker2012-cyber/gensec-code/commit/5a336e385cb7ee15f250382f7708fb9863456e77)
+7. Recording instructions — `e3a16f2` (local commit)
+8. Final runtime evidence — `3c5e644` (local commit)
 
 ## Assignment wording to retain
 

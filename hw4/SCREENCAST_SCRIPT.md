@@ -2,8 +2,9 @@
 
 **Planned duration: 4:50 maximum.** Record screen and webcam. Keep credential
 values out of view. The GitHub links below target branch
-`codex/hw4-log-sentinel`; publish that branch before recording because it is
-currently present locally but not yet advertised by `origin`.
+`codex/hw4-log-sentinel`; publish that branch before recording. The push was
+rejected because the current account `breparker8612` cannot write to the
+`bparker2012-cyber` course fork. Sign in with the course account first.
 
 ## 0:00–0:20 — Camera introduction
 
@@ -55,7 +56,8 @@ that severity is a rule-based correlation heuristic, not proof of compromise;
 the live model needs credentials, network access, service availability, and
 quota; and application guards enforce specific boundaries while prompts alone
 cannot guarantee protection from every injection. The inert message-field
-example is recorded in [`05-live-injection.txt`](evidence/runtime/05-live-injection.txt).
+example is recorded in [`06-live-injection.txt`](evidence/runtime/06-live-injection.txt);
+it includes one rejected altered log copy followed by recovery from the original.
 
 If Gemini is unavailable during the recording, use the offline fallback:
 
@@ -83,6 +85,6 @@ Walk through the commit links in order, opening each commit on GitHub:
 5. [Optional MCP schema arguments](https://github.com/bparker2012-cyber/gensec-code/commit/44fc33fa7a5c3e45b81b002cae3f3434148c056e)
 6. [Phase 4 live demo and recording preparation](https://github.com/bparker2012-cyber/gensec-code/commit/5a336e385cb7ee15f250382f7708fb9863456e77)
 
-“Phase 4 is committed as `5a336e3`. After this capture, I still need to review
+"Phase 4 is committed as `5a336e3`. After this capture, I still need to review
 the camera recording, update the final PDF, add the approved YouTube URL, review
 the submission package, and submit it to Canvas.”
