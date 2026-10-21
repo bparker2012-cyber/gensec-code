@@ -1,0 +1,59 @@
+Brehon Parker / Z23222679
+Actual application demonstration at 2026-10-21T20:10:05.162426+00:00
+Exit code: 0
+
+STDOUT
+DEMO (no LLM): read auth_demo.jsonl through filesystem MCP
+DEMO analysis: {
+  "failed_logins": 9,
+  "insufficient_evidence": false,
+  "overall_severity": "critical",
+  "rejected_count": 0,
+  "rejected_lines": [],
+  "source_count": 3,
+  "sources": [
+    {
+      "failed_logins": 0,
+      "ip": "192.0.2.5",
+      "max_failed_in_rolling_10m": 0,
+      "severity": "informational",
+      "successful_logins": 2,
+      "total_events": 2
+    },
+    {
+      "failed_logins": 3,
+      "ip": "198.51.100.20",
+      "max_failed_in_rolling_10m": 3,
+      "severity": "low",
+      "successful_logins": 0,
+      "total_events": 3
+    },
+    {
+      "failed_logins": 6,
+      "ip": "203.0.113.10",
+      "max_failed_in_rolling_10m": 6,
+      "severity": "critical",
+      "successful_logins": 1,
+      "total_events": 7
+    }
+  ],
+  "successful_logins": 3,
+  "total_count": 12,
+  "valid_count": 12
+}
+DEMO response guidance: Escalate for prompt incident review, verify the successful login and account owner, preserve relevant evidence, and consider containment under your incident process. Correlation is not proof of compromise.
+DEMO wrote deterministic report: reports/offline-final-20261021.md
+Successfully wrote to /Users/brehonparker/Documents/ChatGPT/New project 2/hw4/reports/offline-final-20261021.md
+
+STDERR
+/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/.venv/lib/python3.13/site-packages/pydantic_settings/sources/utils.py:51: IncompleteFieldDefinitionWarning: Field 'lifespan' has an incomplete definition: its annotation contains an unresolved forward reference, so settings sources may fail to correctly resolve its value. Call `model_rebuild()` on the model where the field is defined, once all the referenced types are defined.
+  warnings.warn(  # noqa: B028  (called from many sources at differing depths, so no stacklevel is correct)
+Secure MCP Filesystem Server running on stdio
+Client does not support MCP Roots, using allowed directories set from server args: [
+  '/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/data',
+  '/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/reports'
+]
+Processing request of type CallToolRequest
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Processing request of type CallToolRequest

@@ -1,0 +1,26 @@
+{
+  "student": "Brehon Parker / Z23222679",
+  "started_utc": "2026-10-21T20:10:05.162426+00:00",
+  "commit": "5a336e385cb7ee15f250382f7708fb9863456e77",
+  "command": [
+    "/Users/brehonparker/.local/bin/uv",
+    "run",
+    "--locked",
+    "python",
+    "agent.py",
+    "--demo",
+    "--report-name",
+    "offline-final-20261021.md"
+  ],
+  "public_environment_settings": {
+    "MCP_NODE_BINARY": "/Users/brehonparker/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "GOOGLE_GENAI_USE_VERTEXAI": "true",
+    "GOOGLE_CLOUD_PROJECT": "psychic-lens-495123-q6",
+    "GOOGLE_CLOUD_LOCATION": "us-west1",
+    "PYTHONUNBUFFERED": "1"
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 1.135,
+  "stdout": "DEMO (no LLM): read auth_demo.jsonl through filesystem MCP\nDEMO analysis: {\n  \"failed_logins\": 9,\n  \"insufficient_evidence\": false,\n  \"overall_severity\": \"critical\",\n  \"rejected_count\": 0,\n  \"rejected_lines\": [],\n  \"source_count\": 3,\n  \"sources\": [\n    {\n      \"failed_logins\": 0,\n      \"ip\": \"192.0.2.5\",\n      \"max_failed_in_rolling_10m\": 0,\n      \"severity\": \"informational\",\n      \"successful_logins\": 2,\n      \"total_events\": 2\n    },\n    {\n      \"failed_logins\": 3,\n      \"ip\": \"198.51.100.20\",\n      \"max_failed_in_rolling_10m\": 3,\n      \"severity\": \"low\",\n      \"successful_logins\": 0,\n      \"total_events\": 3\n    },\n    {\n      \"failed_logins\": 6,\n      \"ip\": \"203.0.113.10\",\n      \"max_failed_in_rolling_10m\": 6,\n      \"severity\": \"critical\",\n      \"successful_logins\": 1,\n      \"total_events\": 7\n    }\n  ],\n  \"successful_logins\": 3,\n  \"total_count\": 12,\n  \"valid_count\": 12\n}\nDEMO response guidance: Escalate for prompt incident review, verify the successful login and account owner, preserve relevant evidence, and consider containment under your incident process. Correlation is not proof of compromise.\nDEMO wrote deterministic report: reports/offline-final-20261021.md\nSuccessfully wrote to /Users/brehonparker/Documents/ChatGPT/New project 2/hw4/reports/offline-final-20261021.md\n",
+  "stderr": "/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/.venv/lib/python3.13/site-packages/pydantic_settings/sources/utils.py:51: IncompleteFieldDefinitionWarning: Field 'lifespan' has an incomplete definition: its annotation contains an unresolved forward reference, so settings sources may fail to correctly resolve its value. Call `model_rebuild()` on the model where the field is defined, once all the referenced types are defined.\n  warnings.warn(  # noqa: B028  (called from many sources at differing depths, so no stacklevel is correct)\nSecure MCP Filesystem Server running on stdio\nClient does not support MCP Roots, using allowed directories set from server args: [\n  '/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/data',\n  '/Users/brehonparker/Documents/ChatGPT/New project 2/hw4/reports'\n]\nProcessing request of type CallToolRequest\nProcessing request of type ListToolsRequest\nProcessing request of type CallToolRequest\nProcessing request of type CallToolRequest\n"
+}
