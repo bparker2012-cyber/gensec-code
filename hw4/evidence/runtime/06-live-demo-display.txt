@@ -1,0 +1,23 @@
+Log Sentinel | Brehon Parker | FAU ID Z23222679
+Actual saved live run summary; full raw record: 06-live-demo.json
+Command: uv run --locked python agent.py --demo-live
+Exit: 0 | Elapsed: 22.825 seconds | Gemini 2.5 Flash
+
+Delivered report contents (read from the actual saved file):
+- **Overall severity:** critical
+- **Records:** 12 total; 12 valid; 0 rejected
+- **Valid events:** 9 failed logins; 3 successful logins
+- **Sources:** 3 IP addresses
+
+Actual successful MCP tools:
+1. filesystem_list_allowed_directories [OK]
+2. filesystem_list_directory [OK]
+3. filesystem_read_text_file [OK]
+4. custom_analyze_auth_log [OK]
+5. custom_recommend_response [OK]
+6. custom_format_incident_report [OK]
+7. filesystem_write_file [OK]
+
+Verified receipt: reports/auth_demo_live-01.md
+Bytes: 1506
+SHA256: d6a7dc8fafa691e7e61f9dfcf8ab48eaa74cf7f6ac18a0d3f400d31fe6702696
