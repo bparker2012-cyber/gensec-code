@@ -1,0 +1,23 @@
+# Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node dependencies
+node_modules/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated analysis output
+reports/
+report*.md
+report*.json
+*.log

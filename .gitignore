@@ -63,3 +63,10 @@ reference
 !hw2/chainlit.md
 !hw3/pyproject.toml
 !hw3/uv.lock
+
+# Homework 4 Log Sentinel scaffold and reproducible project files.
+!hw4/
+!hw4/**
+!hw4/pyproject.toml
+!hw4/uv.lock
+!hw4/package-lock.json

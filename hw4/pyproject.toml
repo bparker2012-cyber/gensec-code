@@ -1,0 +1,13 @@
+[project]
+name = "log-sentinel"
+version = "0.1.0"
+description = "Homework 4 security log analysis MCP agent scaffold"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "langchain==1.4.3",
+    "langchain-google-genai==4.4.0",
+    "mcp==1.28.1",
+]
+
+[tool.uv]
+package = false
