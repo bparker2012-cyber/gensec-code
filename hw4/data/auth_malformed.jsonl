@@ -1,0 +1,4 @@
+{"time":"2026-10-21T10:00:00Z","event":"login_failed","ip":"203.0.113.44","user":"admin"}
+{"time":"2026-10-21T10:01:00","event":"login_failed","ip":"203.0.113.44","user":"admin"}
+not-json
+{"time":"2026-10-21T10:03:00Z","event":"login_success","ip":"999.0.0.1","user":"admin"}

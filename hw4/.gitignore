@@ -13,8 +13,12 @@ node_modules/
 .env
 .env.*
 !.env.example
+credentials.json
+token.json
 *.pem
 *.key
+*.p12
+*.pfx
 
 # Generated analysis output
 reports/

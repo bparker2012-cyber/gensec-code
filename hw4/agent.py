@@ -1,4 +1,4 @@
-"""Log Sentinel agent scaffold.
+"""Log Sentinel agent scaffold by Brehon Parker, FAU ID Z23222679.
 
 Implementation is intentionally deferred for Homework 4.
 """
