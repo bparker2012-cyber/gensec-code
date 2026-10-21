@@ -1,0 +1,54 @@
+{
+  "purpose": "Unchanged Git source exports for genuine VSCode recaptures after the user noticed the pointer overlay. These are current views of actual committed versions, not backdated screenshots. Original development captures remain retained.",
+  "source_versions": [
+    {
+      "task": 1,
+      "commit": "f1c68cfe12c7d24e445127225ebaa17dbbaa0ee4",
+      "original_path": "hw4/agent.py",
+      "export_path": "evidence/recaptured/source-versions/Z23222679-01-f1c68cf/agent.py",
+      "sha256": "1417db289fecd128c2c0664c3528a1be524dee36a74c5bffefc56942b4a1c0a1"
+    },
+    {
+      "task": 2,
+      "commit": "417d493af9382af1c035eb17662e83aebb30e2b7",
+      "original_path": "hw4/mcp-server.py",
+      "export_path": "evidence/recaptured/source-versions/Z23222679-02-417d493/mcp-server.py",
+      "sha256": "b76e39ba2f4ddb2e80fc6b9ec30c072e4837cff4bcc5625c7da45dd112a0bb33"
+    },
+    {
+      "task": 3,
+      "commit": "5829daff06fc532072c2b5dec7db037c0a58cdcd",
+      "original_path": "hw4/agent.py",
+      "export_path": "evidence/recaptured/source-versions/Z23222679-03-5829daf/agent.py",
+      "sha256": "3cd1b9b90170baa96ea454e149bd815cc4c8b3c66e32d1fbb429caa4381d44d5"
+    },
+    {
+      "task": 4,
+      "commit": "9445df276c352f2def3dd5ac7b22ec5b0cf6d1ca",
+      "original_path": "hw4/agent.py",
+      "export_path": "evidence/recaptured/source-versions/Z23222679-04-9445df2/agent.py",
+      "sha256": "b3297b2495a949a35c76ad4652532a31f851a37f148891e2cbd7666d457eda8e"
+    },
+    {
+      "task": 5,
+      "commit": "44fc33fa7a5c3e45b81b002cae3f3434148c056e",
+      "original_path": "hw4/agent.py",
+      "export_path": "evidence/recaptured/source-versions/Z23222679-05-44fc33f/agent.py",
+      "sha256": "f638b5262473062d0904aeccb20113502655fd75996888820643da6c2a63ed6e"
+    },
+    {
+      "task": 6,
+      "commit": "5a336e385cb7ee15f250382f7708fb9863456e77",
+      "original_path": "hw4/agent.py",
+      "export_path": "evidence/recaptured/source-versions/Z23222679-06-5a336e3/agent.py",
+      "sha256": "c394ffbc98a9b7470aeee92d24ce4d2e6901b10f2ccfc151007120381423d94d"
+    },
+    {
+      "task": 7,
+      "commit": "e3a16f2b2bc4f775bdb83bc5bd9b04fc0e723cdb",
+      "original_path": "hw4/SCREENCAST_SCRIPT.md",
+      "export_path": "evidence/recaptured/source-versions/Z23222679-07-e3a16f2/SCREENCAST_SCRIPT.md",
+      "sha256": "08ca23249f0d0de59ed4041eaf2e5848261ba055682cb04f53b9241864f1d2c7"
+    }
+  ]
+}

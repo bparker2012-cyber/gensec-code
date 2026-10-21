@@ -29,6 +29,9 @@ Student: Brehon Parker · FAU ID Z23222679 · Homework 4
   [`5a336e3`](https://github.com/bparker2012-cyber/gensec-code/commit/5a336e385cb7ee15f250382f7708fb9863456e77).
 - [x] Seven exact IDE prompts and fourteen genuine development screenshots are
   retained under `evidence/` with the student ID visible.
+- [x] Pointer-free replacement views are retained under `evidence/recaptured/`.
+  They show the saved exchanges and unchanged Git source exports. Their
+  provenance is documented; original captures remain available.
 - [x] A 19-page review Word document and PDF are prepared locally under
   `deliverables/`. Every rendered page was reviewed; the instructor template,
   original screenshot bytes and numbered footers were checked. These local
