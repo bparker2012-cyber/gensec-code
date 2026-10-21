@@ -65,8 +65,12 @@ The custom STDIO server (`mcp-server.py`, MCP SDK 1.28.1 FastMCP) exposes:
 
 The live agent discovers tools at connection time, prefixes names with their
 server (`custom_` or `filesystem_`), and adapts their published JSON input
-schemas to async LangChain tools. Both STDIO sessions stay open throughout the
-request. Tool calls, successes, and errors are printed. A ten-call tool limit,
+schemas to async LangChain tools. Before policy checks and dispatch, the adapter
+omits `None` values for optional arguments declared by each discovered schema;
+required arguments are preserved. This keeps optional defaults such as
+Filesystem `head`/`tail` out of MCP requests when they are unset. Both STDIO
+sessions stay open throughout the request. Tool calls, successes, and errors
+are printed. A ten-call tool limit,
 20-second per-tool timeout, and 90-second model/request timeout bound work.
 
 Application checks restrict model reads to complete `.jsonl` files directly

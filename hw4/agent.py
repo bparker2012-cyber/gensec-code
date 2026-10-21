@@ -218,9 +218,18 @@ def _wrap_tool(server_prefix: str, info: Any, session: ClientSession, guards: To
     """Adapt a discovered MCP tool and its JSON schema to an async LangChain tool."""
     name = info.name
     exposed_name = f"{server_prefix}_{name}"
-    args_schema = _args_model(exposed_name, info.inputSchema)
+    input_schema = info.inputSchema
+    properties = input_schema.get("properties", {})
+    required_properties = set(input_schema.get("required", []))
+    optional_properties = set(properties) - required_properties
+    args_schema = _args_model(exposed_name, input_schema)
 
     async def invoke(**arguments: Any) -> str:
+        arguments = {
+            key: value
+            for key, value in arguments.items()
+            if not (key in optional_properties and value is None)
+        }
         print(f"TOOL CALL {exposed_name}: {json.dumps(arguments, sort_keys=True, ensure_ascii=False)}", flush=True)
         try:
             guards.tool_calls += 1
