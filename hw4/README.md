@@ -26,6 +26,7 @@ limits the Filesystem server to the resolved `data/` and `reports/` directories.
 ```bash
 uv run --locked python agent.py --inventory
 uv run --locked python agent.py --demo
+uv run --locked python agent.py --demo-live
 uv run --locked python agent.py --limitations
 uv run --locked python agent.py --prompt "Analyze auth_demo.jsonl and explain the findings"
 uv run --locked python agent.py
@@ -38,17 +39,23 @@ are adapted. `--demo` performs a real two-server read, analysis, guidance,
 format, and write workflow without an LLM; it writes
 `reports/auth_demo_report.md`. `--limitations` requests a real out-of-scope
 Filesystem read and analyzes the malformed fixture. These modes do not prove
-Gemini behavior. `--prompt` makes one live model request; no flags starts an
-interactive chat. Pass `--report-name a-fresh-name.md` to select a report
-basename. Existing reports are never overwritten; repeated interactive turns
-get deterministic numbered names.
+Gemini behavior. `--demo-live` makes a real Gemini request and requires the
+agent to list allowed directories and sample files, read `auth_demo.jsonl`,
+call all three custom tools, and save the formatted report. It selects the next
+unused `reports/auth_demo_live-NN.md` name and never overwrites. `--prompt`
+makes one live model request; no flags starts an interactive chat. Pass
+`--report-name a-fresh-name.md` to select a report basename. Existing reports
+are never overwritten; repeated interactive turns get deterministic numbered
+names. After a live request, the final answer is printed from `AIMessage.text`.
 
 For Gemini, provide either `GOOGLE_API_KEY` in the process environment, or set
 `GOOGLE_GENAI_USE_VERTEXAI=true` with explicit `GOOGLE_CLOUD_PROJECT` and
 `GOOGLE_CLOUD_LOCATION` to use existing Application Default Credentials. The
 model defaults to `gemini-2.5-flash`; override it with `GOOGLE_MODEL`. The app
-does not load `.env` or inspect other credential files. Copy `.env.example` as
-a reference only; export the values in your shell.
+does not load `.env` or inspect other credential files. `.env.example`
+documents variable names only; export settings in the process environment,
+for example `export GOOGLE_API_KEY="..."` or
+`export GOOGLE_GENAI_USE_VERTEXAI=true` plus project and location values.
 
 ## MCP tools and application guards
 
@@ -114,6 +121,9 @@ threshold event is `critical`. No failures is `informational`. Overall severity
 is the maximum source severity. Critical is a correlation heuristic, not proof
 of compromise.
 
+Reports say `1 IP address` for a single source and `N IP addresses` for zero or
+multiple sources.
+
 ## Synthetic fixtures
 
 - `data/auth_demo.jsonl`: 12 fictional events on 2026-10-21 UTC (9 failed, 3
@@ -132,11 +142,20 @@ not establish identity, intent, or compromise.
 ## Dependency provenance
 
 The published npm dependency is pinned to
-`@modelcontextprotocol/server-filesystem` 2.0.0 with Node `>=24`. The local
-registry metadata in `hw4_assets/reference/filesystem-provenance.json` records
+`@modelcontextprotocol/server-filesystem` 2.0.0 with Node `>=24`. The copied
+[filesystem-provenance.json](filesystem-provenance.json) records
 the official npm registry URL, tarball URL, upstream repository
 `modelcontextprotocol/servers`, and matching advertised and verified SHA-512
 integrity values. Its recorded tarball SHA-256 is
 `894cb9a09b5086d967de850be736aac34d4ae3f096caf34d489844cc2db25438`. The
 provenance review covers package/source identity and tarball integrity; it is
 not a comprehensive security audit.
+
+## Recording and submission preparation
+
+`SCREENCAST_SCRIPT.md` provides a five-minute maximum recording outline in the
+required order. `SUBMISSION_CHECKLIST.md` tracks evidence, pending work, and
+the assignment's unresolved wording. The scoped
+`Log-Sentinel-Z23222679.code-workspace` selects this project's `.venv` and
+readable editor and terminal fonts. The camera recording, YouTube URL, and
+Canvas submission remain pending; no URL or submission is claimed here.

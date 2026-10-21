@@ -189,7 +189,7 @@ def format_incident_report(log_text: str, source_name: str) -> str:
         f"- **Overall severity:** {severity_label}",
         f"- **Records:** {result['total_count']} total; {result['valid_count']} valid; {result['rejected_count']} rejected",
         f"- **Valid events:** {result['failed_logins']} failed logins; {result['successful_logins']} successful logins",
-        f"- **Sources:** {result['source_count']} IP addresses",
+        f"- **Sources:** {result['source_count']} IP address" + ("" if result["source_count"] == 1 else "es"),
         "",
         "## Source findings",
         "",

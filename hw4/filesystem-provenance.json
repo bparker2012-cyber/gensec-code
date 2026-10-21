@@ -1,0 +1,18 @@
+{
+  "name": "@modelcontextprotocol/server-filesystem",
+  "version": "2.0.0",
+  "repository": {
+    "url": "git+https://github.com/modelcontextprotocol/servers.git",
+    "type": "git"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "registry": "https://registry.npmjs.org/@modelcontextprotocol/server-filesystem/2.0.0",
+  "tarball": "https://registry.npmjs.org/@modelcontextprotocol/server-filesystem/-/server-filesystem-2.0.0.tgz",
+  "advertised_integrity": "sha512-JT+bt9wrNIMqhGvOr49vEE9NpbkBxdjQxyLVqh3lYHsB2zGgbzePmDOGrm1glBT1DPR5YvkM6h/NXztWSRhywg==",
+  "verified_integrity": "sha512-JT+bt9wrNIMqhGvOr49vEE9NpbkBxdjQxyLVqh3lYHsB2zGgbzePmDOGrm1glBT1DPR5YvkM6h/NXztWSRhywg==",
+  "tarball_sha256": "894cb9a09b5086d967de850be736aac34d4ae3f096caf34d489844cc2db25438",
+  "source": "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+  "review_scope": "Package/source identity and published tarball integrity; not a comprehensive security audit."
+}
