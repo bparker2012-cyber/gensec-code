@@ -3,6 +3,7 @@ Log Sentinel: explanation and complete demo transcript
 Brehon Parker · FAU ID Z23222679 · Homework 4
 
 Revised after your successful Terminal rehearsal on October 21, 2026.
+Latest correction: Step 1 automatically chooses a new folder for every take.
 This is the plain text edition. It has no Markdown fences. Copy command
 lines only, and press Return after pasting each block.
 
@@ -173,19 +174,19 @@ Existing Google Application Default Credentials must still be valid. The app
 reads exported settings; it does not automatically load .env. Keep credential
 entry off camera. Google Drive access is not needed.
 
-The preparation block stores the new clone's path in HW4_DEMO_DIR. All later
-commands use that same path and explicitly enter its hw4 directory. If you
-open a new Terminal window, repeat preparation before using those commands.
+Step 1 automatically creates a unique empty folder and stores its path in
+HW4_DEMO_DIR. All later commands use that path and explicitly enter its
+hw4 directory. Use both lines in the Step 1 block whenever you begin another
+take. If you open a new Terminal window, repeat preparation and Step 1 there.
 
 Recording layout
 
 - Enable the webcam and microphone. Keep the camera visible initially.
 - Use readable terminal/browser fonts and close unrelated windows.
 - Keep these notes on a second screen or device if available.
-- Your successful practice copy is gensec-code-hw4-demo-take1. The revised
-  recording commands use a new gensec-code-hw4-demo-take2 folder. For another
-  take, change only the folder name in the preparation block to an unused
-  name, such as take3. Preserve the existing folders.
+- Begin each recording attempt with preparation and both lines of Step 1.
+  Step 1 chooses a new folder automatically; there is no take number to edit.
+  Your existing take1 and take2 copies remain available.
 - Rehearse with a stopwatch. The target is 4:50; actual installation and
   model latency vary. Cached downloads are fine. Show the fresh clone and
   actual dependency installation in the recording.
@@ -208,14 +209,12 @@ export GOOGLE_GENAI_USE_VERTEXAI=true
 export GOOGLE_CLOUD_PROJECT=psychic-lens-495123-q6
 export GOOGLE_CLOUD_LOCATION=us-west1
 export GOOGLE_MODEL=gemini-2.5-flash
-export HW4_DEMO_DIR="/Users/brehonparker/Downloads/gensec-code-hw4-demo-take2"
 cd /Users/brehonparker/Downloads
 node --version
 
 Expected: Node prints v24... or newer, then the normal Terminal prompt
-returns. The take2 destination must be unused. For another take, edit the
-HW4_DEMO_DIR line above to an unused name; later commands follow it
-automatically. No clone has happened yet. Begin recording now.
+returns. No clone has happened yet. Begin recording now. Step 1 below chooses
+the folder for this take automatically.
 
 Spoken text: 447 words, about 3:44 at 120 words per minute. The 4:50 plan
 leaves time for screen actions; rehearse the complete sequence to measure it.
@@ -236,17 +235,18 @@ Hi, I’m Brehon Parker, FAU ID Z23222679. This is Log Sentinel, my Homework Fou
 
 COMMANDS — Step 1: clone and enter the project:
 
-git clone --branch codex/hw4-log-sentinel --single-branch https://github.com/bparker2012-cyber/gensec-code.git "${HW4_DEMO_DIR:?Complete preparation first}" && cd "$HW4_DEMO_DIR/hw4"
-pwd
-ls agent.py pyproject.toml
+export HW4_DEMO_DIR="$(mktemp -d /Users/brehonparker/Downloads/gensec-code-hw4-demo-XXXXXX)"
+git clone --branch codex/hw4-log-sentinel --single-branch https://github.com/bparker2012-cyber/gensec-code.git "${HW4_DEMO_DIR:?Run Step 1 first}" && cd "$HW4_DEMO_DIR/hw4" && pwd && ls agent.py pyproject.toml
 
-Wait and check: cloning finishes, the prompt returns, pwd ends with
-gensec-code-hw4-demo-take2/hw4, and both filenames are listed. The clone and
-directory change are joined so cd runs only after a successful clone.
+Wait and check: cloning finishes, the prompt returns, pwd shows a new
+Downloads folder followed by /hw4, and both filenames are listed. The random
+suffix in the folder name changes for each take. Git can clone into the new
+empty folder. The && separators run the directory and file checks only after
+a successful clone. Copy both lines together when beginning another take.
 
 COMMANDS — Step 2: install inside that project:
 
-cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && uv sync --locked && npm ci --ignore-scripts
+cd "${HW4_DEMO_DIR:?Run Step 1 first}/hw4" && uv sync --locked && npm ci --ignore-scripts
 
 Wait and check: the Python and npm installations finish and the %
 prompt returns. The && separators stop this line if an earlier command
@@ -263,11 +263,11 @@ Check before continuing: The clone and both installs succeeded; Node is
 
 COMMANDS — Step 3: start the live demo:
 
-cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && uv run --locked python agent.py --demo-live
+cd "${HW4_DEMO_DIR:?Run Step 1 first}/hw4" && uv run --locked python agent.py --demo-live
 
-This command enters the cloned project before starting Python. If preparation
-was skipped, it stops with Complete preparation first. If the folder cannot
-be entered, the application does not start from Downloads.
+This command enters the cloned project before starting Python. If Step 1 has
+not run in this Terminal window, it stops with Run Step 1 first. If the
+folder cannot be entered, the application does not start from Downloads.
 
 Show: The actual TOOL CALL and TOOL OK lines, then the
 REPORT RECEIPT and final answer. Model wording and timing may vary.
@@ -288,7 +288,7 @@ COMMANDS — Step 4: display the actual report:
 On the first run in a fresh clone, the receipt normally ends in
 auth_demo_live-01.md:
 
-cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && sed -n '1,18p' reports/auth_demo_live-01.md
+cd "${HW4_DEMO_DIR:?Run Step 1 first}/hw4" && sed -n '1,18p' reports/auth_demo_live-01.md
 
 If you have already run this clone, use the actual new numbered filename
 instead. This command shows the real report's heading, totals, and findings
@@ -305,7 +305,7 @@ Its seven events are not seven failures.
 
 COMMANDS — Step 5: demonstrate limitations:
 
-cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && uv run --locked python agent.py --limitations
+cd "${HW4_DEMO_DIR:?Run Step 1 first}/hw4" && uv run --locked python agent.py --limitations
 
 Show: The actual Access denied - path outside allowed directories
 message, then valid_count: 1, rejected_count: 3, and the rejected-line
@@ -448,9 +448,9 @@ results. Explain the design in your own words and credit the tooling accurately.
 |---|---|
 | Terminal shows bquote> | Press Control+C. An opening Markdown fence was copied. Use the plain text guide and copy only command lines. |
 | Terminal shows the pasted block but no output | Press Return to execute it, then wait for the normal prompt. |
-| Complete preparation first | Run the required preparation block in this same Terminal window. |
+| Run Step 1 first | Run preparation and both lines of Step 1 in this same Terminal window. |
 | --locked has no effect outside a project, or Downloads/agent.py is missing | The old command ran from Downloads. Use the revised Step 3, which enters the clone's hw4 folder before running Python. |
-| Clone destination already exists | Choose an unused folder name in the preparation block, then repeat Step 1. Preserve earlier takes. |
+| Clone destination already exists | Repeat both lines of the revised Step 1. Its first line creates a new unique empty folder. |
 | Remote branch not found / push denied | Check the exact published branch URL and course-account authentication. The initial publication has succeeded. |
 | Node is below 24 | Repeat the preparation block at the start of Section 4, then repeat Step 2 in the clone. |
 | Google authentication, quota, or network failure | Resolve model access and repeat the live take. Keep credential setup off camera. |
@@ -462,7 +462,7 @@ results. Explain the design in your own words and credit the tooling accurately.
 
 The offline fallback is:
 
-cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && uv run --locked python agent.py --demo
+cd "${HW4_DEMO_DIR:?Run Step 1 first}/hw4" && uv run --locked python agent.py --demo
 
 It uses the real MCP servers without a model and is useful for troubleshooting
 or practice. It cannot replace the live Gemini portion of the final demo.
