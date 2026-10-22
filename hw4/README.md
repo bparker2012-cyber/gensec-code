@@ -167,5 +167,8 @@ changes before each demo command.
 `SUBMISSION_CHECKLIST.md` tracks evidence, pending work, and
 the assignment's unresolved wording. The scoped
 `Log-Sentinel-Z23222679.code-workspace` selects this project's `.venv` and
-readable editor and terminal fonts. The camera recording, YouTube URL, and
-Canvas submission remain pending; no URL or submission is claimed here.
+readable editor and terminal fonts. The completed narrated demonstration is
+available at [the recording link](https://www.loom.com/share/43b5ac8a47974e6dbaf8fc8b5d17e7ea)
+and retained in `screencast_url.txt`. It runs approximately 4 minutes 30 seconds.
+The assignment specifies YouTube; the supplied recording is hosted on Loom.
+No Canvas submission has been made.

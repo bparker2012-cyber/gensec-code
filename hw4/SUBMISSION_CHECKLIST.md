@@ -32,30 +32,24 @@ Student: Brehon Parker · FAU ID Z23222679 · Homework 4
 - [x] Pointer-free replacement views are retained under `evidence/recaptured/`.
   They show the saved exchanges and unchanged Git source exports. Their
   provenance is documented; original captures remain available.
-- [x] A 19-page review Word document and PDF are prepared locally under
-  `deliverables/`. Every rendered page was reviewed; the instructor template,
-  original screenshot bytes and numbered footers were checked. These local
-  review files are ignored by Git. The recording is still missing; the PDF's
-  earlier publication-pending note will be refreshed with the final video URL.
-- [x] GitHub CLI is authenticated as `bparker2012-cyber`, with credentials in
-  the system keyring and confirmed write access. This repository's Git
-  credential helper uses that login. Branch `codex/hw4-log-sentinel` was pushed
-  to `origin` on 2026-10-21, preserving all eleven existing incremental commits.
-  Remote branch lookup and GitHub's branch API matched local commit `81b814c`.
+- [x] The final 19-page Word document and PDF include the actual recording
+  URL and published branch. All rendered pages were reviewed; the instructor
+  template, original screenshot bytes and numbered footers were preserved.
+  Final PDF: `/Users/brehonparker/Downloads/hw4-Z23222679.pdf`.
+- [x] GitHub CLI is authenticated as `bparker2012-cyber`; the course branch
+  `codex/hw4-log-sentinel` is published with its incremental history intact.
+- [x] The completed narrated recording runs approximately 4:30 and shows the
+  camera at the beginning: [watch recording](https://www.loom.com/share/43b5ac8a47974e6dbaf8fc8b5d17e7ea).
+- [x] The supplied recording URL is stored in `screencast_url.txt` and linked
+  in the final report.
 
-## Pending before final submission
+## User review and submission
 
-- [ ] Student records and reviews the camera screencast using
-  [`SCREENCAST_SCRIPT.md`](SCREENCAST_SCRIPT.md), with planned duration under
-  five minutes.
 - [ ] Student reviews the final submission materials.
-- [ ] After the recording, update the review PDF with its actual YouTube URL
-  and the verified publication status.
-- [ ] After recording and review, put the actual YouTube URL in
-  [`screencast_url.txt`](screencast_url.txt). It remains empty; no URL is
-  fabricated.
-- [ ] Submit the approved materials to Canvas. No Canvas submission has been
-  made.
+- The assignment specifies an unlisted YouTube recording. The supplied video
+  is hosted on Loom; this hosting difference remains for the student's review.
+- [ ] Student submits approved materials to Canvas. No Canvas submission has
+  been made, in accordance with the student's instruction.
 
 ## GitHub source and commit sequence
 

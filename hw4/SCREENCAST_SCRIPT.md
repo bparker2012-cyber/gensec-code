@@ -41,10 +41,11 @@ eleven existing incremental Homework 4 commits were preserved. The earlier
 authentication failure is resolved; the clone and GitHub portions below now
 have published source to use.
 
-The review PDF is prepared; its earlier publication-pending note will be
-refreshed with the final recording details. The student camera recording,
-reviewed unlisted YouTube URL, and final URL updates remain pending. This is
-not a guarantee of a grade. Nothing has been submitted to Canvas.
+The narrated demonstration is complete and linked in the report and
+`screencast_url.txt`: [watch the recording](https://www.loom.com/share/43b5ac8a47974e6dbaf8fc8b5d17e7ea).
+It opens without a Loom sign-in, runs approximately 4 minutes 30 seconds, and
+shows the camera at the beginning. The assignment specifies YouTube; the
+provided recording is hosted on Loom. Nothing has been submitted to Canvas.
 
 **Recording requirement:** camera on initially; fresh clone, then running
 capabilities and limitations, then source/commit walkthrough; at most five
