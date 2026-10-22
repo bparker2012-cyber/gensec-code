@@ -160,6 +160,9 @@ in the existing course fork.
 [`SCREENCAST_SCRIPT.md`](SCREENCAST_SCRIPT.md) explains the project in plain
 English and provides a complete timed transcript, exact commands, screen cues,
 expected results, and rehearsal troubleshooting in the required order.
+The companion [`SCREENCAST_SCRIPT.txt`](SCREENCAST_SCRIPT.txt) has no Markdown
+fences. The revised steps include one required preparation block, a fresh
+`take2` folder, and explicit project-directory changes before each demo command.
 `SUBMISSION_CHECKLIST.md` tracks evidence, pending work, and
 the assignment's unresolved wording. The scoped
 `Log-Sentinel-Z23222679.code-workspace` selects this project's `.venv` and

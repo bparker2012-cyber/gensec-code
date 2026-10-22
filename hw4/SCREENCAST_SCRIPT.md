@@ -2,9 +2,19 @@
 
 **Brehon Parker · FAU ID Z23222679 · Homework 4**
 
+**Revised after your successful Terminal rehearsal on October 21, 2026.**
+For copying commands from a file, use the companion
+[`SCREENCAST_SCRIPT.txt`](SCREENCAST_SCRIPT.txt). It has no Markdown fences.
+
 Read Sections 1–3 first. Only the quoted **Say** paragraphs in Section 4 are
 the recording transcript. Commands and screen directions are actions, not
 words to read aloud.
+
+**Terminal copying:** copy the command lines only. Leave out Markdown opening
+and closing fences, the language label, the `%` prompt, headings, and the words
+you will say. Press **Return** after pasting. Wait for the normal `%` prompt
+before proceeding to the next block. If you see `bquote>`, press **Control+C**
+to cancel the unfinished input, then copy the command lines again.
 
 ## 1. Are we ready?
 
@@ -15,6 +25,13 @@ required tool operations, a saved report, exact-byte verification, and exit
 code 0. It took 22.825 seconds. The separate limitations demonstration also
 recorded the expected path denial and malformed-input findings. These are
 actual earlier runs, not a promise that the next network request will succeed.
+
+Your subsequent rehearsal in the Downloads clone also completed both the live
+workflow and limitations demonstration. The saved report had the same 1,506
+bytes and fingerprint, and the pasted output included the final answer and
+returned prompt. The malformed fixture produced one valid and three rejected
+records. The revised steps below address the copied formatting and working
+directory errors encountered before that successful run.
 
 On 2026-10-21, GitHub CLI authenticated as `bparker2012-cyber`, GitHub confirmed
 write access, and branch `codex/hw4-log-sentinel` was successfully pushed to
@@ -133,17 +150,58 @@ incident response.
 
 ## 3. Prepare before pressing Record
 
-### Publication and setup
+### Open these browser pages
 
-1. Open the published `codex/hw4-log-sentinel` branch and the commit pages
-   listed in Section 5. Course-account Git authentication and the initial
-   push are complete.
-2. Use Python 3.13, `uv`, npm, and **Node 24 or newer**.
-3. Configure the model environment in the **same terminal** used for the
-   recording. The app reads exported environment variables; it does not
-   automatically load `.env`.
-4. Keep credentials off camera. The prior successful run used existing
-   Google Application Default Credentials with these non-secret settings:
+Course-account Git authentication and publication are complete. Open these
+links before recording so you can switch between tabs during the walkthrough:
+
+1. [Published project folder](https://github.com/bparker2012-cyber/gensec-code/tree/codex/hw4-log-sentinel/hw4)
+2. [Commit history](https://github.com/bparker2012-cyber/gensec-code/commits/codex/hw4-log-sentinel/)
+3. [Custom-tools commit](https://github.com/bparker2012-cyber/gensec-code/commit/417d493af9382af1c035eb17662e83aebb30e2b7)
+4. [Current agent source](https://github.com/bparker2012-cyber/gensec-code/blob/codex/hw4-log-sentinel/hw4/agent.py)
+5. [Optional-argument fix](https://github.com/bparker2012-cyber/gensec-code/commit/44fc33fa7a5c3e45b81b002cae3f3434148c056e)
+6. [Filesystem package provenance](https://github.com/bparker2012-cyber/gensec-code/blob/codex/hw4-log-sentinel/hw4/filesystem-provenance.json)
+
+Section 5 explains what to point to on each page.
+
+### Use one Terminal window
+
+Use the **same Terminal window** for preparation and all recording commands.
+The required preparation block is immediately below, before the timed script.
+It selects Node 24 and the Gemini settings that worked in your rehearsal.
+Existing Google Application Default Credentials must still be valid. The app
+reads exported settings; it does not automatically load `.env`. Keep credential
+entry off camera. Google Drive access is not needed.
+
+The preparation block stores the new clone's path in `HW4_DEMO_DIR`. All later
+commands use that same path and explicitly enter its `hw4` directory. If you
+open a new Terminal window, repeat preparation before using those commands.
+
+### Recording layout
+
+- Enable the webcam and microphone. Keep the camera visible initially.
+- Use readable terminal/browser fonts and close unrelated windows.
+- Keep these notes on a second screen or device if available.
+- Your successful practice copy is `gensec-code-hw4-demo-take1`. The revised
+  recording commands use a new `gensec-code-hw4-demo-take2` folder. For another
+  take, change only the folder name in the preparation block to an unused
+  name, such as `take3`. Preserve the existing folders.
+- Rehearse with a stopwatch. The target is **4:50**; actual installation and
+  model latency vary. Cached downloads are fine. Show the fresh clone and
+  actual dependency installation in the recording.
+- Read only the **Say** paragraphs. Run each **COMMANDS** block in order and
+  wait for it to finish. If a command fails, stop that take and resolve the
+  error before proceeding.
+
+## 4. Complete speaking transcript — target 4:50
+
+### REQUIRED PREPARATION — before starting the recording timer
+
+Run this block in the Terminal window you will use for the whole demo.
+Copy only the command lines between the formatting fences. In the plain text
+version, there are no fences to remove.
+
+**COMMANDS — preparation:**
 
 ```bash
 export PATH="/Users/brehonparker/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH"
@@ -152,31 +210,15 @@ export GOOGLE_GENAI_USE_VERTEXAI=true
 export GOOGLE_CLOUD_PROJECT=psychic-lens-495123-q6
 export GOOGLE_CLOUD_LOCATION=us-west1
 export GOOGLE_MODEL=gemini-2.5-flash
+export HW4_DEMO_DIR="/Users/brehonparker/Downloads/gensec-code-hw4-demo-take2"
 cd /Users/brehonparker/Downloads
+node --version
 ```
 
-These paths and project settings are specific to this Mac. The underlying
-Google credentials must still be valid. Google Drive access is not needed.
-
-### Recording layout and rehearsal
-
-- Have the webcam and microphone enabled. Keep the camera visible at least
-  during the introduction.
-- Use readable terminal/browser fonts and close unrelated windows.
-- Pre-open the published GitHub pages listed in Section 5.
-- Keep these notes on a second screen or device if available.
-- Use a new clone destination for each take. The transcript uses
-  `gensec-code-hw4-demo-take1`; change it to `take2` for the next take.
-  Preserve previous work rather than deleting folders to reuse a name.
-- Rehearse the full sequence with a stopwatch. The target is **4:50**.
-  Installation and model latency vary. Cached dependency downloads are fine;
-  still perform the fresh clone and actual installation shown below.
-- Read only the quoted paragraphs. Narrate while installation and the live
-  request run; pause when you need to inspect results.
-- If the live run fails, stop that take, resolve the failure, and record again.
-  A saved earlier success cannot replace the current live demonstration.
-
-## 4. Complete speaking transcript — target 4:50
+**Expected:** Node prints `v24...` or newer, then the normal Terminal prompt
+returns. The `take2` destination must be unused. For another take, edit the
+`HW4_DEMO_DIR` line above to an unused name; later commands follow it
+automatically. No clone has happened yet. Begin recording now.
 
 **Spoken text:** 447 words, about 3:44 at 120 words per minute. The 4:50 plan
 leaves time for screen actions; rehearse the complete sequence to measure it.
@@ -195,17 +237,27 @@ report. These words assume the intended successful run.
 
 ### 0:20–1:05 — Fresh clone and locked installation
 
-**Do:** In the prepared terminal, run these commands. Do not continue past a
-failed command.
+**COMMANDS — Step 1: clone and enter the project:**
 
 ```bash
-git clone --branch codex/hw4-log-sentinel --single-branch \
-  https://github.com/bparker2012-cyber/gensec-code.git gensec-code-hw4-demo-take1
-cd gensec-code-hw4-demo-take1/hw4
-node --version
-uv sync --locked
-npm ci --ignore-scripts
+git clone --branch codex/hw4-log-sentinel --single-branch https://github.com/bparker2012-cyber/gensec-code.git "${HW4_DEMO_DIR:?Complete preparation first}" && cd "$HW4_DEMO_DIR/hw4"
+pwd
+ls agent.py pyproject.toml
 ```
+
+**Wait and check:** cloning finishes, the prompt returns, `pwd` ends with
+`gensec-code-hw4-demo-take2/hw4`, and both filenames are listed. The clone and
+directory change are joined so `cd` runs only after a successful clone.
+
+**COMMANDS — Step 2: install inside that project:**
+
+```bash
+cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && uv sync --locked && npm ci --ignore-scripts
+```
+
+**Wait and check:** the Python and npm installations finish and the `%`
+prompt returns. The `&&` separators stop this line if an earlier command
+fails. The Python environment must use 3.13; your rehearsal used 3.13.14.
 
 **Say while the commands run:**
 
@@ -216,11 +268,15 @@ npm ci --ignore-scripts
 
 ### 1:05–1:45 — Live model and both MCP servers
 
-**Do:**
+**COMMANDS — Step 3: start the live demo:**
 
 ```bash
-uv run --locked python agent.py --demo-live
+cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && uv run --locked python agent.py --demo-live
 ```
+
+This command enters the cloned project before starting Python. If preparation
+was skipped, it stops with `Complete preparation first`. If the folder cannot
+be entered, the application does not start from Downloads.
 
 **Show:** The actual `TOOL CALL` and `TOOL OK` lines, then the
 `REPORT RECEIPT` and final answer. Model wording and timing may vary.
@@ -236,11 +292,13 @@ later fails.
 
 ### 1:45–2:30 — Read the actual report and explain critical severity
 
-**Do:** Open the exact report path printed in the receipt. On the first run
-in a fresh clone, it normally ends in `auth_demo_live-01.md`:
+**COMMANDS — Step 4: display the actual report:**
+
+On the first run in a fresh clone, the receipt normally ends in
+`auth_demo_live-01.md`:
 
 ```bash
-sed -n '1,18p' reports/auth_demo_live-01.md
+cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && sed -n '1,18p' reports/auth_demo_live-01.md
 ```
 
 If you have already run this clone, use the actual new numbered filename
@@ -256,10 +314,10 @@ Its seven events are not seven failures.
 
 ### 2:30–3:15 — Demonstrate boundaries and malformed input
 
-**Do:**
+**COMMANDS — Step 5: demonstrate limitations:**
 
 ```bash
-uv run --locked python agent.py --limitations
+cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && uv run --locked python agent.py --limitations
 ```
 
 **Show:** The actual `Access denied - path outside allowed directories`
@@ -401,8 +459,13 @@ results. Explain the design in your own words and credit the tooling accurately.
 
 | Symptom | What to do |
 |---|---|
+| Terminal shows `bquote>` | Press Control+C. An opening Markdown fence was copied. Use the plain text guide and copy only command lines. |
+| Terminal shows the pasted block but no output | Press Return to execute it, then wait for the normal prompt. |
+| `Complete preparation first` | Run the required preparation block in this same Terminal window. |
+| `--locked` has no effect outside a project, or `Downloads/agent.py` is missing | The old command ran from Downloads. Use the revised Step 3, which enters the clone's `hw4` folder before running Python. |
+| Clone destination already exists | Choose an unused folder name in the preparation block, then repeat Step 1. Preserve earlier takes. |
 | Remote branch not found / push denied | Check the exact published branch URL and course-account authentication. The initial publication has succeeded. |
-| Node is below 24 | Use the Node 24 path in Section 3 and repeat the install in the fresh clone. |
+| Node is below 24 | Repeat the preparation block at the start of Section 4, then repeat Step 2 in the clone. |
 | Google authentication, quota, or network failure | Resolve model access and repeat the live take. Keep credential setup off camera. |
 | Live request ends without a verified report | Treat it as a failed take; inspect the actual error rather than reading the success paragraph. |
 | Report number differs | Open the exact path printed in the current receipt. `--demo-live` chooses its own unused numbered name. |
@@ -413,7 +476,7 @@ results. Explain the design in your own words and credit the tooling accurately.
 The offline fallback is:
 
 ```bash
-uv run --locked python agent.py --demo
+cd "${HW4_DEMO_DIR:?Complete preparation first}/hw4" && uv run --locked python agent.py --demo
 ```
 
 It uses the real MCP servers without a model and is useful for troubleshooting
