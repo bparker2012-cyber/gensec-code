@@ -1,0 +1,5 @@
+TOOL search_policy: [incident_policy.md: Severity 1]
+Severity 1
+Confirmed data exfiltration or ransomware is Severity 1. Notify the incident commander immediately and the privacy officer within 30 minutes. Isolate affected hosts while preserving evidence. Record UTC timestamps and maintain chain of custody.
+
+For Severity 1 incidents, the incident commander must be notified immediately and the privacy officer within 30 minutes, according to `incident_policy.md: Severity 1`.

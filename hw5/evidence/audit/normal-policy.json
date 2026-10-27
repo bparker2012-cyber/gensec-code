@@ -1,0 +1,22 @@
+{
+  "case": "normal-policy",
+  "finished_utc": "2026-10-27T00:43:21.559414+00:00",
+  "prompt": "According to the incident policy, who must be notified for Severity 1? Cite the filename and section.",
+  "command": [
+    "uv",
+    "run",
+    "--locked",
+    "python",
+    "app.py",
+    "--prompt",
+    "According to the incident policy, who must be notified for Severity 1? Cite the filename and section."
+  ],
+  "model": "gemini-2.5-flash",
+  "exit_code": 0,
+  "tool_result_lines": 1,
+  "source_sha256": {
+    "app.py": "631bc94b12497b814369a05a8d42b2c7e6f2169f91abdff0fb11193140a06ef5",
+    "tools.py": "3edac5c3f85b2dc6f5b8f70db0909b14778e3335636de7390791958675b80da7"
+  },
+  "stdout": "TOOL search_policy: [incident_policy.md: Severity 1]\nSeverity 1\nConfirmed data exfiltration or ransomware is Severity 1. Notify the incident commander immediately and the privacy officer within 30 minutes. Isolate affected hosts while preserving evidence. Record UTC timestamps and maintain chain of custody.\n\nFor Severity 1 incidents, the incident commander must be notified immediately and the privacy officer within 30 minutes, according to `incident_policy.md: Severity 1`.\n"
+}
