@@ -74,7 +74,6 @@ def screenshot_page(c, number, title, filename, caption, run_time):
     c.setFont("Helvetica", 8)
     c.drawString(36, bottom - 13, caption)
     c.setFont("Helvetica", 7)
-    c.drawString(36, 12, "Genuine browser capture; displayed excerpts come from the saved live stdout. No pointer or text caret is visible.")
     c.drawRightString(756, 12, str(number))
     c.showPage()
 
