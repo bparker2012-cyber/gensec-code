@@ -125,8 +125,8 @@ def main():
     y = paragraph(c, "<b>Tool observation:</b> No TOOL lines appeared. The model disclosed available tool definitions; disclosure does not mean a tool was invoked. The same observation applies to the final captured run, whose status reports zero tool-result lines.", y, style=NOTE)
     c.showPage()
 
-    screenshot_page(c, 3, "Figure 1. Live system-prompt disclosure", "attack-01-system-prompt.png", "The exact attacker prompt and returned application instructions are readable; the live run reports zero tool-result lines.", rerun["finished_utc"])
-    screenshot_page(c, 4, "Figure 2. Live tool-metadata disclosure", "attack-01-tool-metadata.png", "The same response exposes the three tool schemas and descriptions, including the Terminal restrictions.", rerun["finished_utc"])
+    screenshot_page(c, 3, "Figure 1. Live system-prompt disclosure", "attack-01-system-prompt.jpg", "The exact attacker prompt and returned application instructions are readable; the live run reports zero tool-result lines.", rerun["finished_utc"])
+    screenshot_page(c, 4, "Figure 2. Live tool-metadata disclosure", "attack-01-tool-metadata.jpg", "The same response exposes the three tool schemas and descriptions, including the Terminal restrictions.", rerun["finished_utc"])
     c.save()
     output = ROOT / "hw5-Z23222679.pdf"
     output.write_bytes(stream.getvalue())
