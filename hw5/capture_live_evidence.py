@@ -1,14 +1,18 @@
 """Local screenshot viewer: executes the unmodified HW3 CLI and shows its stdout."""
 
+import argparse
 import hashlib
 import html
 import json
 import os
+import re
+import shutil
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 import subprocess
 from urllib.parse import parse_qs, urlparse
+from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parent
 TARGET = ROOT.parent / "hw3"
@@ -21,6 +25,48 @@ COMMAND = ["uv", "run", "--locked", "python", "app.py", "--prompt", PROMPT]
 STATE = None
 
 
+def source_hashes():
+    return {name: hashlib.sha256((TARGET / name).read_bytes()).hexdigest()
+            for name in ("app.py", "tools.py")}
+
+
+def run_attack():
+    """Make one real request against the fixed target; return the actual stdout."""
+    if shutil.which("uv") is None:
+        raise RuntimeError("uv is unavailable; complete the setup before recording.")
+    before = source_hashes()
+    environment = os.environ.copy()
+    environment["GOOGLE_MODEL"] = environment.get("GOOGLE_MODEL") or "gemini-2.5-flash"
+    completed = subprocess.run(COMMAND, cwd=TARGET, env=environment,
+                               capture_output=True, text=True, timeout=120, check=False)
+    if completed.returncode:
+        raise RuntimeError("Live CLI request failed; resolve model access off screen.")
+    return {
+        "finished_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "prompt": PROMPT,
+        "command": COMMAND,
+        "target": "hw3/app.py",
+        "model": environment["GOOGLE_MODEL"],
+        "exit_code": completed.returncode,
+        "tool_result_lines": sum(line.startswith("TOOL ") for line in completed.stdout.splitlines()),
+        "source_sha256": before,
+        "source_unchanged": before == source_hashes(),
+        "stdout": completed.stdout,
+    }
+
+
+def save_run(record, evidence_root=None):
+    """Archive each run separately; never replace the report's reference evidence."""
+    evidence_root = Path(evidence_root) if evidence_root else ROOT / "evidence" / "runs"
+    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ-") + uuid4().hex[:8]
+    folder = evidence_root / run_id
+    folder.mkdir(parents=True, exist_ok=False)
+    stored = dict(record, run_id=run_id)
+    (folder / "stdout.txt").write_text(stored["stdout"], encoding="utf-8")
+    (folder / "run.json").write_text(json.dumps(stored, indent=2) + "\n", encoding="utf-8")
+    return stored
+
+
 def render(view="instructions"):
     esc = html.escape
     result = "<p>Run the live request to capture a response. No saved transcript is loaded.</p>"
@@ -31,10 +77,10 @@ def render(view="instructions"):
             result = "<h2>Returned system instructions</h2><p>Verbatim excerpt from this run's CLI stdout.</p><pre>" + esc(output[marker:]) + "</pre>"
         elif view == "tools" and all("def " + name + "(" in output for name in ("search_policy", "triage_incident", "Terminal")):
             sections = []
-            names = ("search_policy", "triage_incident", "Terminal")
-            for i, name in enumerate(names):
-                start = output.index("def " + name + "(")
-                end = output.index("def " + names[i + 1] + "(") if i < 2 else output.find("```", start)
+            definitions = list(re.finditer(r"(?m)^def (search_policy|triage_incident|Terminal)\(", output))
+            for i, definition in enumerate(definitions):
+                name, start = definition.group(1), definition.start()
+                end = definitions[i + 1].start() if i + 1 < len(definitions) else output.find("```", start)
                 if end < 0:
                     end = marker if marker >= 0 else len(output)
                 sections.append("<section><h3>" + name + "</h3><pre>" + esc(output[start:end].rstrip()) + "</pre></section>")
@@ -42,11 +88,14 @@ def render(view="instructions"):
         else:
             result = "<h2>Complete CLI stdout</h2><pre>" + esc(output) + "</pre>"
         result = "<div class='status'>LIVE RUN COMPLETED &nbsp; | &nbsp; " + esc(STATE["finished_utc"]) + " &nbsp; | &nbsp; exit code " + str(STATE["exit_code"]) + " &nbsp; | &nbsp; TOOL result lines: " + str(STATE["tool_result_lines"]) + "</div><nav><a href='/?view=instructions'>System instructions</a><a href='/?view=tools'>Tool metadata</a><a href='/?view=raw'>Full stdout</a></nav>" + result
+        if STATE.get("run_id"):
+            result += "<p>Saved run: <code>hw5/evidence/runs/" + esc(STATE["run_id"]) + "/</code></p>"
+    model_label = esc(STATE["model"] if STATE else (os.environ.get("GOOGLE_MODEL") or "gemini-2.5-flash"))
     return ("""<!doctype html><html lang='en'><meta charset='utf-8'><title>Incident Compass - live evidence</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#edf2f6;color:#132b40;font:18px/1.4 Arial,sans-serif;cursor:none}
 main{max-width:1240px;margin:0 auto;padding:24px}header{border-bottom:3px solid #237b8b;padding-bottom:12px}h1{font-size:30px;margin:0 0 4px}header p{margin:0;font-size:17px}h2{font-size:23px;margin:16px 0 3px}h3{font-size:19px;margin:0 0 12px;color:#126476}p{margin:6px 0 12px}.prompt{background:#fff;border:1px solid #b8c7d3;padding:14px 18px;margin:14px 0}.prompt p{font-size:18px;margin:4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:18px/1.4 Menlo,Consolas,monospace;background:#fff;padding:16px;border:1px solid #b8c7d3;margin:8px 0}.status{background:#dceee8;padding:9px 12px;font-size:16px;font-weight:bold}nav{display:flex;gap:22px;padding-top:12px}a{color:#095f78;cursor:none}button{font:inherit;padding:8px 14px;cursor:none}.tools{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.tools section{min-width:0}.tools pre{font-size:16px;line-height:1.35;padding:12px}footer{font-size:14px;color:#455a6a;margin-top:12px}
-</style><main><header><h1>Incident Compass | Live attack evidence</h1><p>Local capture viewer running the original <b>hw3/app.py</b> CLI | Gemini 2.5 Flash via Vertex AI</p></header>
+</style><main><header><h1>Incident Compass | Live attack evidence</h1><p>Local capture viewer running the original <b>hw3/app.py</b> CLI | Model: """ + model_label + """</p></header>
 <div class='prompt'><b>Attacker prompt</b><p>""" + esc(PROMPT) + "</p></div>" + result + "<form method='post' action='/run'><button type='submit'>Run live attack</button></form><footer>This viewer displays actual CLI output. The target application's source is unchanged. No credentials are displayed.</footer></main></html>").encode()
 
 
@@ -55,6 +104,7 @@ class Handler(BaseHTTPRequestHandler):
         view = parse_qs(urlparse(self.path).query).get("view", ["instructions"])[0]
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(render(view))
 
@@ -63,26 +113,14 @@ class Handler(BaseHTTPRequestHandler):
         if self.path != "/run":
             self.send_error(404)
             return
+        STATE = None
         try:
-            completed = subprocess.run(COMMAND, cwd=TARGET, capture_output=True, text=True, timeout=120, check=False)
-            if completed.returncode:
-                self.send_error(502, "Live CLI request failed; resolve model access off screen.")
-                return
-            STATE = {
-                "finished_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                "prompt": PROMPT,
-                "command": COMMAND,
-                "target": "hw3/app.py",
-                "model": os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"),
-                "exit_code": completed.returncode,
-                "tool_result_lines": sum(line.startswith("TOOL ") for line in completed.stdout.splitlines()),
-                "source_sha256": {name: hashlib.sha256((TARGET / name).read_bytes()).hexdigest() for name in ("app.py", "tools.py")},
-                "stdout": completed.stdout,
-            }
-            (ROOT / "evidence" / "attack-01-rerun.stdout.txt").write_text(completed.stdout)
-            (ROOT / "evidence" / "attack-01-rerun.json").write_text(json.dumps(STATE, indent=2) + "\n")
+            STATE = save_run(run_attack())
         except subprocess.TimeoutExpired:
             self.send_error(504, "Live CLI request timed out.")
+            return
+        except (OSError, RuntimeError):
+            self.send_error(502, "Live request or evidence save failed; check setup off camera.")
             return
         self.send_response(303)
         self.send_header("Location", "/?view=instructions")
@@ -90,5 +128,8 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    print("Local evidence viewer: http://127.0.0.1:8765", flush=True)
-    HTTPServer(("127.0.0.1", 8765), Handler).serve_forever()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--port", type=int, default=8765)
+    args = parser.parse_args()
+    print(f"Local evidence viewer: http://127.0.0.1:{args.port}", flush=True)
+    HTTPServer(("127.0.0.1", args.port), Handler).serve_forever()
