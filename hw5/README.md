@@ -25,7 +25,7 @@ The observed impact is disclosure of model instructions and tool metadata. The t
 | `evidence/audit/` | Normal-policy baseline, refused severity request, and an additional capture |
 | `evidence/runs/` | Separate archives for subsequent live requests |
 | `tests/test_capture.py` | Capture-tool regression checks |
-| `screencast_url.txt` | Recording URL; pending upload |
+| `screencast_url.txt` | Recording URL |
 
 ## Run the assessment
 
@@ -65,7 +65,11 @@ The recorded checks passed five capture-tool tests and fifteen target tests. The
 
 ## Report and recording
 
-The report and supporting evidence are included here. The recording URL will be added after upload. Once `screencast_url.txt` contains the final URL, rebuild the PDF from the repository root:
+The report and supporting evidence are included here.
+
+[Watch the recorded demonstration](https://www.loom.com/share/acd46d55beda4995a36f3493ce81f5c1). The recording URL is also included in `screencast_url.txt` and the PDF.
+
+To rebuild the PDF from the repository root:
 
 ```sh
 uv run --no-project --with reportlab python hw5/build_report.py
