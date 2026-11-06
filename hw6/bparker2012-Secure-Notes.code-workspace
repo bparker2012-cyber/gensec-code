@@ -2,7 +2,7 @@
   "folders": [{ "path": "." }],
   "settings": {
     "window.title": "${activeEditorShort}${separator}bparker2012 Secure Notes Z23222679",
-    "editor.fontSize": 18,
+    "editor.fontSize": 22,
     "editor.wordWrap": "on",
     "editor.minimap.enabled": false,
     "terminal.integrated.fontSize": 18,

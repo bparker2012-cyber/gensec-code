@@ -1,0 +1,18 @@
+Secure Notes | Brehon Parker | bparker2012@fau.edu | Z23222679
+In-process Flask test-client checks; temporary synthetic data only.
+
+PASS  Register alice_demo: 302
+PASS  Register bob_demo: 302
+PASS  Owner creates a note: 302
+PASS  Owner reads the note: 200
+PASS  Stored HTML is escaped: True
+PASS  Another account cannot read it: 404
+PASS  Another account cannot delete it: 404
+PASS  Missing CSRF token is rejected: 400
+PASS  Signed-out cookie cannot be replayed: 302
+PASS  SQL injection cannot bypass login: 401
+PASS  Password uses a salted scrypt hash: True
+
+LIMITATIONS: plaintext notes at rest; loopback HTTP; no MFA/recovery;
+single-machine classroom server; these checks are not a complete audit.
+Temporary demo database removed. Your normal notebook was not changed.

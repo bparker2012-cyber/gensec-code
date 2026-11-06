@@ -1,0 +1,23 @@
+bparker2012 | Z23222679 | Prepared standalone replay prompt
+Not an additional historical user message.
+
+PROMPT 1 — BUILD THE APPLICATION
+Build a small Python 3.13 Flask application named Secure Notes inside hw6.
+Use app.py with a create_app factory, Jinja templates, local CSS, and SQLite.
+Implement registration, login, logout, and create/read/edit/delete private notes.
+Use a clean, readable interface with a sidebar, note list, editor, clear errors,
+and a footer showing Brehon Parker, bparker2012@fau.edu, and Z23222679.
+Keep the app usable without external APIs, JavaScript, or internet services.
+Treat every form field, URL, and cookie as adversarial. Use Werkzeug scrypt
+password hashing, parameterized SQL, owner-scoped queries on every note route,
+Jinja autoescaping, per-session CSRF tokens on every POST including auth and
+logout, session clearing at auth transitions, bounded input sizes, a persistent
+random signing key outside Git, HttpOnly/SameSite cookies, no-cache responses,
+security headers, trusted loopback hosts, and debug mode off. Add a bounded
+SQLite-backed login/registration rate limit. Store only an opaque session token
+in the signed cookie and its hash server-side so logout revokes captured cookies.
+Run on 127.0.0.1:5006 by default, with optional Secure cookies for HTTPS.
+Document that note content is plaintext at rest, local HTTP is a classroom mode,
+and this is not a production deployment. Pin dependencies with pyproject.toml
+and uv.lock, and ignore databases, signing keys, virtual environments, and caches.
+Keep the scope small enough to explain in a five-minute screencast.

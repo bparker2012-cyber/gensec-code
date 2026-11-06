@@ -1,0 +1,15 @@
+bparker2012 | Z23222679 | Prepared standalone replay prompt
+Not an additional historical user message.
+
+PROMPT 2 — VERIFY SECURITY AND PREPARE THE DEMONSTRATION
+Exercise the real application and add meaningful automated tests for private
+note isolation, anonymous access, CSRF rejection, stored XSS escaping, SQL
+injection attempts, password hashing, revoked sessions, malformed and oversized
+input, security headers, and rate limiting. Fix any failures without weakening
+the controls. Add a reproducible --demo security-check command using temporary
+data and Flask's test client, clearly labeled as in-process checks. Do not add
+an HTTP test endpoint. Supply setup/run/test instructions, a security overview
+with honest limitations, and a short recording script that follows the required
+order: git clone, prompt walkthrough, live regeneration in a fresh directory,
+security explanation, functionality and limitations. Preserve real evidence;
+never fabricate a model response, screenshot, recording URL, or submission.

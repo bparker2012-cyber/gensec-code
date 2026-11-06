@@ -1,0 +1,114 @@
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=yes">
+<meta name="theme-color" content="#4F7DC9">
+<meta charset="UTF-8">
+<title>06.3: Homework</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="/gensec-web/scripts/codelab-elements.css">
+<style>
+.success{color:#1e8e3e}.error{color:red} </style>
+</head>
+<body>
+<google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+<google-codelab codelab-gaid="" id="G06.3_hw_wk6" title="06.3: Homework" environment="web" feedback-link="https://docs.google.com/document/d/1OngfDmhjV2ZsOhxRHNpnv1Attk3cx-gJUZU_nS0e9V0">
+<google-codelab-step label="Code generation with a Coding Agent" duration="120">
+<p>Within your course repository, create a directory for the homework, then commit and push to your remote repository.</p>
+<pre>cd &lt;path_to_repo&gt;
+mkdir hw6
+touch hw6/app.py
+touch hw6/prompts.txt
+touch hw6/screencast_url.txt
+git add hw6
+git commit -m &#34;initial commit&#34;
+git push</pre>
+<p>In this homework, you will utilize any coding agent (Aider, AntiGravity, Codex, Cursor, Claude Code, Copilot, OpenCode) 
+    to produce a secure application of your choice from only prompts. You will have to identify the agent selected.
+    The goal of the exercise is to get practice 
+    producing a functional Python application using as little effort as possible via a coding agent. Some 
+    example applications include generating:</p>
+<ul>
+<li>Code for an entire LLM application</li>
+<li>A Python web application for querying a RAG application drawn from security sources</li>
+<li>An OAuth-enabled web application</li>
+<li>A network traffic analyzer and visualizer</li>
+<li>A web-based steganography tool</li>
+<li>A re-implementation of functions found in common security tools such as <a href="https://nmap.org/" target="_blank">nmap</a>, <a href="https://github.com/vanhauser-thc/thc-hydra" target="_blank">hydra</a>, <a href="https://wfuzz.readthedocs.io/en/latest/" target="_blank">wfuzz</a>, <a href="https://github.com/commixproject/commix" target="_blank">commix</a>, or <a href="https://github.com/s0md3v/XSStrike" target="_blank">xsstrike</a>.</li>
+<li>A web site or code <a href="https://gist.github.com/moyix/02029770cb4f7afc2ae91a01b3929118" target="_blank">fuzzer</a> for testing web sites or programs for errors</li>
+<li>A macro for an Excel spreadsheet that runs an executable when opened that exfiltrates data on a machine</li>
+<li>A DLL that launches <code>cmd.exe</code> when loaded using RunDLL to create a backdoor</li>
+</ul>
+<p>As the application is developed, keep track of the main prompts utilized to generate the code of your 
+    application in file <code>prompts.txt</code>, in order to replay its recreation for your screencast. 
+    Take screenshots of the prompts and the agent's replies, and copy them to the Homework Word document.
+    Upon completion of the application, push the resulting code and prompts file 
+    to your repository before class.</p>
+</google-codelab-step>
+
+<google-codelab-step label="Screencast" duration="30">
+<!--<h3 is-upgraded>Screencast</h3>-->
+<p>Upon completing your application, you will replay the development and demonstration of your application 
+    from scratch using the prompts in <code>prompt.txt</code> via a narrated screencast of no longer than 5 minutes. 
+    Ensure that the video camera is turned on initially in your screencast. The screencast should follow the 
+    order given below: </p>
+<ul>
+<li>Check out the homework from your course repository using <code>git clone</code>.</li>
+<li>Perform an overview walk-through of the prompts in <code>prompts.txt</code>.</li>
+<li>Perform a replay of the prompts in <code>prompts.txt</code> to generate your application.</li>
+<li>Cover the security aspects of your application.</li>
+<li>Demonstrate the application produced showing its capabilities as well as its limitations.</li>
+</ul>
+
+<p>Upload your screencast video file to your Youtube account. Ensure that it is unlisted and that the video 
+    URL is accessible without an account. Use your browser in incognito mode to check the video URL. 
+    Add the recording URL to the homework PDF file.
+    Push the changes that include the updated URL 
+    to your repository before class.
+</p>
+</google-codelab-step>
+
+<google-codelab-step label="Submission" duration="20">
+<p>Follow these instructions to submit your homework:
+<ol>
+    <li>Ensure the latest homework code is pushed to your course repository on Github.</li>
+    <li>Enter your <b>repository URL</b> on the provided field in the homework Word document.</li>
+    <li>Enter the <b>screencast URL</b> on the provided field in the homework Word document.</li>
+    <li>Copy screenhsots with all prompts and the agent's replies to the homework Word document. </li>
+        <ul>
+            <li style="background-color: yellow;">Ensure these have a readable font size, and 
+            are clear and legible to get any credit.</li>
+        </ul>   
+    </li>
+    <li>Convert the Word document to PDF.</li>
+    <li>Upload the PDF to the Homework Canvas page before the deadline.</li>
+</ol>
+</p>
+
+<h3 is-upgraded>Rubric</h3>
+<p>We will be using  the Homework PDF, your screencast, and git repository to evaluate your homework.</p>
+<table>
+<tr><td colspan="1" rowspan="1"><p>Walkthrough of prompts used to create application.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Prompts address any security issues from adversarial input.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Successful replay of prompts to generate a working application.</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Successful demonstration of functionality implemented, with your explanations</p>
+</td></tr>
+<tr><td colspan="1" rowspan="1"><p>Instructions followed properly including submission in the 
+    specified repository files, sequencing, PDF file, and length of screencast.</p>
+</td></tr>
+</table>
+</google-codelab-step>
+</google-codelab>
+
+<script src="/gensec-web/scripts/native-shim.js"></script>
+<script src="/gensec-web/scripts/custom-elements.min.js"></script>
+<script src="/gensec-web/scripts/prettify.js"></script>
+<script src="/gensec-web/scripts/codelab-elements.js"></script>
+<script src="https://support.google.com/inapp/api.js"></script>
+</body>
+</html>

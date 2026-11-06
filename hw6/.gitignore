@@ -8,3 +8,4 @@ __pycache__/
 *.key
 evidence/qa/
 evidence/browser-session/
+evidence/screenshots/00-canvas-assignment.png

@@ -1,0 +1,145 @@
+{
+  "provenance": "Actual Codex conversation export, native application screenshots, public instructor sources, and recorded command outputs. Prepared replay prompts are labeled separately.",
+  "files": [
+    {
+      "path": "evidence/bparker2012-01-task-and-response.md",
+      "bytes": 779,
+      "sha256": "b669e695d4c624440a67b470a30864fdc17385f9342c1276ddef0bdbfd66e390"
+    },
+    {
+      "path": "evidence/bparker2012-02-verification-response.md",
+      "bytes": 734,
+      "sha256": "37b3809b94f3bd9c4549cf89fbfd62df500d2ef36edbb3872b16a1e86d60c263"
+    },
+    {
+      "path": "evidence/bparker2012-03-replay-prompt-build.txt",
+      "bytes": 1617,
+      "sha256": "976afa38a643119e8d04c111dc604f07beb196e4adb0094b6c3704abc1b55635"
+    },
+    {
+      "path": "evidence/bparker2012-04-replay-prompt-verification.txt",
+      "bytes": 1022,
+      "sha256": "f92ff78b04c72bb4aa1f7c1328c57d6074c337ba13b1309843b7b8369eb838ad"
+    },
+    {
+      "path": "evidence/chat-transcript.json",
+      "bytes": 5797,
+      "sha256": "288714cc535b81030637765226c4cfdd13ef41e072d1ebad13002de4fd5f76bf"
+    },
+    {
+      "path": "evidence/runs/clean-clone-clone.txt",
+      "bytes": 99,
+      "sha256": "a41f677be31f38bac839d718fcaffb6e9ee82f19db1ad010738d9d2695556c10"
+    },
+    {
+      "path": "evidence/runs/clean-clone-demo.txt",
+      "bytes": 773,
+      "sha256": "dabced180396493b155679c3c319ae75a246b5376a56eabfccc3b5a165447f72"
+    },
+    {
+      "path": "evidence/runs/clean-clone-install.txt",
+      "bytes": 358,
+      "sha256": "cd95a3c4deb043d4ab6d06274d060a585c629224c03b94769c12382576291e07"
+    },
+    {
+      "path": "evidence/runs/clean-clone-lint.txt",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "evidence/runs/clean-clone-tests.txt",
+      "bytes": 99,
+      "sha256": "8efa44e9e68cc814491666aa29cdff213efb252cf3a317359fbd2b0388218e93"
+    },
+    {
+      "path": "evidence/runs/clean-clone-verification.json",
+      "bytes": 2003,
+      "sha256": "17bd9bbd4848e4c5e8740e2d709c6a9bbc39124318441ede72f9458871a7ed0e"
+    },
+    {
+      "path": "evidence/runs/dependency-audit.json",
+      "bytes": 414,
+      "sha256": "27dc2a6efe80a5a458b257077ee4fbeb8164876bd55561baadd0e3ced5aa04ed"
+    },
+    {
+      "path": "evidence/runs/runtime-requirements.txt",
+      "bytes": 305,
+      "sha256": "4453bb6461e9cbc0290641d200b370cb8938866bd0fd3c7324a98a92f7e4bd03"
+    },
+    {
+      "path": "evidence/screenshots/01-registration.png",
+      "bytes": 333949,
+      "sha256": "fb033da1294eabde126c54d8e9243cd82a8491443ee91d5cd2836c5e6d3025ef"
+    },
+    {
+      "path": "evidence/screenshots/02-private-notebook.png",
+      "bytes": 322556,
+      "sha256": "cb18a237d4a1079d409e1cb3eea33b383a4ebc45f59488dd689f978620251c15"
+    },
+    {
+      "path": "evidence/screenshots/03-vscode-actual-task-response.png",
+      "bytes": 521308,
+      "sha256": "ccc9645ecd929929abffe54eb3c94acbe39f8632247255a71abdb6509441755b"
+    },
+    {
+      "path": "evidence/screenshots/04-vscode-verification-replies.png",
+      "bytes": 496447,
+      "sha256": "20e5ce784776ae148497898d213b329f132284d58bdab825afdca5cfa87911cd"
+    },
+    {
+      "path": "evidence/screenshots/05-vscode-generated-app.png",
+      "bytes": 349105,
+      "sha256": "3b56cab0063428c0497616d254f8ba4f732889afe04e2051500f5848ffbf188f"
+    },
+    {
+      "path": "evidence/screenshots/06-vscode-generated-demo.png",
+      "bytes": 438330,
+      "sha256": "cead07237d30ca032998c03991843d6c1b83fc558cb0bacd51af153c82e6bc60"
+    },
+    {
+      "path": "evidence/screenshots/07-vscode-security-demo-results.png",
+      "bytes": 493237,
+      "sha256": "3056fe4b6ef1e55a5673964b34c72eb55a5cc897e02fb6a53f3afba161b5afab"
+    },
+    {
+      "path": "evidence/screenshots/08-vscode-owner-check.png",
+      "bytes": 417526,
+      "sha256": "abfd547a44ac7c2061174be7cd034fe94f55618f446d78c036317488afe62b30"
+    },
+    {
+      "path": "evidence/screenshots/09-vscode-csrf-check.png",
+      "bytes": 462958,
+      "sha256": "f90baa2c44f9f5a485d7c3136d3137e8539d1896b89a2ab666ce3ea6d5237563"
+    },
+    {
+      "path": "evidence/screenshots/10-browser-privacy-limits.png",
+      "bytes": 394297,
+      "sha256": "b41f654e1d218b5d80b27d234239dbe0e046d36c6d2f7d5ce78e6b6a1c1cb18c"
+    },
+    {
+      "path": "evidence/sources/artifact.md",
+      "bytes": 2740,
+      "sha256": "7b40caf41c422cade6ab295ef8a31669e8d78aaac603abcdb9f2de9c19d2ced3"
+    },
+    {
+      "path": "evidence/sources/homework-template.docx",
+      "bytes": 9593,
+      "sha256": "58aca05c972a46821ba8b9d20afb3bb83abcddf90dbee4a49a1abbef6c6df72e"
+    },
+    {
+      "path": "evidence/sources/homework6.html",
+      "bytes": 6538,
+      "sha256": "19c6059ed84830e9a0ae102adda9a5c4557981b40dcca575daa2d0c692dcc6f5"
+    },
+    {
+      "path": "evidence/sources/lab-template.docx",
+      "bytes": 9600,
+      "sha256": "9e1f5215f5c38bb48abb0a7385bd0b3e46add45dacd288d9853d0abfdd6ebfb0"
+    },
+    {
+      "path": "evidence/sources/template-inventory.json",
+      "bytes": 2483,
+      "sha256": "204c0a5b898f5ce50330112389fc59fc1b0e6025ec4303a580b76c5e58c188cc"
+    }
+  ]
+}

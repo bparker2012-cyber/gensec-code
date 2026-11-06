@@ -1,0 +1,92 @@
+[
+  {
+    "path": "_rels/.rels",
+    "size": 727,
+    "sha256": "0e0f3b82b9dc5912a18fa6fd8cd8d6412bf758fc6c2b049b390baf25269c94a7",
+    "rule": "preserve"
+  },
+  {
+    "path": "docProps/core.xml",
+    "size": 739,
+    "sha256": "c2e6eb775cf6aef518bda2b97aac44a2affe1142469be9c5e55f0d04e7861020",
+    "rule": "preserve"
+  },
+  {
+    "path": "docProps/app.xml",
+    "size": 552,
+    "sha256": "0196569251a9538d201ae5a9e024f77517b24ca948a243296dfa531b80f1d3d4",
+    "rule": "preserve"
+  },
+  {
+    "path": "docProps/custom.xml",
+    "size": 241,
+    "sha256": "9b1afafd2d4a7132c3f88bb8c1a6976f0e722be9949d6e72eb441608283c4d01",
+    "rule": "preserve"
+  },
+  {
+    "path": "word/_rels/document.xml.rels",
+    "size": 1180,
+    "sha256": "28170f869382f79b39a6a735212284e4f62e302b57eae1b6a8be404eda0f7208",
+    "rule": "editable"
+  },
+  {
+    "path": "word/document.xml",
+    "size": 12314,
+    "sha256": "0465d22673966197fbbe0d8aa35e61b7b430eaf9ea490957ac9910f76e523df6",
+    "rule": "editable"
+  },
+  {
+    "path": "word/styles.xml",
+    "size": 4870,
+    "sha256": "793e96293abc3bf3688dc963a2816eeac100e254aa69238c7c144342fb4de412",
+    "rule": "preserve"
+  },
+  {
+    "path": "word/footer1.xml",
+    "size": 1001,
+    "sha256": "fed51f7fc8f4285ae094a7b1f0683efddf9a219ddfcb68020cd7158052979060",
+    "rule": "preserve"
+  },
+  {
+    "path": "word/footer2.xml",
+    "size": 1349,
+    "sha256": "22023acb23680f21e007c6305f739273efdef2334afa6f683e489bbddb3cebe9",
+    "rule": "preserve"
+  },
+  {
+    "path": "word/footer3.xml",
+    "size": 1349,
+    "sha256": "22023acb23680f21e007c6305f739273efdef2334afa6f683e489bbddb3cebe9",
+    "rule": "preserve"
+  },
+  {
+    "path": "word/settings.xml",
+    "size": 418,
+    "sha256": "1eaadcf2421467aee9d3bcd788dd1e74a52bffe8204b0dee0bb977b430fa1954",
+    "rule": "preserve"
+  },
+  {
+    "path": "word/numbering.xml",
+    "size": 7655,
+    "sha256": "33b83e7e6ed8bd2b06307fce8d95f2e51944bdae6b7c753f1153fccd04f03ddd",
+    "rule": "preserve"
+  },
+  {
+    "path": "word/fontTable.xml",
+    "size": 1237,
+    "sha256": "8c5ee43621880b69e0c845d771a60c1ac8875ea4ea59130f33ed25111ad446ae",
+    "rule": "preserve"
+  },
+  {
+    "path": "word/theme/theme1.xml",
+    "size": 2257,
+    "sha256": "cecdf4f21275f87c79187622b39191d29095638711bd3fe1b92624c6d5c8c070",
+    "rule": "preserve"
+  },
+  {
+    "path": "[Content_Types].xml",
+    "size": 2131,
+    "sha256": "a1a7863cf86a4c0911babf48ec3c2b78067a80007a41a15c102fb32fe728c1a8",
+    "rule": "editable"
+  }
+]

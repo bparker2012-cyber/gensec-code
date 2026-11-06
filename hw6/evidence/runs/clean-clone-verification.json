@@ -1,0 +1,75 @@
+{
+  "recorded_at": "2026-11-06T21:58:14.354810+00:00",
+  "commit": "0f69a3998d4abcceb83720edba0176490d7543fa",
+  "clone": "/var/folders/77/5pnqhxqj40nbphh7j7qfclqh0000gn/T/hw6-clean-clone-7z9oq6yr/course",
+  "kind": "clean checkout verification, not AI regeneration",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "clone",
+        "--branch",
+        "codex/hw6-secure-notes",
+        "--single-branch",
+        "https://github.com/bparker2012-cyber/gensec-code.git",
+        "/var/folders/77/5pnqhxqj40nbphh7j7qfclqh0000gn/T/hw6-clean-clone-7z9oq6yr/course"
+      ],
+      "cwd": "/Users/brehonparker/Documents/ChatGPT/New project 2",
+      "returncode": 0,
+      "output_file": "clean-clone-clone.txt"
+    },
+    {
+      "command": [
+        "uv",
+        "sync",
+        "--locked",
+        "--group",
+        "dev"
+      ],
+      "cwd": "/var/folders/77/5pnqhxqj40nbphh7j7qfclqh0000gn/T/hw6-clean-clone-7z9oq6yr/course/hw6",
+      "returncode": 0,
+      "output_file": "clean-clone-install.txt"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "--locked",
+        "pytest",
+        "-q"
+      ],
+      "cwd": "/var/folders/77/5pnqhxqj40nbphh7j7qfclqh0000gn/T/hw6-clean-clone-7z9oq6yr/course/hw6",
+      "returncode": 0,
+      "output_file": "clean-clone-tests.txt"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "--locked",
+        "python",
+        "app.py",
+        "--demo"
+      ],
+      "cwd": "/var/folders/77/5pnqhxqj40nbphh7j7qfclqh0000gn/T/hw6-clean-clone-7z9oq6yr/course/hw6",
+      "returncode": 0,
+      "output_file": "clean-clone-demo.txt"
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "--locked",
+        "ruff",
+        "check",
+        "app.py",
+        "demo.py",
+        "tests",
+        "prepare_replay.py"
+      ],
+      "cwd": "/var/folders/77/5pnqhxqj40nbphh7j7qfclqh0000gn/T/hw6-clean-clone-7z9oq6yr/course/hw6",
+      "returncode": 0,
+      "output_file": "clean-clone-lint.txt"
+    }
+  ]
+}
