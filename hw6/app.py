@@ -26,7 +26,8 @@ from flask import (
     session,
     url_for,
 )
-from werkzeug.exceptions import HTTPException
+from werkzeug.exceptions import HTTPException, SecurityError
+from werkzeug.routing import BaseConverter, ValidationError
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -35,6 +36,17 @@ SESSION_SECONDS = 30 * 60
 AUTH_WINDOW_SECONDS = 15 * 60
 AUTH_ATTEMPTS = 10
 MAX_NOTES = 200
+
+
+class NoteIdConverter(BaseConverter):
+    regex = r"[0-9]{1,19}"
+
+    def to_python(self, value: str) -> int:
+        note_id = int(value)
+        if not 1 <= note_id <= 2**63 - 1:
+            raise ValidationError()
+        return note_id
+
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
@@ -169,6 +181,9 @@ def check_auth_rate() -> None:
 
 
 def owned_note(note_id: int) -> sqlite3.Row:
+    # URL integers are unbounded in Python; SQLite IDs are signed 64-bit values.
+    if not 1 <= note_id <= 2**63 - 1:
+        abort(404, description="That note is unavailable.")
     note = (
         get_db()
         .execute(
@@ -207,6 +222,7 @@ def note_fields() -> tuple[str, str]:
 def create_app(test_config: dict[str, Any] | None = None) -> Flask:
     instance = Path(os.environ.get("SECURE_NOTES_INSTANCE", Path(__file__).parent / "instance"))
     app = Flask(__name__, instance_path=str(instance.resolve()))
+    app.url_map.converters["noteid"] = NoteIdConverter
     app.config.update(
         DATABASE=str(instance / "notes.sqlite3"),
         SECRET_KEY=None,
@@ -299,6 +315,9 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
 
     @app.errorhandler(HTTPException)
     def http_error(error: HTTPException) -> Any:
+        # A rejected Host has no URL adapter, so it cannot render url_for links.
+        if isinstance(error, SecurityError):
+            return error.get_response()
         return render_template("error.html", code=error.code, message=error.description), error.code
 
     @app.get("/")
@@ -404,12 +423,12 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
         flash("Note saved.", "success")
         return redirect(url_for("read_note", note_id=result.lastrowid))
 
-    @app.get("/notes/<int:note_id>")
+    @app.get("/notes/<noteid:note_id>")
     @login_required
     def read_note(note_id: int) -> Any:
         return workspace(owned_note(note_id))
 
-    @app.post("/notes/<int:note_id>/edit")
+    @app.post("/notes/<noteid:note_id>/edit")
     @login_required
     def edit_note(note_id: int) -> Any:
         note = owned_note(note_id)
@@ -428,7 +447,7 @@ def create_app(test_config: dict[str, Any] | None = None) -> Flask:
         flash("Changes saved.", "success")
         return redirect(url_for("read_note", note_id=note_id))
 
-    @app.post("/notes/<int:note_id>/delete")
+    @app.post("/notes/<noteid:note_id>/delete")
     @login_required
     def delete_note(note_id: int) -> Any:
         owned_note(note_id)
