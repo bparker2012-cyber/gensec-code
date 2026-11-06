@@ -69,3 +69,7 @@ reference
 !hw4/uv.lock
 !hw4/package.json
 !hw4/package-lock.json
+
+# Homework 6 dependency pins belong to the reproducible application.
+!hw6/pyproject.toml
+!hw6/uv.lock

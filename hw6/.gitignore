@@ -1,0 +1,10 @@
+instance/
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.sqlite3
+*.sqlite3-*
+*.key
+evidence/qa/
+evidence/browser-session/

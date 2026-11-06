@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="workspace">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('notes') }}"><span class="brand-mark">S<span>n</span></span> Secure Notes</a>
+    <div class="sidebar-middle"><span class="eyebrow">MY WORKSPACE</span><a class="nav-item active" href="{{ url_for('notes') }}"><span>▤</span> My notebook <span class="count">{{ notes|length }}</span></a><p class="sidebar-note">A place for the things<br>you want to remember.</p></div>
+    <div class="account"><span class="avatar">{{ g.user.username[:1]|upper }}</span><div><strong>{{ g.user.username }}</strong><span>Private notebook</span></div></div>
+    <a class="quiet-link" href="{{ url_for('security') }}">Privacy and security ↗</a>
+    <form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="signout" type="submit">Sign out →</button></form>
+  </aside>
+  <section class="note-list" aria-label="Your notes">
+    <div class="list-header"><span class="eyebrow">YOUR COLLECTION</span><div class="list-title"><h1>My notes</h1><span>{{ notes|length }}</span></div><a class="button primary full" href="{{ url_for('notes') }}">+ New note</a></div>
+    <div class="note-items">
+      {% for item in notes %}<a class="note-item {{ 'selected' if note and item.id == note.id else '' }}" href="{{ url_for('read_note', note_id=item.id) }}"><span class="note-icon">▤</span><strong>{{ item.title }}</strong><time>{{ item.updated_at }}</time></a>{% else %}<div class="empty-list"><span>▤</span><h2>A fresh notebook.</h2><p>Your notes will appear here.<br>Write the first one.</p></div>{% endfor %}
+    </div>
+    <p class="list-footnote">Only your account can open these notes.</p>
+  </section>
+  <section class="editor" aria-label="Note editor">
+    <header class="editor-header"><span>MY NOTEBOOK <span class="slash">/</span> {{ 'EDIT NOTE' if note else 'NEW NOTE' }}</span><span class="private-badge">◈ Private</span></header>
+    <div class="editor-inner">
+      {% for category, message in get_flashed_messages(with_categories=true) %}<div class="message {{ category }}" role="status">{{ message }}</div>{% endfor %}
+      {% if error %}<div class="message error" role="alert">{{ error }}</div>{% endif %}
+      <form method="post" action="{{ url_for('edit_note', note_id=note.id) if note else url_for('create_note') }}" class="note-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label class="eyebrow" for="title">{{ 'YOUR NOTE' if note else 'SOMETHING TO REMEMBER' }}</label>
+        <input class="title-input" id="title" name="title" placeholder="Give your note a title" required maxlength="120" value="{{ form.get('title', '') if form else (note.title if note else '') }}">
+        <p class="editor-meta">{{ ('Last saved ' ~ note.updated_at) if note else 'A blank page. Make it yours.' }}</p>
+        <label class="sr-only" for="body">Note content</label>
+        <textarea id="body" name="body" placeholder="Start writing here…" required maxlength="10000">{{ form.get('body', '') if form else (note.body if note else '') }}</textarea>
+        <div class="editor-actions"><p>Up to 10,000 characters <span>·</span> Plain text</p><button class="button primary" type="submit">{{ 'Save changes' if note else 'Save note' }} <span>↗</span></button></div>
+      </form>
+      {% if note %}<details class="delete-note"><summary>Delete this note</summary><p>This permanently removes the note.</p><form method="post" action="{{ url_for('delete_note', note_id=note.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button danger" type="submit">Permanently delete note</button></form></details>{% endif %}
+    </div>
+  </section>
+</main>
+{% endblock %}

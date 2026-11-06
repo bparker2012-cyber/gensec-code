@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Privacy and security · Secure Notes{% endblock %}
+{% block content %}
+<main class="information security-page">
+  <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">S<span>n</span></span> Secure Notes</a>
+  <span class="eyebrow">KNOW YOUR NOTEBOOK</span><h1>Privacy, with clear limits.</h1>
+  <p class="intro">Your account separates your notes from other accounts. This classroom app runs on your computer and is intended for sample data.</p>
+  <div class="security-grid"><section><h2>Access belongs to you</h2><p>Every note request checks the signed-in account. Signing out revokes the session. Sessions expire after 30 minutes.</p></section><section><h2>Your words stay words</h2><p>Notes are plain text. HTML is displayed as text, and forms are checked before changes are accepted.</p></section><section><h2>Passwords are hashed</h2><p>Passwords use a salted, slow hash. Repeated sign-in and registration attempts are limited.</p></section><section class="limit"><h2>Use sample notes</h2><p>Note content is stored without encryption. Someone with access to the database or computer can read it. This is not an encrypted vault.</p></section></div>
+  <h2>Before broader use</h2><p>The local demo uses HTTP on loopback. Public use would need HTTPS, a production server, operational monitoring, backups, account recovery, and a security review. The app has no MFA, sharing, attachments, or password reset. Deleted notes may remain in database pages or backups.</p>
+  <a class="button primary" href="{{ url_for('index') }}">Back to my notebook →</a>
+</main>
+{% endblock %}
