@@ -1,8 +1,8 @@
 {
-  "checked_at": "2026-11-06T23:26:51.595887-05:00",
+  "checked_at": "2026-11-06T23:37:57.383744-05:00",
   "pages": 14,
   "all_pages_visually_reviewed": true,
-  "visual_review_notes": "Pages 1-13 are pixel-identical to the previously reviewed final report. Revised page 14 was visually inspected; references fit cleanly below the limitations. No clipping or overflow.",
+  "visual_review_notes": "Pages 1-13 are pixel-identical to the previously reviewed report. Revised page 14 was visually inspected after removing the References section. No clipping or overflow.",
   "preserved_template_parts": 11,
   "settings_change": "Only additive updateFields true; all other original settings bytes preserved.",
   "page_geometry_and_footer_preserved": true,
@@ -24,8 +24,8 @@
   "recording_url": "https://www.loom.com/share/c0d303d6cde44483b8674fa29f8042da",
   "recording_link_clickable_in_pdf": true,
   "exact_replay_prompt_is_selectable_text": true,
-  "docx_sha256": "da6cb5305cf5f094824337ae61f5601062034f28a66a29ab3af65d499b73e7bf",
-  "pdf_sha256": "7a410f6acaa49a61490edc1215f15f3916cf233cf4415afb40d4f496c9009a5c",
+  "docx_sha256": "5d81f961e04175f21e5aa88b105667d60f35108a194872b16f9b47615fa8b555",
+  "pdf_sha256": "80f7f54cad2d3970520f68005c89a58f519cbf647ecc35a66a14e957d9723ef1",
   "unchanged_previously_reviewed_pages": [
     1,
     2,
@@ -41,5 +41,6 @@
     12,
     13
   ],
-  "repository_history_and_recording_section_removed": true
+  "repository_history_and_recording_section_removed": true,
+  "references_section_removed": true
 }

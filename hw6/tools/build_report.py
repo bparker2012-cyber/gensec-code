@@ -321,24 +321,6 @@ def main() -> None:
         "within a fixed five-minute window. There is no total storage quota."
     )
 
-    heading("References")
-    paragraph(
-        "Assignment instructions: https://icardei.github.io/gensec-web/labs/G06.3_hw_wk6/index.html",
-        size=11,
-    )
-    paragraph(
-        "Instructor homework template: https://icardei.github.io/gensec-web/homework-template.docx",
-        size=11,
-    )
-    paragraph(
-        "Flask security guidance: https://flask.palletsprojects.com/en/stable/web-security/",
-        size=11,
-    )
-    paragraph(
-        "Werkzeug password hashing: https://werkzeug.palletsprojects.com/en/stable/utils/#module-werkzeug.security",
-        size=11,
-    )
-
     serialized = BytesIO()
     doc.save(serialized)
     serialized.seek(0)
