@@ -46,7 +46,6 @@ def main() -> None:
     recording = (ROOT / "screencast_url.txt").read_text().strip()
     replay = json.loads((ROOT / "evidence/replay-conversation.json").read_text())
     replay_replies = [m["text"].strip() for m in replay["messages"] if m["role"] == "assistant"]
-    recording_check = json.loads((ROOT / "evidence/recording-verification.json").read_text())
     if recording:
         parsed = urlparse(recording)
         if parsed.scheme != "https" or parsed.hostname not in {
@@ -322,39 +321,6 @@ def main() -> None:
         "within a fixed five-minute window. There is no total storage quota."
     )
 
-    heading("Repository history and recording", new_page=True)
-    paragraph(
-        "The course repository records development in successive stages, rather than "
-        "one final code dump: b9b0d7e scaffolds required files and generation prompts; "
-        "1e024a0 implements the app; e7b8303 adds security tests and fixes; 0f69a39 "
-        "adds reproducible setup; 5cfcf80 retains development evidence; 4e313be adds the "
-        "initial report; and cbb91a3 preserves the recorded regeneration, its exact request, "
-        "and its 120-test verification. Recording and report updates are committed separately."
-    )
-    paragraph(
-        "My narrated Loom recording identifies OpenAI Codex, explains that the repository "
-        "has already been cloned, walks through the prompts, presents the generation and successful checks, and "
-        "demonstrates registration and note operations. The recording is 3 minutes "
-        "20 seconds long, with the camera visible at the beginning."
-    )
-    paragraph(
-        "Recording status: "
-        + (
-            recording
-            if recording
-            else "Pending student recording."
-        )
-    )
-    paragraph(
-        "The recording link was opened in a signed-out browser and playback was verified "
-        "without account access. The measured media duration is "
-        + str(round(recording_check["duration_seconds"], 2))
-        + " seconds. Metadata and the verification screenshot are retained with the evidence."
-    )
-    picture(
-        "20-loom-recording.jpg",
-        "Figure 11. The shared Loom player opens without sign-in and shows the camera and 3 minute 20 second duration.",
-    )
     heading("References")
     paragraph(
         "Assignment instructions: https://icardei.github.io/gensec-web/labs/G06.3_hw_wk6/index.html",
