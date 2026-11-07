@@ -1,12 +1,18 @@
 [project]
-name = "secure-notes-hw6"
-version = "0.1.0"
-description = "Prompt-generated private notes application for Homework 6"
+name = "secure-notes"
+version = "1.0.0"
+description = "A small, local Flask application for private notes and security checks"
 requires-python = ">=3.13,<3.14"
-dependencies = ["flask==3.1.3", "werkzeug==3.1.9"]
+dependencies = [
+    "Flask==3.1.3",
+    "Werkzeug==3.1.9",
+]
 
 [dependency-groups]
-dev = ["pytest==9.2.0", "ruff==0.17.4"]
+dev = [
+    "pytest==9.2.0",
+    "ruff==0.17.4",
+]
 
 [tool.uv]
 package = false
@@ -14,10 +20,12 @@ package = false
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+addopts = "--basetemp=.test-tmp"
 
 [tool.ruff]
 target-version = "py313"
 line-length = 100
+include = ["app.py", "demo.py", "tests/**/*.py"]
 
 [tool.ruff.lint]
-select = ["E4", "E7", "E9", "F"]
+select = ["E", "F", "I", "UP", "B"]

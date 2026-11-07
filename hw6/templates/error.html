@@ -1,3 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}{{ code }} · Secure Notes{% endblock %}
-{% block content %}<main class="information"><a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">S<span>n</span></span> Secure Notes</a><span class="eyebrow">REQUEST {{ code }}</span><h1>{{ 'Take a moment.' if code == 429 else 'We couldn’t open that.' }}</h1><p>{{ message }}</p><a class="button primary" href="{{ url_for('index') }}">Back to my notebook →</a></main>{% endblock %}
+{% block content %}
+<section class="error-page">
+  <p class="eyebrow">{{ code }}</p>
+  <h1>{{ name }}</h1>
+  <p class="error" role="alert">{{ message }}</p>
+  <a class="button" href="{{ url_for('index') }}">Return to Secure Notes</a>
+</section>
+{% endblock %}

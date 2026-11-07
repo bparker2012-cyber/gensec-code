@@ -1,37 +1,28 @@
 {% extends 'base.html' %}
-{% block title %}{{ 'Create account' if mode == 'register' else 'Sign in' }} · Secure Notes{% endblock %}
+{% block title %}{{ 'Create an account' if registering else 'Log in' }} · Secure Notes{% endblock %}
 {% block content %}
-<main class="auth-shell">
-  <section class="auth-story">
-    <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">S<span>n</span></span> Secure Notes</a>
-    <div class="story-content">
-      <span class="eyebrow">YOUR OWN LITTLE CORNER</span>
-      <h1>A clear space<br>for your thoughts.</h1>
-      <p>Keep the details that matter.<br>Your notes, in your own notebook.</p>
-      <div class="paper-preview"><span class="paper-label">A NOTE TO SELF</span><h2>Make room for good ideas.</h2><p>Write it down. Come back to it.<br>Pick up where you left off.</p><span class="paper-line"></span><span class="paper-line short"></span></div>
-    </div>
-    <a class="quiet-link" href="{{ url_for('security') }}">About privacy and security ↗</a>
-  </section>
-  <section class="auth-panel">
-    <div class="auth-form-wrap">
-      <span class="eyebrow">A NOTEBOOK OF YOUR OWN</span>
-      <h2>{{ 'Start a fresh page.' if mode == 'register' else 'Welcome back.' }}</h2>
-      <p class="subtle">{{ 'Create an account to start your private notebook.' if mode == 'register' else 'Sign in and pick up where you left off.' }}</p>
-      {% for category, message in get_flashed_messages(with_categories=true) %}<div class="message {{ category }}" role="status">{{ message }}</div>{% endfor %}
-      {% if error %}<div class="message error" role="alert">{{ error }}</div>{% endif %}
-      <form method="post" class="auth-form">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<section class="auth-page">
+  <div class="auth-card">
+    <p class="eyebrow">Your words, your workspace</p>
+    <h1>{{ 'Start your notebook.' if registering else 'Welcome back.' }}</h1>
+    <p class="muted">{{ 'Create an account to keep your notes separate from other accounts.' if registering else 'Log in to pick up where you left off.' }}</p>
+    {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+    <form method="post" action="{{ url_for('register' if registering else 'login') }}" class="stack">
+      {% include '_csrf.html' %}
+      <div>
         <label for="username">Username</label>
-        <input id="username" name="username" value="{{ username|default('') }}" autocomplete="username" required minlength="3" maxlength="32" {% if mode == 'register' %}pattern="[A-Za-z0-9_]{3,32}"{% endif %}>
-        {% if mode == 'register' %}<p class="field-help">3–32 letters, numbers or underscores.</p>{% endif %}
+        <input id="username" name="username" value="{{ username }}" minlength="3" maxlength="32" pattern="[A-Za-z0-9_]{3,32}" autocomplete="username" autocapitalize="none" spellcheck="false" aria-describedby="username-help" required>
+        <p class="help" id="username-help">3–32 letters, digits or underscores. Case insensitive.</p>
+      </div>
+      <div>
         <label for="password">Password</label>
-        <input id="password" type="password" name="password" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" required {% if mode == 'register' %}minlength="12"{% endif %} maxlength="128">
-        {% if mode == 'register' %}<p class="field-help">Use a unique passphrase of 12–128 characters.</p>{% endif %}
-        <button class="button primary full" type="submit">{{ 'Create my notebook' if mode == 'register' else 'Sign in' }} <span>→</span></button>
-      </form>
-      <p class="auth-switch">{{ 'Already have an account?' if mode == 'register' else 'New here?' }} <a href="{{ url_for('login' if mode == 'register' else 'register') }}">{{ 'Sign in' if mode == 'register' else 'Create an account' }}</a></p>
-      <p class="local-notice">A local classroom application. Use sample notes.<br>Read the <a href="{{ url_for('security') }}">privacy limits</a> before storing anything sensitive.</p>
-    </div>
-  </section>
-</main>
+        <input id="password" name="password" type="password" minlength="12" maxlength="128" autocomplete="{{ 'new-password' if registering else 'current-password' }}" aria-describedby="password-help" required>
+        <p class="help" id="password-help">12–128 characters. Use a unique passphrase for this classroom app.</p>
+      </div>
+      <button class="button" type="submit">{{ 'Create account' if registering else 'Log in' }}</button>
+    </form>
+    <p class="auth-switch">{% if registering %}Already have an account? <a href="{{ url_for('login') }}">Log in</a>.{% else %}First time here? <a href="{{ url_for('register') }}">Create an account</a>.{% endif %}</p>
+    <p class="help">Local HTTP is a classroom mode. This is not a production deployment.</p>
+  </div>
+</section>
 {% endblock %}

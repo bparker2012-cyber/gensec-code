@@ -3,12 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
   <title>{% block title %}Secure Notes{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  {% block content %}{% endblock %}
-  <footer class="identity">Brehon Parker <span>·</span> bparker2012@fau.edu <span>·</span> Z23222679 <span>·</span> Homework 6</footer>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Application navigation">
+      <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark" aria-hidden="true">S</span> Secure Notes</a>
+      <p class="eyebrow">A little space to think</p>
+      {% if g.get('user') %}
+        <nav>
+          <a class="nav-link" href="{{ url_for('notes') }}">All notes</a>
+          <a class="button" href="{{ url_for('note_new') }}">+ New note</a>
+        </nav>
+        <div class="account">
+          <span class="label">Signed in as</span>
+          <strong>{{ g.user['username'] }}</strong>
+          <form action="{{ url_for('logout') }}" method="post">
+            {% include '_csrf.html' %}
+            <button class="button secondary" type="submit">Log out</button>
+          </form>
+        </div>
+      {% else %}
+        <nav>
+          <a class="nav-link" href="{{ url_for('login') }}">Log in</a>
+          <a class="nav-link" href="{{ url_for('register') }}">Create an account</a>
+        </nav>
+      {% endif %}
+      <p class="local-notice">Local classroom app.<br>Notes are plaintext on disk.</p>
+    </aside>
+    <main id="main" tabindex="-1">{% block content %}{% endblock %}</main>
+  </div>
+  <footer>Brehon Parker <span aria-hidden="true">·</span> bparker2012@fau.edu <span aria-hidden="true">·</span> Z23222679</footer>
 </body>
 </html>
