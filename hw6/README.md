@@ -131,3 +131,16 @@ was generated for this replay.
 Implementation references: [Flask security considerations](https://flask.palletsprojects.com/en/stable/web-security/),
 [Werkzeug password helpers](https://werkzeug.palletsprojects.com/en/stable/utils/#module-werkzeug.security),
 and [uv locking and syncing](https://docs.astral.sh/uv/concepts/projects/sync/).
+
+## Recorded demonstration and submission
+
+[Loom recording](https://www.loom.com/share/c0d303d6cde44483b8674fa29f8042da)
+is saved in `screencast_url.txt` and the homework report. The shared video plays
+without signing in and lasts 3 minutes 20 seconds. A fresh GitHub clone of the
+recorded regeneration passed all 120 tests, all 13 in-process security checks,
+lint, and formatting; exact receipts are in `verification/final-clone-*`.
+
+The report and its PDF include the actual replay request and response, current
+source screenshots, browser evidence, security controls, and limitations.
+The original implementation and its 59-test evidence remain in repository
+history. The current source and screenshots reflect the recorded regeneration.

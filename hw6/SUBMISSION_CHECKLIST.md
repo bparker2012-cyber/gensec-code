@@ -1,25 +1,23 @@
 # Homework 6 submission checklist
 
-- [x] Identify the coding agent and create the homework scaffold.
-- [x] Save standalone development prompts with honest provenance.
-- [x] Generate and verify the Python application (59 passing security tests).
-- [x] Capture readable VS Code evidence of actual task/reply excerpts and generated code.
-- [x] Commit and push implementation and security checks in logical stages.
-- [x] Prepare the homework Word document and visually verify its PDF export.
-- [ ] Rehearse a screencast of no more than five minutes in the required order.
-- [ ] Record narration with the student camera on initially.
-- [ ] Upload an unlisted YouTube video and verify anonymous access.
-- [ ] Add the real recording URL to screencast_url.txt and the report; commit and push.
-- [ ] Submit the final PDF to Canvas.
+- [x] Identify OpenAI Codex and preserve the original development history.
+- [x] Regenerate the application from the saved prompts during the recorded replay.
+- [x] Preserve the exact replay request and visible agent replies.
+- [x] Verify 120 tests and all 13 in-process security checks.
+- [x] Verify locked installation, tests, demo, lint, and formatting from a fresh GitHub clone.
+- [x] Capture current VS Code and browser evidence with the student identity visible.
+- [x] Complete the narrated recording with the camera visible initially.
+- [x] Verify the 3 minute 20 second Loom recording plays without sign-in.
+- [x] Add the real recording link to screencast_url.txt and the homework report.
+- [x] Update the Word report and visually verify its PDF export.
+- [x] Commit and push the regenerated source and final report in separate stages.
+- [ ] Upload the final homework PDF to Canvas and verify the submission receipt.
 
-Required recording order: clone the repository; walk through prompts; replay
-generation; cover security; demonstrate capabilities and limitations.
+Recording: https://www.loom.com/share/c0d303d6cde44483b8674fa29f8042da
 
-`SCREENCAST_SCRIPT.md` and the isolated replay helper are ready. The report
-still has an explicit pending recording field. Do not submit it as complete
-until the student has performed the live replay, recorded narration with the
-camera on initially, uploaded an unlisted YouTube video, and supplied its URL.
-The clean GitHub clone passed setup, all 59 tests, the in-process security
-demo, and lint; this is not a claim of a new AI generation.
+The regenerated source is preserved in commit cbb91a3868a6. Current verification
+receipts are in verification/final-clone-*; the earlier 59-test evidence is
+retained separately under evidence/runs/. The Word report describes the current
+regenerated source and contains the actual replay request and response.
 
 Deadline observed on Canvas: November 6, 2026, 11:59 p.m. Eastern.

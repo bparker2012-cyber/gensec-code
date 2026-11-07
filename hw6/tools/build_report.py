@@ -14,6 +14,9 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from zoneinfo import ZoneInfo
 
 from docx import Document
+from docx.oxml import OxmlElement
+from docx.opc.constants import RELATIONSHIP_TYPE
+from docx.oxml.ns import qn
 from docx.shared import Pt, RGBColor
 
 
@@ -41,14 +44,19 @@ def main() -> None:
     )
     accepted = next(p for p in proposal.split("\n\n") if "My recommendation" in p).replace("**", "")
     recording = (ROOT / "screencast_url.txt").read_text().strip()
+    replay = json.loads((ROOT / "evidence/replay-conversation.json").read_text())
+    replay_replies = [m["text"].strip() for m in replay["messages"] if m["role"] == "assistant"]
+    recording_check = json.loads((ROOT / "evidence/recording-verification.json").read_text())
     if recording:
         parsed = urlparse(recording)
         if parsed.scheme != "https" or parsed.hostname not in {
             "youtube.com",
             "www.youtube.com",
             "youtu.be",
+            "loom.com",
+            "www.loom.com",
         }:
-            raise ValueError("Use the real HTTPS YouTube watch URL.")
+            raise ValueError("Use the real HTTPS recording URL.")
 
     def replace_text(index: int, value: str) -> None:
         # Keep paragraph/run properties intact when filling the source slots.
@@ -63,11 +71,22 @@ def main() -> None:
         for run in runs[2:]:
             run.text = ""
 
+    def link_value(index: int, url: str) -> None:
+        run = original[index].runs[1]._r
+        hyperlink = OxmlElement("w:hyperlink")
+        relationship = doc.part.relate_to(url, RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+        hyperlink.set(qn("r:id"), relationship)
+        run.getparent().replace(run, hyperlink)
+        hyperlink.append(run)
+
     replace_text(2, "Homework Assignment no. 6")
     replace_text(5, "Student name: Brehon Parker")
     replace_text(7, "FAU Email: bparker2012@fau.edu")
-    replace_value(18, recording or "Pending student recording and unlisted YouTube upload")
+    replace_value(18, recording or "Pending student recording")
     replace_value(20, " " + REPO)
+    if recording:
+        link_value(18, recording)
+    link_value(20, REPO)
     replace_value(22, "Secure Notes")
     replace_value(
         24,
@@ -138,21 +157,59 @@ def main() -> None:
     )
     prompts = (ROOT / "prompts.txt").read_text()
     first = prompts[prompts.index("PROMPT 1") : prompts.index("PROMPT 2")].strip().splitlines()
-    second = prompts[prompts.index("PROMPT 2") :].strip().splitlines()
+    second = prompts[prompts.index("PROMPT 2") : prompts.index("ACTUAL RECORDED REPLAY REQUEST")].strip().splitlines()
     heading("Prompt 1 Build the application")
     paragraph(" ".join(first[1:]))
     heading("Prompt 2 Verify security and prepare the demonstration")
     paragraph(" ".join(second[1:]))
 
-    heading("Generated application code", new_page=True)
+    heading("Recorded replay request", new_page=True)
     paragraph(
-        "Codex generated app.py, local Jinja templates, CSS, and a locked dependency "
-        "environment. Registration, note creation, reading, editing, deletion, and sign-out "
-        "passed the initial smoke check before the application commit was pushed."
+        "The recorded Codex session read the two prompts above and regenerated the application. "
+        "The following VS Code views show the exact additional request, including the fixed "
+        "package versions, executable commands, and instruction to verify the result. "
+        "The full visible conversation export is retained in evidence/replay-conversation.json."
     )
     picture(
-        "05-vscode-generated-app.png",
-        "Figure 2. Top lines of the generated Python application in VS Code, with bparker2012 visible in the window title.",
+        "12-vscode-replay-request.png",
+        "Figure 2. Exact request from the recorded regeneration, displayed in VS Code with the FAU email visible.",
+    )
+    paragraph(replay_replies[0])
+
+    heading("Recorded replay request continued", new_page=True)
+    picture(
+        "19-vscode-replay-request-end.png",
+        "Figure 3. Remaining lines of the actual replay request. This is the continuation of Figure 2.",
+    )
+    paragraph(
+        "The separate Codex chat worked in the course repository. It read the saved prompts, "
+        "removed the preceding application source, and generated new source and tests inside "
+        "hw6. The original implementation remains available in earlier Git commits. The "
+        "regenerated application is preserved in commit cbb91a3868a6."
+    )
+    paragraph(
+        "The standalone prompt file and the actual replay request have different roles: "
+        "the former specifies the application, while the latter directs the recorded "
+        "regeneration and verification. Both are retained in prompts.txt."
+    )
+
+    heading("Recorded replay request as text", new_page=True)
+    paragraph(
+        "Exact technical user message from the recorded regeneration, reproduced as "
+        "ordinary selectable text in addition to Figures 2 and 3."
+    )
+    replay_request = (ROOT / "evidence/replay-request.txt").read_text()
+    paragraph(replay_request.split("Exact user message follows.\n\n", 1)[1].strip(), size=11)
+
+    heading("Generated application code", new_page=True)
+    paragraph(
+        "During the recorded replay, Codex generated app.py, local Jinja templates, CSS, "
+        "a locked dependency environment, and security tests. The current source supports "
+        "registration, note creation, reading, editing, deletion, and sign-out."
+    )
+    picture(
+        "11-replay-generated-app.png",
+        "Figure 4. Top lines of the regenerated Python application in VS Code, with bparker2012 visible in the window title.",
     )
     paragraph(
         "The source remains readable and divided into a small application factory, database "
@@ -160,16 +217,20 @@ def main() -> None:
     )
 
     heading("Security verification and agent replies", new_page=True)
-    paragraph(next(r for r in replies if "All 59" in r))
+    paragraph(
+        "The recorded session reported 120 passing tests and 13 passing security checks. "
+        "Locked installation, lock validation, lint, and formatting also passed. The "
+        "image below displays the exact final reply from the conversation export."
+    )
     picture(
-        "04-vscode-verification-replies.png",
-        "Figure 3. Exact Codex verification replies in a labeled VS Code transcript view.",
+        "13-vscode-replay-reply.png",
+        "Figure 5. Exact final reply from the recorded Codex session, showing 120 passing tests and 13 passing security checks.",
     )
     paragraph(
-        "Testing identified an error page that tried to build URLs after a hostile Host was "
-        "rejected, and oversized URL IDs that could overflow SQLite. The error handler now "
-        "uses the framework response for rejected hosts, and a bounded route converter "
-        "rejects invalid IDs before conversion or database access."
+        "The suite covers unauthorized note access, missing or malformed CSRF tokens, "
+        "stored XSS, SQL injection, password hashes, expired or revoked sessions, oversized "
+        "inputs, host rejection, persistent signing keys, bounded state, and concurrent "
+        "authentication attempts. The tests exercise real routes and SQLite."
     )
 
     heading("Generated verification code", new_page=True)
@@ -179,8 +240,8 @@ def main() -> None:
         "temporary synthetic data and is separate from the live browser demonstration."
     )
     picture(
-        "06-vscode-generated-demo.png",
-        "Figure 4. Top lines of the generated demonstration code, with the FAU ID visible.",
+        "18-vscode-replay-demo.png",
+        "Figure 6. Top lines of the regenerated in-process demonstration code, with the FAU ID visible.",
     )
 
     heading("Private note ownership", new_page=True)
@@ -191,52 +252,53 @@ def main() -> None:
         "are covered by the passing test suite."
     )
     picture(
-        "08-vscode-owner-check.png",
-        "Figure 5. The generated owner-scoped query and bounded note ID validation in app.py.",
+        "14-vscode-replay-owner.png",
+        "Figure 7. The regenerated query binds both the note ID and the authenticated owner ID.",
     )
 
     heading("CSRF and authentication sessions", new_page=True)
     paragraph(
         "Every POST, including login, registration, and logout, verifies the session CSRF "
         "token. Authentication transitions clear session state and rotate the token. "
-        "An opaque token in the signed cookie maps to a hashed token in SQLite, allowing "
-        "logout and subsequent login to revoke captured old cookies. Sessions expire "
-        "after 30 minutes."
+        "The signed cookie contains only an opaque session identifier. SQLite stores its "
+        "hash and the CSRF token, allowing logout and subsequent login to revoke captured "
+        "old cookies. Sessions have a fixed one-hour expiry. Cookies are HttpOnly and "
+        "SameSite Strict; Secure cookies can be enabled when actual HTTPS is provided."
     )
     picture(
-        "09-vscode-csrf-check.png",
-        "Figure 6. Request guards load the authenticated user and verify all POST form tokens.",
+        "15-vscode-replay-csrf.png",
+        "Figure 8. The regenerated request guard rejects duplicate fields and checks every POST token.",
     )
 
     heading("Verification from a fresh GitHub clone", new_page=True)
-    receipt = json.loads((ROOT / "evidence/runs/clean-clone-verification.json").read_text())
+    receipt = json.loads((ROOT / "verification/final-clone-verification.json").read_text())
     paragraph(
         "A fresh clone of remote commit " + receipt["commit"][:12] + " installed the "
-        "locked dependencies, passed all 59 tests, ran the security demo, and passed "
-        "Ruff checks. This verifies the checked-in application from a clean checkout; "
-        "it does not establish a new AI regeneration."
+        "locked dependencies, passed all 120 tests, passed all 13 security demonstration "
+        "checks, and passed Ruff lint and formatting checks. This independently verifies "
+        "the regenerated source from GitHub. Receipts are retained under verification/."
     )
-    paragraph((ROOT / "evidence/runs/clean-clone-tests.txt").read_text().strip(), size=11)
-    picture(
-        "07-vscode-security-demo-results.png",
-        "Figure 7. Captured output from the clean-clone in-process security demo, including expected denial responses.",
-    )
+    paragraph((ROOT / "verification/final-clone-tests.txt").read_text().strip(), size=11)
+    heading("Actual security demonstration output")
+    p = paragraph((ROOT / "verification/final-clone-demo.txt").read_text().strip(), size=10)
+    p.runs[0].font.name = "Liberation Mono"
     paragraph(
-        "The runtime dependency audit covered seven pinned packages and reported no known "
-        "vulnerabilities at check time. Tests and dependency checks cover specific cases; "
-        "they are not a complete security audit."
+        "The original runtime dependency audit is retained under evidence/runs/ and covers "
+        "the pinned runtime versions. The fresh-clone checks above establish the current "
+        "test and demonstration results. These checks are not a complete security audit."
     )
 
     heading("Browser demonstration", new_page=True)
     paragraph(
-        "The application was also exercised in Chrome. A synthetic sample account "
-        "registered successfully and created a private note. The notebook displays "
-        "the saved content and presents editing and deletion controls. The complete "
-        "create/read/edit/delete and sign-out flow was checked through real route handlers."
+        "The regenerated application was also exercised in a browser using a separate "
+        "temporary database and synthetic account. Registration and note creation succeeded. "
+        "The reader shows HTML-like input literally, and exposes edit and delete controls. "
+        "The full create/read/edit/delete and sign-out flow is covered by the passing tests "
+        "and the student's recorded demonstration."
     )
     picture(
-        "02-private-notebook.png",
-        "Figure 8. The running local notebook with a saved synthetic note and the student identity in the footer.",
+        "16-replay-notebook.jpg",
+        "Figure 9. The regenerated notebook with synthetic note content, escaped script-like text, and the FAU email in the footer.",
     )
 
     heading("Capabilities and limitations", new_page=True)
@@ -250,8 +312,14 @@ def main() -> None:
         "operational controls, and further security review."
     )
     picture(
-        "10-browser-privacy-limits.png",
-        "Figure 9. The application explains its privacy limits to the user, with the FAU ID visible.",
+        "17-replay-registration.jpg",
+        "Figure 10. The regenerated registration page identifies the local classroom mode and plaintext storage limits.",
+    )
+    paragraph(
+        "Current bounds include 120-character titles, 20,000-character note bodies, "
+        "96 KiB requests, 1,024 live sessions, and 512 live rate-limit buckets. Each "
+        "authentication action permits eight attempts per peer IP and normalized account "
+        "within a fixed five-minute window. There is no total storage quota."
     )
 
     heading("Repository history and recording", new_page=True)
@@ -259,28 +327,33 @@ def main() -> None:
         "The course repository records development in successive stages, rather than "
         "one final code dump: b9b0d7e scaffolds required files and generation prompts; "
         "1e024a0 implements the app; e7b8303 adds security tests and fixes; 0f69a39 "
-        "adds reproducible setup and recording guidance. Evidence and the report are "
-        "committed separately after verification."
+        "adds reproducible setup; 5cfcf80 retains development evidence; 4e313be adds the "
+        "initial report; and cbb91a3 preserves the recorded regeneration, its exact request, "
+        "and its 120-test verification. Recording and report updates are committed separately."
     )
     paragraph(
-        "The recording follows this order: git clone, prompt overview, live prompt "
-        "recreation in an empty workspace, security explanation, then functionality "
-        "and limitations. The camera must be on initially and the narrated video must "
-        "not exceed five minutes. SCREENCAST_SCRIPT.md supplies the exact commands "
-        "and a target 4 minute 40 second narration."
+        "My narrated Loom recording identifies OpenAI Codex, explains that the repository "
+        "has already been cloned, walks through the prompts, presents the generation and successful checks, and "
+        "demonstrates registration and note operations. The recording is 3 minutes "
+        "20 seconds long, with the camera visible at the beginning."
     )
     paragraph(
         "Recording status: "
         + (
             recording
             if recording
-            else "The student's live prompt replay, narrated recording, and unlisted YouTube upload remain to be completed."
+            else "Pending student recording."
         )
     )
     paragraph(
-        "The replay helper copies only prompts and dependency files into a new temporary "
-        "folder. It never copies app.py, templates, CSS, tests, a database, or a signing key. "
-        "Newly generated code can differ and must be tested and demonstrated as produced."
+        "The recording link was opened in a signed-out browser and playback was verified "
+        "without account access. The measured media duration is "
+        + str(round(recording_check["duration_seconds"], 2))
+        + " seconds. Metadata and the verification screenshot are retained with the evidence."
+    )
+    picture(
+        "20-loom-recording.jpg",
+        "Figure 11. The shared Loom player opens without sign-in and shows the camera and 3 minute 20 second duration.",
     )
     heading("References")
     paragraph(
@@ -307,21 +380,32 @@ def main() -> None:
     with ZipFile(SOURCE) as baseline, ZipFile(serialized) as authored:
         with ZipFile(OUTPUT, "w", ZIP_DEFLATED) as result:
             for name in baseline.namelist():
-                result.writestr(
-                    name, authored.read(name) if name in editable else baseline.read(name)
-                )
+                content = authored.read(name) if name in editable else baseline.read(name)
+                if name == "word/settings.xml":
+                    content = content.replace(
+                        b"</w:settings>",
+                        b'<w:updateFields w:val="true"/></w:settings>',
+                    )
+                result.writestr(name, content)
             for name in authored.namelist():
                 if name not in baseline.namelist():
                     assert name.startswith("word/media/"), name
                     result.writestr(name, authored.read(name))
     with ZipFile(SOURCE) as baseline, ZipFile(OUTPUT) as final:
-        preserved = [name for name in baseline.namelist() if name not in editable]
+        preserved = [
+            name for name in baseline.namelist()
+            if name not in editable and name != "word/settings.xml"
+        ]
         assert all(baseline.read(name) == final.read(name) for name in preserved)
+        assert final.read("word/settings.xml") == baseline.read("word/settings.xml").replace(
+            b"</w:settings>", b'<w:updateFields w:val="true"/></w:settings>'
+        )
     assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == SOURCE_SHA
     info = {
         "built_at": datetime.now(ZoneInfo("America/New_York")).isoformat(),
         "source_sha256": SOURCE_SHA,
         "preserved_package_parts": len(preserved),
+        "settings_change": "Only updateFields true added so Word refreshes page fields on open.",
         "recording_present": bool(recording),
         "output": OUTPUT.name,
     }

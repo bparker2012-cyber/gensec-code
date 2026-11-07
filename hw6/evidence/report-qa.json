@@ -1,10 +1,32 @@
 {
-  "pages": 12,
+  "checked_at": "2026-11-06T23:21:56.730749-05:00",
+  "pages": 15,
   "all_pages_visually_reviewed": true,
+  "visual_review_notes": "Pages 1-5 are pixel-identical to the visually reviewed v3; pages 6-15 visually reviewed from v4. No clipping, overflow, blank pages, or illegible evidence found.",
   "duplicate_render_pixels_identical": true,
-  "preserved_template_parts": 12,
-  "source_image_bytes_preserved": 9,
-  "recording_pending": true,
-  "docx_sha256": "a591821beabd7a0c04df5ca249a09c300a1e248ef9b48218e76873f1d369e5da",
-  "pdf_sha256": "05629a547f38e8970f0508f4bffbe7bac0704813318e73a81d344cab04571c39"
+  "template_comparison": "qa/report-template-final-v4-diff",
+  "preserved_template_parts": 11,
+  "settings_change": "Only additive updateFields true; all other original settings bytes preserved.",
+  "page_geometry_and_footer_preserved": true,
+  "consecutive_page_numbers": true,
+  "source_image_bytes_preserved": 11,
+  "embedded_image_sources": {
+    "word/media/image1.png": "03-vscode-actual-task-response.png",
+    "word/media/image2.png": "12-vscode-replay-request.png",
+    "word/media/image3.png": "19-vscode-replay-request-end.png",
+    "word/media/image4.png": "11-replay-generated-app.png",
+    "word/media/image5.png": "13-vscode-replay-reply.png",
+    "word/media/image6.png": "18-vscode-replay-demo.png",
+    "word/media/image7.png": "14-vscode-replay-owner.png",
+    "word/media/image8.png": "15-vscode-replay-csrf.png",
+    "word/media/image9.jpg": "16-replay-notebook.jpg",
+    "word/media/image10.jpg": "17-replay-registration.jpg",
+    "word/media/image11.jpg": "20-loom-recording.jpg"
+  },
+  "recording_pending": false,
+  "recording_url": "https://www.loom.com/share/c0d303d6cde44483b8674fa29f8042da",
+  "recording_link_clickable_in_pdf": true,
+  "exact_replay_prompt_is_selectable_text": true,
+  "docx_sha256": "95883cdd0d46817e89bd02b7ebfe6c6179aeb175f6469902559b79d4faeaadce",
+  "pdf_sha256": "f8d7ac0aa45d51f65142b6d927334c2db2202ae164083299126f8d521273394c"
 }

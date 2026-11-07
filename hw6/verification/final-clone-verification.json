@@ -1,0 +1,90 @@
+{
+  "checked_at": "2026-11-07T04:06:32.575984+00:00",
+  "commit": "cbb91a3868a6d60da6c050d91341b8c30ad6fed3",
+  "kind": "fresh GitHub clone verification of the recorded regeneration",
+  "clone": "/var/folders/77/5pnqhxqj40nbphh7j7qfclqh0000gn/T/hw6-final-clone-xis7e4d9/course",
+  "commands": [
+    {
+      "label": "clone",
+      "command": [
+        "git",
+        "clone",
+        "--branch",
+        "codex/hw6-secure-notes",
+        "--single-branch",
+        "https://github.com/bparker2012-cyber/gensec-code.git",
+        "/var/folders/77/5pnqhxqj40nbphh7j7qfclqh0000gn/T/hw6-final-clone-xis7e4d9/course"
+      ],
+      "returncode": 0,
+      "output_file": "final-clone-clone.txt"
+    },
+    {
+      "label": "sync",
+      "command": [
+        "/Users/brehonparker/.local/bin/uv",
+        "sync",
+        "--locked",
+        "--group",
+        "dev"
+      ],
+      "returncode": 0,
+      "output_file": "final-clone-sync.txt"
+    },
+    {
+      "label": "tests",
+      "command": [
+        "/Users/brehonparker/.local/bin/uv",
+        "run",
+        "--locked",
+        "pytest",
+        "-q"
+      ],
+      "returncode": 0,
+      "output_file": "final-clone-tests.txt"
+    },
+    {
+      "label": "demo",
+      "command": [
+        "/Users/brehonparker/.local/bin/uv",
+        "run",
+        "--locked",
+        "python",
+        "app.py",
+        "--demo"
+      ],
+      "returncode": 0,
+      "output_file": "final-clone-demo.txt"
+    },
+    {
+      "label": "lint",
+      "command": [
+        "/Users/brehonparker/.local/bin/uv",
+        "run",
+        "--locked",
+        "ruff",
+        "check",
+        "app.py",
+        "demo.py",
+        "tests"
+      ],
+      "returncode": 0,
+      "output_file": "final-clone-lint.txt"
+    },
+    {
+      "label": "format",
+      "command": [
+        "/Users/brehonparker/.local/bin/uv",
+        "run",
+        "--locked",
+        "ruff",
+        "format",
+        "--check",
+        "app.py",
+        "demo.py",
+        "tests"
+      ],
+      "returncode": 0,
+      "output_file": "final-clone-format.txt"
+    }
+  ]
+}

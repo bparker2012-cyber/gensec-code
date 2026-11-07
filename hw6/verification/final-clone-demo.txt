@@ -1,0 +1,16 @@
+Secure Notes — IN-PROCESS security checks (Flask test client)
+Temporary SQLite data only. No server or network listener is started.
+PASS 01: registration and authentication rotate session and CSRF tokens
+PASS 02: anonymous users cannot read or create notes
+PASS 03: owner checks isolate note lists, reads, edits, and deletes
+PASS 04: missing and cross-session CSRF tokens cannot perform actions
+PASS 05: stored XSS stays escaped in the reader and textarea
+PASS 06: SQL injection strings remain data and cannot bypass authentication
+PASS 07: passwords use salted Werkzeug scrypt hashes
+PASS 08: signed cookies contain only an opaque token; SQLite stores its hash
+PASS 09: malformed fields, oversized requests, and enormous note IDs fail safely
+PASS 10: security headers, no-cache responses, and trusted hosts are enforced
+PASS 11: logout revokes captured cookies, including mutation attempts
+PASS 12: SQLite authentication rate limits persist across app restarts
+PASS 13: the owner can log back in, read, edit, and delete private notes
+RESULT: 13/13 in-process security checks passed; temporary data removed.

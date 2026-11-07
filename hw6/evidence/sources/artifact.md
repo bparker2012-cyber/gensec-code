@@ -43,3 +43,16 @@ live AI regeneration or Canvas submission from the clean clone test alone.
 Source blank spacer paragraphs 25 and 26 may be removed to prevent an empty
 page after the metadata. This intentional whitespace change does not alter
 any source instruction, style, list definition, or page geometry.
+
+Final update on November 6 2026: the student supplied a Loom recording and
+explicitly selected it as the submission host. Fill the recording slot with
+that real URL. URL value runs may be wrapped in additive hyperlink relationships
+so both the recording and repository links remain clickable in the PDF.
+The regenerated application uses one-hour sessions and has 120 passing tests.
+Retain the source template and its preserve-only package parts unchanged.
+
+Field refresh exception: word/settings.xml may receive only the additive
+w:updateFields true element so Word refreshes the retained PAGE fields when
+opened. Preserve every other byte of the original settings part and keep all
+other preserve-only parts unchanged. The rendered PDF must have consecutive
+page numbers matching its final page count.
