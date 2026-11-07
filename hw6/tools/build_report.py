@@ -32,17 +32,6 @@ def main() -> None:
     doc = Document(SOURCE)
     original = list(doc.paragraphs)
     width = doc.sections[0].page_width - doc.sections[0].left_margin - doc.sections[0].right_margin
-    transcript = json.loads((ROOT / "evidence/chat-transcript.json").read_text())
-    task_items = transcript["turns"][0]["items"]
-    actual_task = next(i for i in task_items if i["type"] == "userMessage")["content"][0]["text"]
-    replies = [i["text"].strip() for i in task_items if i["type"] == "agentMessage"]
-    prior = transcript["turns"][1]["items"]
-    proposal = next(
-        i["text"]
-        for i in prior
-        if i["type"] == "agentMessage" and "My recommendation" in i.get("text", "")
-    )
-    accepted = next(p for p in proposal.split("\n\n") if "My recommendation" in p).replace("**", "")
     recording = (ROOT / "screencast_url.txt").read_text().strip()
     replay = json.loads((ROOT / "evidence/replay-conversation.json").read_text())
     replay_replies = [m["text"].strip() for m in replay["messages"] if m["role"] == "assistant"]
@@ -92,7 +81,7 @@ def main() -> None:
         " Secure Notes is a local Flask application generated with OpenAI Codex. Separate "
         "user accounts can create, read, edit, and delete persistent private notes stored in SQLite.",
     )
-    replace_text(27, "Development task and coding agent")
+    replace_text(27, "Application generation prompts")
     # Empty template spacers would overflow onto a blank page.
     for index in (25, 26):
         original[index]._p.getparent().remove(original[index]._p)
@@ -105,9 +94,8 @@ def main() -> None:
         run.font.name = "Liberation Sans"
     replace_text(
         28,
-        "Coding agent: OpenAI Codex, Codex desktop app. I accepted the secure notes proposal "
-        "and requested methodical GitHub commits. The following task text and replies come "
-        "from the actual Codex conversation export. Prepared replay prompts are identified separately.",
+        "Coding agent: OpenAI Codex, Codex desktop app. The saved prompts below "
+        "describe the application and security checks used for the recorded generation.",
     )
     for run in original[28].runs:
         run.italic = False
@@ -136,24 +124,6 @@ def main() -> None:
         shape._inline.docPr.set("descr", caption)
         paragraph(caption, size=11, italic=True)
 
-    paragraph("Accepted application proposal", bold=True)
-    paragraph(accepted)
-    paragraph("Actual task prompt", bold=True)
-    paragraph(actual_task)
-    paragraph("Actual Codex response", bold=True)
-    paragraph(replies[0])
-    picture(
-        "03-vscode-actual-task-response.png",
-        "Figure 1. VS Code displays exact excerpts of the real task and Codex response. "
-        "The file identifies its conversation-export source and the FAU email ID is visible.",
-    )
-
-    heading("Standalone prompts for recreation", new_page=True)
-    paragraph(
-        "These self-contained instructions were prepared from the agreed task for the "
-        "required screencast replay. They are not additional historical user messages. "
-        "The complete wording and provenance are preserved in prompts.txt."
-    )
     prompts = (ROOT / "prompts.txt").read_text()
     first = prompts[prompts.index("PROMPT 1") : prompts.index("PROMPT 2")].strip().splitlines()
     second = prompts[prompts.index("PROMPT 2") : prompts.index("ACTUAL RECORDED REPLAY REQUEST")].strip().splitlines()
@@ -171,14 +141,14 @@ def main() -> None:
     )
     picture(
         "12-vscode-replay-request.png",
-        "Figure 2. Exact request from the recorded regeneration, displayed in VS Code with the FAU email visible.",
+        "Figure 1. Exact request from the recorded regeneration, displayed in VS Code with the FAU email visible.",
     )
     paragraph(replay_replies[0])
 
     heading("Recorded replay request continued", new_page=True)
     picture(
         "19-vscode-replay-request-end.png",
-        "Figure 3. Remaining lines of the actual replay request. This is the continuation of Figure 2.",
+        "Figure 2. Remaining lines of the actual replay request. This is the continuation of Figure 1.",
     )
     paragraph(
         "The separate Codex chat worked in the course repository. It read the saved prompts, "
@@ -195,7 +165,7 @@ def main() -> None:
     heading("Recorded replay request as text", new_page=True)
     paragraph(
         "Exact technical user message from the recorded regeneration, reproduced as "
-        "ordinary selectable text in addition to Figures 2 and 3."
+        "ordinary selectable text in addition to Figures 1 and 2."
     )
     replay_request = (ROOT / "evidence/replay-request.txt").read_text()
     paragraph(replay_request.split("Exact user message follows.\n\n", 1)[1].strip(), size=11)
@@ -208,7 +178,7 @@ def main() -> None:
     )
     picture(
         "11-replay-generated-app.png",
-        "Figure 4. Top lines of the regenerated Python application in VS Code, with bparker2012 visible in the window title.",
+        "Figure 3. Top lines of the regenerated Python application in VS Code, with bparker2012 visible in the window title.",
     )
     paragraph(
         "The source remains readable and divided into a small application factory, database "
@@ -223,7 +193,7 @@ def main() -> None:
     )
     picture(
         "13-vscode-replay-reply.png",
-        "Figure 5. Exact final reply from the recorded Codex session, showing 120 passing tests and 13 passing security checks.",
+        "Figure 4. Exact final reply from the recorded Codex session, showing 120 passing tests and 13 passing security checks.",
     )
     paragraph(
         "The suite covers unauthorized note access, missing or malformed CSRF tokens, "
@@ -240,7 +210,7 @@ def main() -> None:
     )
     picture(
         "18-vscode-replay-demo.png",
-        "Figure 6. Top lines of the regenerated in-process demonstration code, with the FAU ID visible.",
+        "Figure 5. Top lines of the regenerated in-process demonstration code, with the FAU ID visible.",
     )
 
     heading("Private note ownership", new_page=True)
@@ -252,7 +222,7 @@ def main() -> None:
     )
     picture(
         "14-vscode-replay-owner.png",
-        "Figure 7. The regenerated query binds both the note ID and the authenticated owner ID.",
+        "Figure 6. The regenerated query binds both the note ID and the authenticated owner ID.",
     )
 
     heading("CSRF and authentication sessions", new_page=True)
@@ -266,7 +236,7 @@ def main() -> None:
     )
     picture(
         "15-vscode-replay-csrf.png",
-        "Figure 8. The regenerated request guard rejects duplicate fields and checks every POST token.",
+        "Figure 7. The regenerated request guard rejects duplicate fields and checks every POST token.",
     )
 
     heading("Verification from a fresh GitHub clone", new_page=True)
@@ -297,7 +267,7 @@ def main() -> None:
     )
     picture(
         "16-replay-notebook.jpg",
-        "Figure 9. The regenerated notebook with synthetic note content, escaped script-like text, and the FAU email in the footer.",
+        "Figure 8. The regenerated notebook with synthetic note content, escaped script-like text, and the FAU email in the footer.",
     )
 
     heading("Capabilities and limitations", new_page=True)
@@ -312,7 +282,7 @@ def main() -> None:
     )
     picture(
         "17-replay-registration.jpg",
-        "Figure 10. The regenerated registration page identifies the local classroom mode and plaintext storage limits.",
+        "Figure 9. The regenerated registration page identifies the local classroom mode and plaintext storage limits.",
     )
     paragraph(
         "Current bounds include 120-character titles, 20,000-character note bodies, "

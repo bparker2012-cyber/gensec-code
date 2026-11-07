@@ -1,6 +1,6 @@
 # bparker2012 Homework 6 verification replies
 FAU ID bparker2012 | Z23222679
-Exact excerpts from chat-transcript.json
+Historical Codex replies from the original 59-test implementation.
 
 ## Actual Codex functionality reply
 The full create, read, edit, delete, and sign-out flow passed its smoke check, and the working app is committed and pushed. Canvas shows Homework 6 is due tonight at 11:59 p.m. I’m now testing the security boundaries and preparing the recording steps.
