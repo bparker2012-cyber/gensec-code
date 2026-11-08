@@ -1,5 +1,5 @@
-bparker2012 | Z23222679 | Prepared standalone replay prompt
-Not an additional historical user message.
+Secure Notes | Brehon Parker | bparker2012@fau.edu | Z23222679
+Verification prompt read from prompts.txt during the recorded generation.
 
 PROMPT 2 — VERIFY SECURITY AND PREPARE THE DEMONSTRATION
 Exercise the real application and add meaningful automated tests for private

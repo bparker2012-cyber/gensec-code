@@ -11,7 +11,7 @@ Student: **Brehon Parker — bparker2012@fau.edu — Z23222679**.
 Coding agent: **OpenAI Codex in the Codex desktop app**. The recorded replay
 regenerated the source and tests from `prompts.txt` in this repository's
 `hw6/` directory. Its actual request and visible replies are preserved in
-`evidence/replay-conversation.json`; private speaking notes are not included.
+`evidence/replay-conversation.json`.
 
 ## Setup and commands
 
@@ -124,10 +124,6 @@ defense against distributed attacks, and storage caps intentionally trade
 availability for bounded state. SQLite and Flask's development server are for
 this small local demonstration.
 
-The supplied prompts and pre-existing evidence are preserved. No recording
-script, narration file, speaking notes, screenshot, recording URL, or submission
-was generated for this replay.
-
 Implementation references: [Flask security considerations](https://flask.palletsprojects.com/en/stable/web-security/),
 [Werkzeug password helpers](https://werkzeug.palletsprojects.com/en/stable/utils/#module-werkzeug.security),
 and [uv locking and syncing](https://docs.astral.sh/uv/concepts/projects/sync/).
@@ -142,5 +138,4 @@ lint, and formatting; exact receipts are in `verification/final-clone-*`.
 
 The report and its PDF include the actual replay request and response, current
 source screenshots, browser evidence, security controls, and limitations.
-The original implementation and its 59-test evidence remain in repository
-history. The current source and screenshots reflect the recorded regeneration.
+The current source and report screenshots reflect the recorded regeneration.

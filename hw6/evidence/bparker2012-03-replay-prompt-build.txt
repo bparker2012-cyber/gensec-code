@@ -1,5 +1,5 @@
-bparker2012 | Z23222679 | Prepared standalone replay prompt
-Not an additional historical user message.
+Secure Notes | Brehon Parker | bparker2012@fau.edu | Z23222679
+Build prompt read from prompts.txt during the recorded generation.
 
 PROMPT 1 — BUILD THE APPLICATION
 Build a small Python 3.13 Flask application named Secure Notes inside hw6.

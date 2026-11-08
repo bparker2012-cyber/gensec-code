@@ -8,13 +8,13 @@
     },
     {
       "path": "evidence/bparker2012-03-replay-prompt-build.txt",
-      "bytes": 1617,
-      "sha256": "976afa38a643119e8d04c111dc604f07beb196e4adb0094b6c3704abc1b55635"
+      "bytes": 1644,
+      "sha256": "d668f24fa09751cf3f67600a79f85d60e69fc330e013f9317044f5404b37b642"
     },
     {
       "path": "evidence/bparker2012-04-replay-prompt-verification.txt",
-      "bytes": 1022,
-      "sha256": "f92ff78b04c72bb4aa1f7c1328c57d6074c337ba13b1309843b7b8369eb838ad"
+      "bytes": 1056,
+      "sha256": "6d44bc960c35966fafa7d6c284d8e15ec79179fde76c854ac1c6dcfb2deea92e"
     },
     {
       "path": "evidence/recording-verification.json",
@@ -39,12 +39,12 @@
     {
       "path": "evidence/report-build.json",
       "bytes": 330,
-      "sha256": "39f58932630f30abeba842f038a95b2ca31a85696c8af5672f16af2a24570b74"
+      "sha256": "b7872701b662275bda3e505da8d5a5c4bcc7f689673979c1b6eb6a3536cdeb46"
     },
     {
       "path": "evidence/report-qa.json",
-      "bytes": 1677,
-      "sha256": "153d52a92f8c07bc58e38a2b85d5b8c5a541fdc3e0b81b90f9cd89f73c25af8b"
+      "bytes": 2473,
+      "sha256": "fd49b2fddc1dae9027193672cb6fb59298bb99bcde60455015a1e4c664cd6ad7"
     },
     {
       "path": "evidence/runs/clean-clone-clone.txt",
@@ -180,6 +180,21 @@
       "path": "evidence/screenshots/20-loom-recording.jpg",
       "bytes": 66342,
       "sha256": "5d7dd3dc803347510c1ca7df3c45d882142590a01d545c920c38d6cdd46d7c7e"
+    },
+    {
+      "path": "evidence/screenshots/21-vscode-build-prompt.png",
+      "bytes": 579149,
+      "sha256": "0f1d4008ba3eb6872f96ef7f6d46de98693e3a7768b371d19c3b14bc55637b36"
+    },
+    {
+      "path": "evidence/screenshots/22-vscode-build-prompt-end.png",
+      "bytes": 533546,
+      "sha256": "99c56c3d33da26c9d8d54bd75501907a1d73e8d2b279c75003c6bfb7f773e1bb"
+    },
+    {
+      "path": "evidence/screenshots/23-vscode-verification-prompt.png",
+      "bytes": 529268,
+      "sha256": "ed3d01af344bc1142d5e91d302c452aca6c5ec56b06bf8d9e41744874ebfa0bf"
     },
     {
       "path": "evidence/sources/artifact.md",
